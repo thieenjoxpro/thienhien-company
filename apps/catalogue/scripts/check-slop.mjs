@@ -16,7 +16,8 @@ const root = rootIndex >= 0 && args[rootIndex + 1] ? resolve(args[rootIndex + 1]
 
 const ALLOWED_SPACING = new Set(["0", "1", "2", "3", "4", "6", "8", "12", "24"]);
 const BLOCKS = ["Hero", "CategoryGrid", "NewProducts", "WorkshopSplit", "ContactBand"];
-const IMAGE_HOSTS = ["unsplash.", "pexels.", "pixabay.", "picsum.", "placehold", "placeholder.com", "hammered.vn"];
+// "placehold." (placehold.co, placehold.it) chứ không phải "placehold": chữ placeholder trong code không phải ảnh ngoài
+const IMAGE_HOSTS = ["unsplash.", "pexels.", "pixabay.", "picsum.", "placehold.", "placeholder.com", "hammered.vn"];
 // Class chỉ được dùng trong đúng các file này (mục 7)
 const SCOPED_CLASSES = [
   { cls: "bg-accent(?:-strong)?", files: ["Button.tsx", "QuoteCount.tsx"] },

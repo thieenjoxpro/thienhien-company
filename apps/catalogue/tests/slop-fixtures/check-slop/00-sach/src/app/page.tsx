@@ -1,3 +1,4 @@
+// Ô nhập dùng thuộc tính placeholder là chuyện bình thường, không phải ảnh ngoài
 import { Button } from "@/components/ui/Button";
 
 export default function Page() {
