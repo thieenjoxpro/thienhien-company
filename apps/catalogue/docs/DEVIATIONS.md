@@ -50,3 +50,17 @@ Mỗi mục: chỗ lệch, lý do, ngày. Plan: `../../../docs/PLAN.md`.
 38. **check-slop luật 3:** mẫu ảnh ngoài đổi từ `placehold` thành `placehold.` (placehold.co, placehold.it), để chữ "placeholder" trong code không bị báo nhầm. Fixture sạch có thêm ca này.
 39. **Chưa có logo Zalo** (`public/brand/zalo.svg`): nút Zalo tạm chỉ có chữ. Logo phải lấy từ bộ nhận diện chính thức của Zalo, không vẽ lại.
 40. **Việc để lại cho M3:** từ 640px, nút chính trên header và nút chính của hero cùng nằm trong màn hình đầu của trang chủ, trái với luật "mỗi màn hình một nút tô màu". Cách xử lý dự kiến: ẩn nút trên header khi nút của hero còn trong màn hình, dùng chung cách theo dõi với PhoneBar.
+
+## M3 (13/11/2026)
+
+41. **Làm M3 khi chưa có ảnh thật** (người làm yêu cầu, 13/11/2026): mọi khối chạy trên fixture với ảnh xám. Build thật vẫn bị `check:data --production` chặn tới khi có đủ ảnh thật.
+42. **`site.config` thêm `photos` (`warehouse`, `workshop`, `storefront`) và `workshopText`**: ảnh xưởng và chữ của chủ xưởng cho hero, khối Xưởng, trang giới thiệu. Trường null thì phần tử bị bỏ.
+43. **Hero chữ 7 cột, ảnh 5 cột** (plan ghi 6/6), để ảnh 4:5 cộng đệm trên dưới vừa đúng một màn hình ở 1440×900.
+44. **Câu của hero bỏ vế "trong ngày"** vì chủ xưởng chưa xác nhận; 0 mẫu thì bỏ cả câu. Chưa có quận thì h1 bỏ vế "ở {district}".
+45. **Mục 40 đã xử lý:** `HeaderAction` ẩn nút chính trên header khi nút chính của trang (hero, dải liên hệ) còn trong màn hình. Hook `usePrimaryInView` dùng chung với `PhoneBar`. E2E kiểm đúng một nút tô màu ở đầu mỗi khối.
+46. **Dải liên hệ:** tên quận là `h2` cỡ display, để khối có tiêu đề cho trình đọc màn hình; chưa có quận thì bỏ cả dải. Ở khối Xưởng, `h2` đứng sau ảnh trong DOM (ảnh bên trái), nên e2e kiểm "mỗi khối đúng một tiêu đề" thay cho "h2 là phần tử đầu tiên của khối".
+47. **Ô nhóm hàng:** ảnh lấy từ `category.image`, chưa có thì dùng ảnh mẫu đầu tiên của nhóm; "từ {giá}" là giá thấp nhất trong nhóm. Ô "Tất cả {n} mẫu" là link chữ.
+48. **Thêm `ListingHeader`** (breadcrumb, h1, số mẫu) dùng chung cho `/san-pham` và trang danh mục; danh sách xếp mẫu mới trước.
+49. **Viền focus trên nền ink** đổi sang `on-ink`, vì viền màu ink nằm trên nền ink thì không thấy.
+50. **Unit test ProductCard** render bằng `react-dom/server` và mock `next/link`, `next/image`, `site.config`; không thêm Testing Library.
+51. **Cổng taste-skill (mục 9.8) chưa chạy:** cần tải và chạy mã từ GitHub (`npx skills add ...`), chờ người làm đồng ý. Ảnh để người duyệt nằm ở `test-results/review/` (`home-*.png`, `san-pham-*.png`).
