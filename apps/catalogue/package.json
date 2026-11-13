@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start --port 3100",
+    "start": "next start --port 4310",
     "lint": "eslint . --max-warnings 0",
     "lint:css": "stylelint \"src/**/*.css\"",
     "typecheck": "next typegen && tsc --noEmit",

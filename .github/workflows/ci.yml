@@ -1,0 +1,32 @@
+# docs/PLAN.md mục 9.7: verify:full trên mọi PR; luật --production chỉ trên main.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @thien-hien/shared verify
+      - name: Cài Chromium cho Playwright
+        working-directory: apps/catalogue
+        run: pnpm exec playwright install --with-deps chromium
+      - name: verify:full
+        working-directory: apps/catalogue
+        run: pnpm verify:full
+      - name: Luật production
+        if: github.ref == 'refs/heads/main'
+        working-directory: apps/catalogue
+        run: |
+          pnpm check:slop --production
+          pnpm check:data --production
