@@ -19,9 +19,11 @@ export function Section({ as: Tag = "section", heading, headingAside, screens, c
   return (
     <Tag
       aria-labelledby={heading ? headingId : undefined}
-      className={cn("py-12 lg:py-24", screens === 1 && "lg:screen-1", screens === 2 && "lg:screen-2", className)}
+      className={cn("py-12 lg:py-24", screens && "lg:grid", screens === 1 && "lg:screen-1", screens === 2 && "lg:screen-2", className)}
     >
-      <Container>
+      {/* Lớp bọc là ô lưới được kéo giãn hết chiều cao khối; nhờ đó nội dung có thể dùng lg:flex-1 để lấp đầy màn hình */}
+      <div>
+        <Container className={screens ? "lg:flex lg:h-full lg:flex-col" : undefined}>
         {heading ? (
           <div className="mb-8 flex items-baseline justify-between gap-6 lg:mb-12">
             <h2 id={headingId} className="text-h2">
@@ -30,8 +32,9 @@ export function Section({ as: Tag = "section", heading, headingAside, screens, c
             {headingAside}
           </div>
         ) : null}
-        {children}
-      </Container>
+          {children}
+        </Container>
+      </div>
     </Tag>
   );
 }
