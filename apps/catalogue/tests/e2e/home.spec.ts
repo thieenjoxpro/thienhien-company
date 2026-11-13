@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test";
 import { expectPageBasics } from "./checks";
+import { expect, test } from "./test";
 
 test("trang chủ hiện chữ bằng Be Vietnam Pro tự host, đủ subset tiếng Việt", async ({ page }) => {
   await page.goto("/");

@@ -34,3 +34,19 @@ Mỗi mục: chỗ lệch, lý do, ngày. Plan: `../../../docs/PLAN.md`.
 25. **Fixture `tests/fixtures`:** 24 mẫu thử, trong đó 22 mẫu có ảnh và 2 mẫu (TH-TN05, TH-MC05) cố ý không có ảnh để kiểm luật ẩn. Có 6 danh mục: 4 nhóm cộng `ban-le-coi`, `ban-le-la` để kiểm `includeChildren`. Ảnh thử là WebP xám đặc 1200×1200, mỗi ảnh một độ xám, sinh một lần bằng sharp (đã có sẵn trong cây phụ thuộc của Next) bằng script nằm ngoài repo; không thêm thư viện.
 26. **Mô tả 4 danh mục thật** trong `src/data/categories.json` chỉ nói hàng gì và trang có thông tin gì, không có lời khen hay số liệu. Chủ xưởng có thể viết lại.
 27. **`packages/shared`** đổi sang import không đuôi `.ts`, để `tsc` của app kiểm được mã nguồn package mà không cần bật `allowImportingTsExtensions`.
+
+## M2 (13/11/2026)
+
+28. **Build fixture cho e2e.** `CATALOGUE_FIXTURES=1` build vào `.next-fixtures`; `turbopack.resolveAlias` đổi `@/data/categories.json`, `@/data/products.json`, `@/lib/site.config` sang bản trong `tests/fixtures` (cấu hình xưởng thử, số điện thoại giả). Ảnh sản phẩm do `tests/e2e/test.ts` chặn và trả bằng ảnh xám, nên `public/` không chứa ảnh thử. Hệ quả: mọi chỗ trong `src/` phải import cấu hình xưởng đúng bằng `@/lib/site.config`, không dùng đường dẫn tương đối.
+29. **`/dev/ui`** chỉ mở khi `NODE_ENV` khác production, hoặc khi đặt `SHOW_DEV_UI=1` (e2e đặt cờ này); trang là `force-dynamic` để đọc cờ lúc chạy, và luôn `noindex, nofollow`. Ảnh chụp cho người duyệt nằm ở `test-results/review/` sau mỗi lần chạy e2e (gồm `dev-ui-1440.png`, `dev-ui-390.png`, `phone-bar-390.png`). Đây không phải test so pixel.
+30. **`Section` không có prop `tone`.** Khối tối tự đặt `bg-ink` qua `className`, vì luật `class-scope` chỉ cho `bg-ink` nằm trong Footer, ContactBand, Button. Thêm hai utility `screen-1`, `screen-2` (cao tối thiểu một, hai màn hình từ 1024px) cho prop `screens`.
+31. **Menu điện thoại dùng `<dialog>` gốc** (lớp trên cùng của trình duyệt) thay vì lớp phủ `position: fixed`, nên không cần thêm utility dính màn hình nào. Esc do trình duyệt xử lý; Tab được giữ vòng trong menu bằng một listener; đóng xong focus về nút mở.
+32. **Thêm `"use client"`** cho `CategoryMenu` (độ trễ 150ms khi rê chuột) và `PhoneBar` (IntersectionObserver), ngoài danh sách ở mục 2. `CategoryMenu` bắt rê chuột và focus bằng một listener gắn trên `<nav>`, vì jsx-a11y strict cấm gắn handler lên `<li>`. Bàn phím vẫn đủ đường: focus vào tên nhóm thì bảng mở, Tab đi vào bảng, Esc đóng.
+33. **Tên landmark:** nav trên header là "Điều hướng chính", nav ở footer là "Nhóm hàng", để không có hai landmark trùng tên.
+34. **`Photo` giữ prop `priority`** như hợp đồng ở mục 8, bên trong chuyển thành `preload` vì Next 16 đã bỏ `priority`.
+35. **`Price` viết sớm ở M2** vì bảng nhóm hàng trên header cần giá; unit test của nó vẫn để ở M3.
+36. **Link gạch chân khi rê chuột, không có hiệu ứng vẽ từ trái** như design README tả, vì chuyển động chỉ được đi qua bốn lớp `m-*` của plan.
+37. **Vùng chạm:** link ngắn (ví dụ "Tôn") có `min-w-11` để đủ 44×44px. Test vùng chạm của e2e bỏ qua link nằm trong dòng văn bản, phần tử chỉ dành cho trình đọc màn hình, và đo checkbox theo cả nhãn bọc ngoài.
+38. **check-slop luật 3:** mẫu ảnh ngoài đổi từ `placehold` thành `placehold.` (placehold.co, placehold.it), để chữ "placeholder" trong code không bị báo nhầm. Fixture sạch có thêm ca này.
+39. **Chưa có logo Zalo** (`public/brand/zalo.svg`): nút Zalo tạm chỉ có chữ. Logo phải lấy từ bộ nhận diện chính thức của Zalo, không vẽ lại.
+40. **Việc để lại cho M3:** từ 640px, nút chính trên header và nút chính của hero cùng nằm trong màn hình đầu của trang chủ, trái với luật "mỗi màn hình một nút tô màu". Cách xử lý dự kiến: ẩn nút trên header khi nút của hero còn trong màn hình, dùng chung cách theo dõi với PhoneBar.
