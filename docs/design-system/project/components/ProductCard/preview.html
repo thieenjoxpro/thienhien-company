@@ -1,0 +1,49 @@
+<!-- @dsCard group="Catalogue" height=440 -->
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  body { margin: 0; padding: var(--space-8) var(--space-12); background: var(--ground); font-family: var(--font-sans); color: var(--ink); }
+  .grid { display: grid; grid-template-columns: repeat(3, 240px); gap: var(--space-6); }
+  .card { display: block; color: inherit; text-decoration: none; transition: transform .2s; }
+  .card:hover { transform: translateY(-2px); }
+  .card:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+  .photo { aspect-ratio: 1 / 1; background: var(--surface); overflow: hidden; margin-bottom: var(--space-4); }
+  .photo div { width: 100%; height: 100%; background: var(--surface); transition: transform .2s; }
+  .card:hover .photo div { transform: scale(1.03); }
+  .sku { font: 500 14px/20px var(--font-mono); color: var(--ink-muted); margin: 0 0 var(--space-1); }
+  .name { font: 500 20px/28px var(--font-sans); margin: 0 0 var(--space-1); }
+  .spec { font: 400 16px/26px var(--font-mono); font-variant-numeric: tabular-nums; margin: 0 0 var(--space-1); }
+  .price { font: 400 16px/28px var(--font-sans); margin: 0; }
+  .price b { font: 500 20px/28px var(--font-mono); font-variant-numeric: tabular-nums; }
+  @media (prefers-reduced-motion: reduce) { .card, .photo div { transition: none; } .card:hover, .card:hover .photo div { transform: none; } }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <a class="card" href="#th-bl03">
+      <div class="photo"><div></div></div>
+      <p class="sku">TH-BL03</p>
+      <h3 class="name">Bản lề cối 16 ly</h3>
+      <p class="spec">Ø16 × 100 mm</p>
+      <p class="price">từ <b>18.000 đ</b> / cái</p>
+    </a>
+    <a class="card" href="#th-pn01">
+      <div class="photo"><div></div></div>
+      <p class="sku">TH-PN01</p>
+      <h3 class="name">Pano dập ô vuông</h3>
+      <p class="spec">400 × 600 × 0,8 mm</p>
+      <p class="price">Giá theo số lượng</p>
+    </a>
+    <a class="card" href="#th-mc02">
+      <div class="photo"><div></div></div>
+      <p class="sku">TH-MC02</p>
+      <h3 class="name">Mâm cầu thang tròn</h3>
+      <p class="spec">Ø90 × 2,0 mm</p>
+      <p class="price">từ <b>6.500 đ</b> / cái</p>
+    </a>
+  </div>
+</body>
+</html>

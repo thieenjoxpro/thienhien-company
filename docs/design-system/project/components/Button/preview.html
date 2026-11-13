@@ -1,0 +1,30 @@
+<!-- @dsCard group="Hành động" height=132 -->
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500&display=swap">
+<style>
+  body { margin: 0; padding: var(--space-8) var(--space-12); background: var(--ground); font-family: var(--font-sans); color: var(--ink); }
+  .row { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; }
+  .btn { height: 48px; padding: 0 var(--space-6); border-radius: var(--radius-btn); border: 1px solid var(--ink);
+         font: 500 16px/20px var(--font-sans); cursor: pointer; transition: background-color .15s, color .15s, transform .15s; }
+  .btn:active { transform: translateY(1px); }
+  .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .primary { background: var(--accent); color: var(--on-accent); }
+  .primary:hover { background: var(--accent-strong); }
+  .secondary { background: transparent; color: var(--ink); }
+  .secondary:hover { background: var(--ink); color: var(--on-ink); }
+  a { color: var(--ink); font: 400 16px/26px var(--font-sans); text-underline-offset: 4px; }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:active { transform: none; } }
+</style>
+</head>
+<body>
+  <div class="row">
+    <button class="btn primary">Hỏi giá qua Zalo</button>
+    <button class="btn secondary">Xem pano</button>
+    <button class="btn secondary">Gọi xưởng</button>
+    <a href="#bang-thong-so">Xem bảng thông số</a>
+  </div>
+</body>
+</html>
