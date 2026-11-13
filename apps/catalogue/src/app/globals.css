@@ -140,6 +140,15 @@
   }
 }
 
+/* Chiều cao khối trang chủ: một hoặc hai màn hình (mục 5.2), dùng qua Section screens={1|2} */
+@utility screen-1 {
+  min-height: 100svh;
+}
+
+@utility screen-2 {
+  min-height: 200svh;
+}
+
 /* Dính màn hình: chỉ header (bar-top) và thanh hành động điện thoại (bar-bottom) */
 @utility bar-top {
   position: sticky;
