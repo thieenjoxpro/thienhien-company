@@ -94,6 +94,11 @@
     outline: 2px solid var(--color-ink);
     outline-offset: 2px;
   }
+
+  /* Trên dải tối (footer, dải liên hệ) viền focus màu ink sẽ không thấy */
+  .bg-ink :focus-visible {
+    outline-color: var(--color-on-ink);
+  }
 }
 
 /* Lớp chuyển động: toàn bộ chuyển động của site nằm ở đây */
