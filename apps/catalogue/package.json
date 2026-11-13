@@ -1,0 +1,52 @@
+{
+  "name": "catalogue",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start --port 4310",
+    "lint": "eslint . --max-warnings 0",
+    "lint:css": "stylelint \"src/**/*.css\"",
+    "typecheck": "next typegen && tsc --noEmit",
+    "check:slop": "node scripts/check-slop.mjs",
+    "check:data": "tsx scripts/validate-data.ts",
+    "check:dead": "knip",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "lhci": "lhci autorun",
+    "verify": "pnpm lint && pnpm lint:css && pnpm typecheck && pnpm check:slop && pnpm check:data && pnpm check:dead && pnpm test",
+    "verify:full": "pnpm verify && pnpm build && pnpm test:e2e && pnpm lhci"
+  },
+  "dependencies": {
+    "@fontsource/be-vietnam-pro": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@lhci/cli": "0.16.1",
+    "@next/eslint-plugin-next": "16.4.6",
+    "@playwright/test": "1.65.0",
+    "@tailwindcss/postcss": "4.3.5",
+    "@types/node": "^24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "9.39.5",
+    "eslint-plugin-better-tailwindcss": "4.11.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "knip": "6.45.1",
+    "stylelint": "18.0.0",
+    "stylelint-config-standard": "41.0.0",
+    "stylelint-declaration-strict-value": "1.13.0",
+    "tailwindcss": "4.3.5",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.2",
+    "vite": "^8.3.8",
+    "vitest": "5.1.0"
+  }
+}

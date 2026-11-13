@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+/*
+ * Token của hệ thiết kế Thiện Hiền (design/tokens.json). Thang mặc định của Tailwind bị xoá:
+ * class ngoài token không tồn tại và bị ESLint báo lỗi. Màu ở đây phải khớp design/tokens.json
+ * (check-slop luật token-drift).
+ */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --font-weight-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --breakpoint-*: initial;
+  --tracking-*: initial;
+  --color-ground: #e8e8e3;
+  --color-surface: #dcdcd6;
+  --color-ink: #181715;
+  --color-ink-muted: #5c5b55;
+  --color-on-ink: #e8e8e3;
+  --color-on-ink-muted: #a9a9a2;
+  --color-line: #c4c4bd;
+  --color-accent: #bfb21a;
+  --color-accent-strong: #a89c12;
+  --color-on-accent: #181715;
+  --color-danger: #a3271b;
+  --color-success: #1f6b3f;
+  --font-sans: "Be Vietnam Pro", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --text-display: 38px;
+  --text-display--line-height: 46px;
+  --text-display--letter-spacing: -0.03em;
+  --text-h2: 30px;
+  --text-h2--line-height: 38px;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: 24px;
+  --text-h3--line-height: 32px;
+  --text-h3--letter-spacing: -0.01em;
+  --text-title: 18px;
+  --text-title--line-height: 26px;
+  --text-title--font-weight: 500;
+  --text-body: 16px;
+  --text-body--line-height: 26px;
+  --text-small: 14px;
+  --text-small--line-height: 22px;
+  --text-label: 13px;
+  --text-label--line-height: 18px;
+  --text-label--font-weight: 500;
+  --text-button: 16px;
+  --text-button--line-height: 20px;
+  --text-button--font-weight: 500;
+  --text-sku: 14px;
+  --text-sku--line-height: 20px;
+  --text-sku--font-weight: 500;
+  --text-spec: 16px;
+  --text-spec--line-height: 26px;
+  --text-price: 20px;
+  --text-price--line-height: 28px;
+  --text-price--font-weight: 500;
+  --radius-none: 0px;
+  --radius-btn: 2px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
+
+/* Cỡ desktop của bốn kiểu tiêu đề: một chỗ duy nhất, không lặp ở component */
+@media (width >= 1024px) {
+  :root {
+    --text-display: 72px;
+    --text-display--line-height: 80px;
+    --text-h2: 48px;
+    --text-h2--line-height: 56px;
+    --text-h3: 28px;
+    --text-h3--line-height: 36px;
+    --text-title: 20px;
+    --text-title--line-height: 28px;
+  }
+}
+
+@layer base {
+  html {
+    background-color: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+}
+
+/* Lớp chuyển động: toàn bộ chuyển động của site nằm ở đây */
+@utility m-lift {
+  transition: transform 200ms;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@utility m-zoom {
+  overflow: hidden;
+
+  & > img {
+    transition: transform 200ms;
+  }
+
+  .m-lift:hover & > img,
+  &:hover > img {
+    transform: scale(1.03);
+  }
+}
+
+@utility m-press {
+  transition:
+    background-color 150ms,
+    color 150ms,
+    transform 150ms;
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+@utility m-enter {
+  animation: enter 600ms both;
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* Dính màn hình: chỉ header (bar-top) và thanh hành động điện thoại (bar-bottom) */
+@utility bar-top {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+@utility bar-bottom {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 50;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

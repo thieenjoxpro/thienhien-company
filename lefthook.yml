@@ -1,0 +1,18 @@
+# Hook git theo docs/PLAN.md mục 9.7. Cài bằng `pnpm install` (script prepare).
+pre-commit:
+  piped: true
+  jobs:
+    - name: lint
+      root: apps/catalogue/
+      run: pnpm lint
+    - name: check-slop
+      root: apps/catalogue/
+      run: pnpm check:slop
+    - name: typecheck
+      root: apps/catalogue/
+      run: pnpm typecheck
+
+pre-push:
+  jobs:
+    - name: verify
+      run: pnpm verify

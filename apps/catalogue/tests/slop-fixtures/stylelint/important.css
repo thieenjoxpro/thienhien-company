@@ -1,0 +1,4 @@
+/* expect: declaration-no-important */
+.fixture {
+  color: var(--color-ink) !important;
+}

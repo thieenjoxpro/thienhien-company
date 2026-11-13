@@ -1,0 +1,4 @@
+/* expect: none */
+.fixture {
+  color: var(--color-ink);
+}

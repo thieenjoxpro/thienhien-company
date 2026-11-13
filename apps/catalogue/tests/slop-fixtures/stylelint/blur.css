@@ -1,0 +1,4 @@
+/* expect: declaration-property-value-disallowed-list */
+.fixture {
+  backdrop-filter: blur(4px);
+}
