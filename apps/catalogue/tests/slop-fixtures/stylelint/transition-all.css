@@ -1,0 +1,4 @@
+/* expect: declaration-property-value-disallowed-list */
+.fixture {
+  transition: all 200ms;
+}

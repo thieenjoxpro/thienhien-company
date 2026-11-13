@@ -1,0 +1,4 @@
+/* expect: scale-unlimited/declaration-strict-value */
+.fixture {
+  color: #fff;
+}

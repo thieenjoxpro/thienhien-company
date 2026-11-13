@@ -1,0 +1,4 @@
+/* expect: declaration-property-value-disallowed-list */
+.fixture {
+  background-image: linear-gradient(var(--color-ink), var(--color-accent));
+}
