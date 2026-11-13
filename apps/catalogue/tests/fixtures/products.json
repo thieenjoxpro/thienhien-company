@@ -1,0 +1,1104 @@
+[
+  {
+    "sku": "TH-PN01",
+    "slug": "pano-dap-o-vuong",
+    "name": "Pano dập ô vuông",
+    "categorySlug": "pano",
+    "summary": "Pano dập ô vuông, 400 × 600 mm, thép CT3 dày 0,8 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-PN01-1.webp",
+        "alt": "Pano dập ô vuông, thép CT3, mộc"
+      },
+      {
+        "src": "/products/TH-PN01-2.webp",
+        "alt": "Pano dập ô vuông, thép CT3, mộc, góc nghiêng"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "400 × 600 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "0,8 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Tấm"
+      }
+    ],
+    "mainSpec": "400 × 600 × 0,8 mm",
+    "filters": {
+      "thicknessMm": 0.8,
+      "material": "Thép CT3",
+      "finish": "Mộc"
+    },
+    "unit": "tấm",
+    "priceFrom": 85000,
+    "isNew": true,
+    "isFeatured": false,
+    "updatedAt": "2026-09-01"
+  },
+  {
+    "sku": "TH-PN02",
+    "slug": "pano-dap-hoa-mai",
+    "name": "Pano dập hoa mai",
+    "categorySlug": "pano",
+    "summary": "Pano dập hoa mai, 400 × 600 mm, thép CT3 dày 1,0 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-PN02-1.webp",
+        "alt": "Pano dập hoa mai, thép CT3, mộc"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "400 × 600 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "1,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Tấm"
+      }
+    ],
+    "mainSpec": "400 × 600 × 1,0 mm",
+    "filters": {
+      "thicknessMm": 1,
+      "material": "Thép CT3",
+      "finish": "Mộc"
+    },
+    "unit": "tấm",
+    "priceFrom": 95000,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-09-04"
+  },
+  {
+    "sku": "TH-PN03",
+    "slug": "pano-dap-la-cay",
+    "name": "Pano dập lá cây",
+    "categorySlug": "pano",
+    "summary": "Pano dập lá cây, 500 × 800 mm, thép CT3 dày 1,0 mm, bề mặt sơn tĩnh điện.",
+    "images": [
+      {
+        "src": "/products/TH-PN03-1.webp",
+        "alt": "Pano dập lá cây, thép CT3, sơn tĩnh điện"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "500 × 800 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "1,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Sơn tĩnh điện"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Tấm"
+      }
+    ],
+    "mainSpec": "500 × 800 × 1,0 mm",
+    "filters": {
+      "thicknessMm": 1,
+      "material": "Thép CT3",
+      "finish": "Sơn tĩnh điện"
+    },
+    "unit": "tấm",
+    "priceFrom": null,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-09-07"
+  },
+  {
+    "sku": "TH-PN04",
+    "slug": "pano-dap-trong-dong",
+    "name": "Pano dập trống đồng",
+    "categorySlug": "pano",
+    "summary": "Pano dập trống đồng, 600 × 600 mm, thép SS400 dày 1,2 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-PN04-1.webp",
+        "alt": "Pano dập trống đồng, thép SS400, mộc"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "600 × 600 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "1,2 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép SS400"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Tấm"
+      }
+    ],
+    "mainSpec": "600 × 600 × 1,2 mm",
+    "filters": {
+      "thicknessMm": 1.2,
+      "material": "Thép SS400",
+      "finish": "Mộc"
+    },
+    "unit": "tấm",
+    "priceFrom": 120000,
+    "isNew": false,
+    "isFeatured": true,
+    "updatedAt": "2026-09-10"
+  },
+  {
+    "sku": "TH-PN05",
+    "slug": "pano-dap-song-nuoc",
+    "name": "Pano dập sóng nước",
+    "categorySlug": "pano",
+    "summary": "Pano dập sóng nước, 400 × 1200 mm, thép CT3 dày 0,8 mm, bề mặt mạ kẽm.",
+    "images": [
+      {
+        "src": "/products/TH-PN05-1.webp",
+        "alt": "Pano dập sóng nước, thép CT3, mạ kẽm"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "400 × 1200 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "0,8 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mạ kẽm"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Tấm"
+      }
+    ],
+    "mainSpec": "400 × 1200 × 0,8 mm",
+    "filters": {
+      "thicknessMm": 0.8,
+      "material": "Thép CT3",
+      "finish": "Mạ kẽm"
+    },
+    "unit": "tấm",
+    "priceFrom": 140000,
+    "isNew": true,
+    "isFeatured": false,
+    "updatedAt": "2026-09-13"
+  },
+  {
+    "sku": "TH-PN06",
+    "slug": "pano-dap-chu-tho",
+    "name": "Pano dập chữ thọ",
+    "categorySlug": "pano",
+    "summary": "Pano dập chữ thọ, 500 × 500 mm, thép SS400 dày 1,0 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-PN06-1.webp",
+        "alt": "Pano dập chữ thọ, thép SS400, mộc"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "500 × 500 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "1,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép SS400"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Tấm"
+      }
+    ],
+    "mainSpec": "500 × 500 × 1,0 mm",
+    "filters": {
+      "thicknessMm": 1,
+      "material": "Thép SS400",
+      "finish": "Mộc"
+    },
+    "unit": "tấm",
+    "priceFrom": 90000,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-09-16"
+  },
+  {
+    "sku": "TH-BL01",
+    "slug": "ban-le-coi-14-ly",
+    "name": "Bản lề cối 14 ly",
+    "categorySlug": "ban-le-coi",
+    "summary": "Bản lề cối 14 ly, Ø14 × 90 mm, thép CT3 dày 2,0 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-BL01-1.webp",
+        "alt": "Bản lề cối 14 ly, thép CT3, mộc"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "Ø14 × 90 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "2,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "Ø14 × 90 mm",
+    "filters": {
+      "thicknessMm": 2,
+      "material": "Thép CT3",
+      "finish": "Mộc"
+    },
+    "unit": "cái",
+    "priceFrom": 15000,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-09-19"
+  },
+  {
+    "sku": "TH-BL02",
+    "slug": "ban-le-coi-18-ly",
+    "name": "Bản lề cối 18 ly",
+    "categorySlug": "ban-le-coi",
+    "summary": "Bản lề cối 18 ly, Ø18 × 120 mm, thép CT3 dày 2,5 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-BL02-1.webp",
+        "alt": "Bản lề cối 18 ly, thép CT3, mộc"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "Ø18 × 120 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "2,5 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "Ø18 × 120 mm",
+    "filters": {
+      "thicknessMm": 2.5,
+      "material": "Thép CT3",
+      "finish": "Mộc"
+    },
+    "unit": "cái",
+    "priceFrom": 24000,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-09-22"
+  },
+  {
+    "sku": "TH-BL03",
+    "slug": "ban-le-coi-16-ly",
+    "name": "Bản lề cối 16 ly",
+    "categorySlug": "ban-le-coi",
+    "summary": "Bản lề cối 16 ly, Ø16 × 100 mm, thép CT3 dày 2,0 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-BL03-1.webp",
+        "alt": "Bản lề cối 16 ly, thép CT3, mộc"
+      },
+      {
+        "src": "/products/TH-BL03-2.webp",
+        "alt": "Bản lề cối 16 ly, thép CT3, mộc, góc nghiêng"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "Ø16 × 100 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "2,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "Ø16 × 100 mm",
+    "filters": {
+      "thicknessMm": 2,
+      "material": "Thép CT3",
+      "finish": "Mộc"
+    },
+    "unit": "cái",
+    "priceFrom": 18000,
+    "isNew": true,
+    "isFeatured": true,
+    "updatedAt": "2026-09-25"
+  },
+  {
+    "sku": "TH-BL04",
+    "slug": "ban-le-coi-20-ly",
+    "name": "Bản lề cối 20 ly",
+    "categorySlug": "ban-le-coi",
+    "summary": "Bản lề cối 20 ly, Ø20 × 150 mm, thép SS400 dày 3,0 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-BL04-1.webp",
+        "alt": "Bản lề cối 20 ly, thép SS400, mộc"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "Ø20 × 150 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "3,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép SS400"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "Ø20 × 150 mm",
+    "filters": {
+      "thicknessMm": 3,
+      "material": "Thép SS400",
+      "finish": "Mộc"
+    },
+    "unit": "cái",
+    "priceFrom": 32000,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-09-28"
+  },
+  {
+    "sku": "TH-BL05",
+    "slug": "ban-le-la-3-phan",
+    "name": "Bản lề lá 3 phân",
+    "categorySlug": "ban-le-la",
+    "summary": "Bản lề lá 3 phân, 75 × 50 mm, thép CT3 dày 2,0 mm, bề mặt mạ kẽm.",
+    "images": [
+      {
+        "src": "/products/TH-BL05-1.webp",
+        "alt": "Bản lề lá 3 phân, thép CT3, mạ kẽm"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "75 × 50 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "2,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mạ kẽm"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "75 × 50 mm",
+    "filters": {
+      "thicknessMm": 2,
+      "material": "Thép CT3",
+      "finish": "Mạ kẽm"
+    },
+    "unit": "cái",
+    "priceFrom": 9000,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-10-01"
+  },
+  {
+    "sku": "TH-BL06",
+    "slug": "ban-le-la-4-phan",
+    "name": "Bản lề lá 4 phân",
+    "categorySlug": "ban-le-la",
+    "summary": "Bản lề lá 4 phân, 100 × 70 mm, thép CT3 dày 2,5 mm, bề mặt mạ kẽm.",
+    "images": [
+      {
+        "src": "/products/TH-BL06-1.webp",
+        "alt": "Bản lề lá 4 phân, thép CT3, mạ kẽm"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "100 × 70 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "2,5 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mạ kẽm"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "100 × 70 mm",
+    "filters": {
+      "thicknessMm": 2.5,
+      "material": "Thép CT3",
+      "finish": "Mạ kẽm"
+    },
+    "unit": "cái",
+    "priceFrom": 12000,
+    "isNew": true,
+    "isFeatured": false,
+    "updatedAt": "2026-10-04"
+  },
+  {
+    "sku": "TH-BL07",
+    "slug": "ban-le-la-inox-4-phan",
+    "name": "Bản lề lá inox 4 phân",
+    "categorySlug": "ban-le-la",
+    "summary": "Bản lề lá inox 4 phân, 100 × 70 mm, inox 201 dày 2,0 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-BL07-1.webp",
+        "alt": "Bản lề lá inox 4 phân, inox 201, mộc"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "100 × 70 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "2,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Inox 201"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "100 × 70 mm",
+    "filters": {
+      "thicknessMm": 2,
+      "material": "Inox 201",
+      "finish": "Mộc"
+    },
+    "unit": "cái",
+    "priceFrom": 22000,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-10-07"
+  },
+  {
+    "sku": "TH-BL08",
+    "slug": "ban-le-la-5-phan",
+    "name": "Bản lề lá 5 phân",
+    "categorySlug": "ban-le-la",
+    "summary": "Bản lề lá 5 phân, 125 × 80 mm, thép CT3 dày 3,0 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-BL08-1.webp",
+        "alt": "Bản lề lá 5 phân, thép CT3, mộc"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "125 × 80 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "3,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "125 × 80 mm",
+    "filters": {
+      "thicknessMm": 3,
+      "material": "Thép CT3",
+      "finish": "Mộc"
+    },
+    "unit": "cái",
+    "priceFrom": null,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-10-10"
+  },
+  {
+    "sku": "TH-TN01",
+    "slug": "ton-song-vuong-ma-kem",
+    "name": "Tôn sóng vuông mạ kẽm",
+    "categorySlug": "ton",
+    "summary": "Tôn sóng vuông mạ kẽm, khổ 1070 mm, tôn mạ kẽm dày 0,4 mm, bề mặt mạ kẽm.",
+    "images": [
+      {
+        "src": "/products/TH-TN01-1.webp",
+        "alt": "Tôn sóng vuông mạ kẽm, tôn mạ kẽm, mạ kẽm"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "Khổ 1070 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "0,4 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Tôn mạ kẽm"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mạ kẽm"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Mét"
+      }
+    ],
+    "mainSpec": "Khổ 1070 mm, dày 0,4 mm",
+    "filters": {
+      "thicknessMm": 0.4,
+      "material": "Tôn mạ kẽm",
+      "finish": "Mạ kẽm"
+    },
+    "unit": "mét",
+    "priceFrom": 68000,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-10-13"
+  },
+  {
+    "sku": "TH-TN02",
+    "slug": "ton-phang-1-ly",
+    "name": "Tôn phẳng 1 ly",
+    "categorySlug": "ton",
+    "summary": "Tôn phẳng 1 ly, 1250 × 2500 mm, thép CT3 dày 1,0 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-TN02-1.webp",
+        "alt": "Tôn phẳng 1 ly, thép CT3, mộc"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "1250 × 2500 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "1,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Tấm"
+      }
+    ],
+    "mainSpec": "1250 × 2500 × 1,0 mm",
+    "filters": {
+      "thicknessMm": 1,
+      "material": "Thép CT3",
+      "finish": "Mộc"
+    },
+    "unit": "tấm",
+    "priceFrom": 520000,
+    "isNew": false,
+    "isFeatured": true,
+    "updatedAt": "2026-10-16"
+  },
+  {
+    "sku": "TH-TN03",
+    "slug": "ton-song-ngoi-ma-mau",
+    "name": "Tôn sóng ngói mạ màu",
+    "categorySlug": "ton",
+    "summary": "Tôn sóng ngói mạ màu, khổ 1070 mm, tôn mạ màu dày 0,45 mm, bề mặt sơn tĩnh điện.",
+    "images": [
+      {
+        "src": "/products/TH-TN03-1.webp",
+        "alt": "Tôn sóng ngói mạ màu, tôn mạ màu, sơn tĩnh điện"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "Khổ 1070 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "0,45 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Tôn mạ màu"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Sơn tĩnh điện"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Mét"
+      }
+    ],
+    "mainSpec": "Khổ 1070 mm, dày 0,45 mm",
+    "filters": {
+      "thicknessMm": 0.45,
+      "material": "Tôn mạ màu",
+      "finish": "Sơn tĩnh điện"
+    },
+    "unit": "mét",
+    "priceFrom": 85000,
+    "isNew": true,
+    "isFeatured": false,
+    "updatedAt": "2026-10-19"
+  },
+  {
+    "sku": "TH-TN04",
+    "slug": "ton-kem-cuon-0-5-ly",
+    "name": "Tôn kẽm cuộn 0,5 ly",
+    "categorySlug": "ton",
+    "summary": "Tôn kẽm cuộn 0,5 ly, khổ 1200 mm, tôn mạ kẽm dày 0,5 mm, bề mặt mạ kẽm.",
+    "images": [
+      {
+        "src": "/products/TH-TN04-1.webp",
+        "alt": "Tôn kẽm cuộn 0,5 ly, tôn mạ kẽm, mạ kẽm"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "Khổ 1200 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "0,5 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Tôn mạ kẽm"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mạ kẽm"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Kg"
+      }
+    ],
+    "mainSpec": "Khổ 1200 mm, dày 0,5 mm",
+    "filters": {
+      "thicknessMm": 0.5,
+      "material": "Tôn mạ kẽm",
+      "finish": "Mạ kẽm"
+    },
+    "unit": "kg",
+    "priceFrom": 26000,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-10-22"
+  },
+  {
+    "sku": "TH-TN05",
+    "slug": "ton-chan-mang-xoi",
+    "name": "Tôn chấn máng xối",
+    "categorySlug": "ton",
+    "summary": "Tôn chấn máng xối, 300 × 2000 mm, tôn mạ kẽm dày 0,5 mm, bề mặt mạ kẽm.",
+    "images": [],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "300 × 2000 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "0,5 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Tôn mạ kẽm"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mạ kẽm"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Mét"
+      }
+    ],
+    "mainSpec": "300 × 2000 × 0,5 mm",
+    "filters": {
+      "thicknessMm": 0.5,
+      "material": "Tôn mạ kẽm",
+      "finish": "Mạ kẽm"
+    },
+    "unit": "mét",
+    "priceFrom": null,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-10-25"
+  },
+  {
+    "sku": "TH-MC01",
+    "slug": "mam-cau-thang-vuong",
+    "name": "Mâm cầu thang vuông",
+    "categorySlug": "mam-cau-thang",
+    "summary": "Mâm cầu thang vuông, 100 × 100 mm, thép CT3 dày 2,0 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-MC01-1.webp",
+        "alt": "Mâm cầu thang vuông, thép CT3, mộc"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "100 × 100 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "2,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "100 × 100 × 2,0 mm",
+    "filters": {
+      "thicknessMm": 2,
+      "material": "Thép CT3",
+      "finish": "Mộc"
+    },
+    "unit": "cái",
+    "priceFrom": 7500,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-10-28"
+  },
+  {
+    "sku": "TH-MC02",
+    "slug": "mam-cau-thang-tron",
+    "name": "Mâm cầu thang tròn",
+    "categorySlug": "mam-cau-thang",
+    "summary": "Mâm cầu thang tròn, Ø90 mm, thép CT3 dày 2,0 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-MC02-1.webp",
+        "alt": "Mâm cầu thang tròn, thép CT3, mộc"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "Ø90 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "2,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "Ø90 × 2,0 mm",
+    "filters": {
+      "thicknessMm": 2,
+      "material": "Thép CT3",
+      "finish": "Mộc"
+    },
+    "unit": "cái",
+    "priceFrom": 6500,
+    "isNew": false,
+    "isFeatured": true,
+    "updatedAt": "2026-11-01"
+  },
+  {
+    "sku": "TH-MC03",
+    "slug": "mam-chan-tru-lan-can",
+    "name": "Mâm chân trụ lan can",
+    "categorySlug": "mam-cau-thang",
+    "summary": "Mâm chân trụ lan can, Ø120 mm, thép SS400 dày 3,0 mm, bề mặt mộc.",
+    "images": [
+      {
+        "src": "/products/TH-MC03-1.webp",
+        "alt": "Mâm chân trụ lan can, thép SS400, mộc"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "Ø120 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "3,0 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép SS400"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "Ø120 × 3,0 mm",
+    "filters": {
+      "thicknessMm": 3,
+      "material": "Thép SS400",
+      "finish": "Mộc"
+    },
+    "unit": "cái",
+    "priceFrom": 12000,
+    "isNew": true,
+    "isFeatured": false,
+    "updatedAt": "2026-11-04"
+  },
+  {
+    "sku": "TH-MC04",
+    "slug": "mam-cau-thang-inox",
+    "name": "Mâm cầu thang inox",
+    "categorySlug": "mam-cau-thang",
+    "summary": "Mâm cầu thang inox, Ø90 mm, inox 201 dày 1,5 mm, bề mặt đánh xước.",
+    "images": [
+      {
+        "src": "/products/TH-MC04-1.webp",
+        "alt": "Mâm cầu thang inox, inox 201, đánh xước"
+      }
+    ],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "Ø90 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "1,5 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Inox 201"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Đánh xước"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "Ø90 × 1,5 mm",
+    "filters": {
+      "thicknessMm": 1.5,
+      "material": "Inox 201",
+      "finish": "Đánh xước"
+    },
+    "unit": "cái",
+    "priceFrom": 15000,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-11-07"
+  },
+  {
+    "sku": "TH-MC05",
+    "slug": "mam-cau-thang-bat-giac",
+    "name": "Mâm cầu thang bát giác",
+    "categorySlug": "mam-cau-thang",
+    "summary": "Mâm cầu thang bát giác, 110 × 110 mm, thép CT3 dày 2,5 mm, bề mặt mộc.",
+    "images": [],
+    "specs": [
+      {
+        "label": "Kích thước",
+        "value": "110 × 110 mm"
+      },
+      {
+        "label": "Độ dày",
+        "value": "2,5 mm"
+      },
+      {
+        "label": "Vật liệu",
+        "value": "Thép CT3"
+      },
+      {
+        "label": "Bề mặt",
+        "value": "Mộc"
+      },
+      {
+        "label": "Đơn vị tính",
+        "value": "Cái"
+      }
+    ],
+    "mainSpec": "110 × 110 × 2,5 mm",
+    "filters": {
+      "thicknessMm": 2.5,
+      "material": "Thép CT3",
+      "finish": "Mộc"
+    },
+    "unit": "cái",
+    "priceFrom": null,
+    "isNew": false,
+    "isFeatured": false,
+    "updatedAt": "2026-11-10"
+  }
+]

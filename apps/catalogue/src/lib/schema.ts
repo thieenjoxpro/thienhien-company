@@ -29,3 +29,6 @@ export const ProductSchema = z.object({
   isFeatured: z.boolean().default(false),
   updatedAt: z.iso.date(),
 });
+
+export type Product = z.infer<typeof ProductSchema>;
+export type Category = z.infer<typeof CategorySchema>;

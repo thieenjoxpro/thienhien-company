@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatNumber, formatPrice } from "../src/index.ts";
+import { formatNumber, formatPrice } from "../src";
 
 describe("formatPrice", () => {
   it("tách nghìn bằng dấu chấm và thêm đ", () => {

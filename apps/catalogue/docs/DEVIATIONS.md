@@ -24,4 +24,13 @@ Mỗi mục: chỗ lệch, lý do, ngày. Plan: `../../../docs/PLAN.md`.
 18. **`typecheck` chạy `next typegen` trước `tsc`** để có `next-env.d.ts` và kiểu route khi chưa build.
 19. **pnpm 12** chặn script cài đặt của thư viện: cho phép `esbuild`, `lefthook` trong `allowBuilds` của `pnpm-workspace.yaml`.
 20. **Ngân sách JS trang chủ: 160 KiB gzip thay vì 130 KB.** Trang `/` của M0 chưa có dòng JS client nào mà runtime Next 16 + React 19 đã là 137.000 byte (Turbopack; Lighthouse đo, 13/11/2026). Build webpack khoảng 132.500 byte không tính polyfill, sát mức trần, và sẽ vượt ngay khi có component client ở M2. Mức 130 KB không đạt được với stack của plan, nên `lighthouserc.json` chặn ở 163.840 byte: nền framework khoảng 134 KB cộng 26 KB cho code của app. Các ngưỡng khác giữ nguyên (M0 đo được: performance 0,99, accessibility 1, SEO 1, LCP 784 ms, CLS 0,0002, TBT 134 ms). Muốn giữ 130 KB thì phải bỏ React khỏi trang tĩnh, việc đó nằm ngoài plan.
-21. **Cổng chạy thử 4310** (`pnpm start`, Playwright, LHCI): cổng 3100 đang có app khác chạy trên máy. Playwright không dùng lại server có sẵn (`reuseExistingServer: false`) để không test nhầm app khác.
+21. **Cổng chạy thử 4310** (`pnpm dev`, `pnpm start`, Playwright, LHCI, giá trị mặc định của `site.url`): cổng 3100 đang có app khác chạy trên máy. Playwright không dùng lại server có sẵn (`reuseExistingServer: false`) để không test nhầm app khác.
+
+## M1 (13/11/2026)
+
+22. **`createCatalog(source)` trong `catalog.ts`.** Các hàm của mục 4.2 được dựng từ một factory nhận dữ liệu thô; bản export dùng `src/data`. Nhờ vậy unit test đưa fixture vào mà `src/` không bao giờ import fixture. Dữ liệu được parse bằng zod ngay lúc nạp, dữ liệu sai làm build fail.
+23. **`getRelatedProducts`:** "cùng danh mục" hiểu theo tiêu đề khối ở mục 5.4 ("Cùng nhóm {tên nhóm}"): cùng nhóm hàng cấp 1, khác mã, mẫu cùng danh mục con xếp trước, rồi mới trước cũ.
+24. **Danh mục không còn sản phẩm có ảnh** thì ẩn khỏi `getCategories`, `getCategoryTree`, `countByCategory`, và `getCategory` trả `null` (trang danh mục sẽ 404). Số mẫu của danh mục cha tính cả danh mục con.
+25. **Fixture `tests/fixtures`:** 24 mẫu thử, trong đó 22 mẫu có ảnh và 2 mẫu (TH-TN05, TH-MC05) cố ý không có ảnh để kiểm luật ẩn. Có 6 danh mục: 4 nhóm cộng `ban-le-coi`, `ban-le-la` để kiểm `includeChildren`. Ảnh thử là WebP xám đặc 1200×1200, mỗi ảnh một độ xám, sinh một lần bằng sharp (đã có sẵn trong cây phụ thuộc của Next) bằng script nằm ngoài repo; không thêm thư viện.
+26. **Mô tả 4 danh mục thật** trong `src/data/categories.json` chỉ nói hàng gì và trang có thông tin gì, không có lời khen hay số liệu. Chủ xưởng có thể viết lại.
+27. **`packages/shared`** đổi sang import không đuôi `.ts`, để `tsc` của app kiểm được mã nguồn package mà không cần bật `allowImportingTsExtensions`.
