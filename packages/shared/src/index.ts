@@ -1,2 +1,2 @@
-export { normalizeVietnamese } from "./normalize.ts";
-export { formatNumber, formatPrice } from "./format.ts";
+export { normalizeVietnamese } from "./normalize";
+export { formatNumber, formatPrice } from "./format";

@@ -9,7 +9,6 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "allowImportingTsExtensions": true,
     "types": ["node"]
   },
   "include": ["src", "tests"]

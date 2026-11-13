@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { normalizeVietnamese } from "../src/index.ts";
+import { normalizeVietnamese } from "../src";
 
 describe("normalizeVietnamese", () => {
   it("bỏ dấu và viết thường", () => {
