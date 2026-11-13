@@ -1,11 +1,11 @@
 import { Search } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { zaloLink } from "@/lib/contact";
 import { getMenuGroups } from "@/lib/menu";
 import { site } from "@/lib/site.config";
 import { CategoryMenu } from "./CategoryMenu";
+import { HeaderAction } from "./HeaderAction";
 import { MobileNav } from "./MobileNav";
 
 /**
@@ -30,13 +30,7 @@ export async function Header() {
           <Link href="/hoi-gia" className="hidden min-h-11 items-center px-2 underline-offset-4 hover:underline lg:flex">
             Danh sách hỏi giá
           </Link>
-          {zalo ? (
-            <Button asChild variant="primary" className="hidden sm:inline-flex">
-              <a href={zalo} target="_blank" rel="noopener noreferrer">
-                {site.mainAction}
-              </a>
-            </Button>
-          ) : null}
+          {zalo ? <HeaderAction href={zalo} /> : null}
           <MobileNav groups={groups} />
         </div>
       </Container>
