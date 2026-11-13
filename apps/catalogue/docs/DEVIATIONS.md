@@ -50,3 +50,17 @@ Mỗi mục: chỗ lệch, lý do, ngày. Plan: `../../../docs/PLAN.md`.
 38. **check-slop luật 3:** mẫu ảnh ngoài đổi từ `placehold` thành `placehold.` (placehold.co, placehold.it), để chữ "placeholder" trong code không bị báo nhầm. Fixture sạch có thêm ca này.
 39. **Chưa có logo Zalo** (`public/brand/zalo.svg`): nút Zalo tạm chỉ có chữ. Logo phải lấy từ bộ nhận diện chính thức của Zalo, không vẽ lại.
 40. **Việc để lại cho M3:** từ 640px, nút chính trên header và nút chính của hero cùng nằm trong màn hình đầu của trang chủ, trái với luật "mỗi màn hình một nút tô màu". Cách xử lý dự kiến: ẩn nút trên header khi nút của hero còn trong màn hình, dùng chung cách theo dõi với PhoneBar.
+
+## M3 (13/11/2026)
+
+41. **Làm M3 khi chưa có ảnh thật.** Plan đòi dừng ở M3 cho tới khi có bộ ảnh tối thiểu (mục 4.3); chủ dự án yêu cầu làm tiếp. Toàn bộ M3 được dựng và kiểm trên bản build fixture (ảnh xám). Site thật (`src/data/products.json` còn rỗng) hiện chỉ có hero dạng chữ, trang cửa hàng báo "Catalogue chưa có mẫu nào."; các khối còn lại tự bỏ. Cổng người duyệt 1 và cổng taste-skill lần 1 phải làm lại khi có ảnh thật.
+42. **`site.config.ts` thêm `heroPhoto` và `workshop`** (`{ text, photo }`). `null` thì hero chỉ có chữ và khối Xưởng bị bỏ. Ảnh xưởng và ảnh nhóm hàng nằm ở `public/xuong/`; fixture dùng `/xuong/*.webp` (e2e chặn và trả ảnh xám như ảnh sản phẩm).
+43. **Chiều cao khối.** Thêm utility `screen-hero` (`100svh - 72px`): hero cùng header vừa một màn hình, nên e2e đo hero cao 900 trừ header, các khối khác 900. `Section` có `screens` thì thành lưới một ô, bọc `Container` trong một lớp để nội dung dùng `lg:flex-1` lấp đầy màn hình (ô nhóm hàng, ảnh xưởng, dải liên hệ).
+44. **Xong việc để lại ở mục 40.** `HeaderAction` (client) ẩn nút chính trên header, vẫn giữ chỗ, khi một nút chính khác đang trong màn hình. `PhoneBar` và `HeaderAction` dùng chung hook `usePrimaryInView`; hai bên đi theo đánh dấu `data-action-follower`.
+45. **Khối Xưởng:** h2 "Hàng dập tại xưởng" đứng đầu khối, phía trên ảnh (không nằm trong cột chữ bên phải), để mọi khối đều mở đầu bằng tiêu đề. Chưa có nút "Xem xưởng" vì `/gioi-thieu` tới M6 mới có.
+46. **Dải liên hệ không có ảnh** (là khoảnh khắc chữ của trang, mục 5.2), nên e2e chỉ đòi ảnh ở 4 khối đầu.
+47. **Khối nhóm hàng:** tiêu đề theo số nhóm thật ("Hai", "Ba", "Bốn nhóm hàng"; ngoài ra "Nhóm hàng"). Nhóm chưa có ảnh riêng (`image` null) thì lấy ảnh một mẫu trong nhóm, ưu tiên mẫu không nằm ở khối Mẫu mới về để ảnh trên trang không lặp.
+48. **Câu dưới h1** bỏ vế "trong ngày" (chủ xưởng chưa xác nhận): "Chọn mẫu, gửi danh sách, xưởng báo giá sỉ qua Zalo."
+49. **Trang cửa hàng và danh mục chưa có cột danh mục bên trái** (CategorySidebar, FilterBar thuộc M4), lưới tạm 2, 3, 4 cột. Danh mục con hiện thành hàng link dưới tiêu đề. Thẻ sản phẩm đã trỏ tới `/san-pham/[slug]`, trang này tới M4 mới có.
+50. **Unit test ProductCard dùng `renderToStaticMarkup`** thay cho Testing Library: thẻ là component tĩnh, không cần DOM giả; Testing Library sẽ cài ở M5 khi test store và form.
+51. **`ProductCard` có prop `heading`** (h2 hoặc h3) để lưới nằm ngay dưới h1 không nhảy cấp tiêu đề.
