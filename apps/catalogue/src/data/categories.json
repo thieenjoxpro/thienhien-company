@@ -1,0 +1,34 @@
+[
+  {
+    "slug": "pano",
+    "name": "Pano",
+    "parentSlug": null,
+    "description": "Pano cửa sắt dập, mỗi mẫu có mã, kích thước và độ dày.",
+    "image": null,
+    "order": 1
+  },
+  {
+    "slug": "ban-le",
+    "name": "Bản lề",
+    "parentSlug": null,
+    "description": "Bản lề cho cửa sắt và cổng, mỗi mẫu có mã, đường kính và chiều dài.",
+    "image": null,
+    "order": 2
+  },
+  {
+    "slug": "ton",
+    "name": "Tôn",
+    "parentSlug": null,
+    "description": "Tôn cho cửa và mái, mỗi mẫu có mã, khổ và độ dày.",
+    "image": null,
+    "order": 3
+  },
+  {
+    "slug": "mam-cau-thang",
+    "name": "Mâm cầu thang",
+    "parentSlug": null,
+    "description": "Mâm cầu thang và lan can, mỗi mẫu có mã, đường kính và độ dày.",
+    "image": null,
+    "order": 4
+  }
+]
