@@ -8,6 +8,7 @@ import tseslint from "typescript-eslint";
 export default defineConfig(
   globalIgnores([
     ".next/**",
+    ".next-fixtures/**",
     "out/**",
     "coverage/**",
     "playwright-report/**",
