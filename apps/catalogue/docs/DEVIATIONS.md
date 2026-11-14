@@ -75,3 +75,12 @@ Mỗi mục: chỗ lệch, lý do, ngày. Plan: `../../../docs/PLAN.md`.
 57. **Trang đang lọc:** thẻ `<meta name="robots" content="noindex, follow">` do component client chèn (React 19 đưa lên `<head>`), để trang danh sách vẫn là trang tĩnh; canonical luôn là URL gốc. Thêm `metadataBase` từ `site.url`.
 58. **Nhãn độ dày luôn có một chữ số thập phân** ("2,0 mm"), theo design README của SpecTable.
 59. **E2E trên Windows:** `tests/e2e/teardown.ts` tắt server `next start` còn sót trên cổng 4310 sau mỗi lần chạy, chỉ tắt tiến trình có dòng lệnh nằm trong repo này.
+
+## M5 (14/11/2026)
+
+60. **Danh sách hỏi giá đọc localStorage sau khi hydrate** (`skipHydration` của zustand persist, `QuoteCount` trên header gọi `rehydrate` một lần). Trước khi đọc xong, trang `/hoi-gia` hiện dòng "Đang mở danh sách hỏi giá."; số trên header chỉ hiện khi lớn hơn 0.
+61. **Store chỉ lưu mã và số lượng** (`th-quote-v1`); tên, ảnh, đơn vị lấy lại từ catalogue. Mã không còn trong catalogue thì bị bỏ qua khi hiển thị. `createQuoteStore(storage)` để unit test dùng storage trong bộ nhớ.
+62. **Tin nhắn bỏ dòng "Tên", "Giao tới"** khi khách không điền (mẫu ở mục 5.5 in "..." làm chỗ trống).
+63. **PhoneBar không hiện ở `/hoi-gia`:** nút Zalo của thanh chỉ mở Zalo, không copy danh sách; ở trang này hành động chính duy nhất là nút gửi.
+64. **`usePrimaryInView` quét lại khi DOM đổi** (MutationObserver), vì nút gửi ở `/hoi-gia` chỉ xuất hiện sau khi hydrate; trước đó nút trên header không biết để nhường chỗ.
+65. **Mở Zalo bằng `window.open` sau khi copy xong.** Trình duyệt vẫn coi là thao tác của người dùng vì chỉ cách cú bấm một lần ghi clipboard. Zalo web không nhận nội dung soạn sẵn, nên khách tự dán.
