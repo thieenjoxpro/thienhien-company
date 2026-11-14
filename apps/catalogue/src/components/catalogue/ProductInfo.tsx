@@ -1,3 +1,4 @@
+import { AddToQuoteButton } from "@/components/quote/AddToQuoteButton";
 import { zaloLink } from "@/lib/contact";
 import type { Product } from "@/lib/schema";
 import { site } from "@/lib/site.config";
@@ -6,7 +7,7 @@ import { SpecTable } from "./SpecTable";
 
 /**
  * Cột thông tin trang chi tiết (mục 5.4), dính theo cuộn từ 1024px: mã, tên, mô tả, giá, bảng thông số,
- * link hỏi riêng mã này qua Zalo. Ô số lượng và nút "Thêm vào hỏi giá" thêm ở M5 cùng danh sách hỏi giá.
+ * ô số lượng và nút "Thêm vào hỏi giá", link hỏi riêng mã này qua Zalo.
  */
 export function ProductInfo({ product }: { product: Product }) {
   const zalo = zaloLink(site.zaloWholesale);
@@ -19,6 +20,7 @@ export function ProductInfo({ product }: { product: Product }) {
         <Price priceFrom={product.priceFrom} unit={product.unit} />
       </div>
       <SpecTable sku={product.sku} specs={product.specs} />
+      <AddToQuoteButton sku={product.sku} unit={product.unit} />
       {zalo ? (
         <a href={zalo} target="_blank" rel="noopener noreferrer" className="mt-6 flex min-h-11 items-center underline underline-offset-4">
           Hỏi riêng mã {product.sku} qua Zalo
