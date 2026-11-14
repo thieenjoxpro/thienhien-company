@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import Link from "next/link";
+import { QuoteCount } from "@/components/quote/QuoteCount";
 import { Container } from "@/components/ui/Container";
 import { zaloLink } from "@/lib/contact";
 import { getMenuGroups } from "@/lib/menu";
@@ -27,9 +28,7 @@ export async function Header() {
           <Link href="/san-pham" aria-label="Tìm mẫu" className="flex size-11 items-center justify-center sm:hidden lg:flex">
             <Search size={20} strokeWidth={1.5} aria-hidden />
           </Link>
-          <Link href="/hoi-gia" className="hidden min-h-11 items-center px-2 underline-offset-4 hover:underline lg:flex">
-            Danh sách hỏi giá
-          </Link>
+          <QuoteCount />
           {zalo ? <HeaderAction href={zalo} /> : null}
           <MobileNav groups={groups} />
         </div>

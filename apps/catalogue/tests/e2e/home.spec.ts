@@ -126,6 +126,7 @@ for (const path of ["/san-pham", "/danh-muc/pano"]) {
 
 test("chụp trang chủ, cửa hàng cho người duyệt (test-results/review)", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop", "chụp một lần, tự đổi khổ");
+  test.setTimeout(120_000);
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });
     for (const [name, path] of [

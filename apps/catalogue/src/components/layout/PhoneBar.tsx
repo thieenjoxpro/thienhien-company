@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
@@ -10,14 +11,16 @@ import { usePrimaryInView } from "@/lib/use-primary-in-view";
 /**
  * Thanh hành động dính đáy, chỉ dưới 640px (mục 5.1). Chỉ hiện khi không còn nút chính nào
  * (nút có data-primary-action, ví dụ nút của hero) trong màn hình. Thiếu số Zalo thì không render.
+ * Không có ở trang hỏi giá: ở đó nút Zalo phải đi kèm việc copy danh sách (SendQuote).
  */
 export function PhoneBar() {
   const bar = useRef<HTMLDivElement>(null);
   const primaryInView = usePrimaryInView("[data-primary-action]", bar);
   const zalo = zaloLink(site.zaloWholesale);
   const tel = telLink(site.phone);
+  const pathname = usePathname();
 
-  if (!zalo) return null;
+  if (!zalo || pathname === "/hoi-gia") return null;
   return (
     <>
       {/* Chừa chỗ cuối trang để thanh không che dòng cuối của footer */}
