@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ListingHeader } from "@/components/catalogue/ListingHeader";
-import { ProductGrid } from "@/components/catalogue/ProductGrid";
-import { Section } from "@/components/ui/Section";
+import { Listing } from "@/components/catalogue/Listing";
 import { getCategories, getCategory, getProductsByCategory } from "@/lib/catalog";
 
 interface Props {
@@ -18,10 +16,12 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const category = await getCategory((await params).slug);
-  return category ? { title: category.name, description: category.description } : {};
+  return category
+    ? { title: category.name, description: category.description, alternates: { canonical: `/danh-muc/${category.slug}` } }
+    : {};
 }
 
-// Trang danh mục (mục 5.3). Cột danh mục bên trái và bộ lọc thêm ở M4.
+// Trang danh mục (mục 5.3): cột danh mục, tìm, lọc, sắp xếp trong nhóm.
 export default async function CategoryPage({ params }: Props) {
   const category = await getCategory((await params).slug);
   if (!category) notFound();
@@ -34,10 +34,5 @@ export default async function CategoryPage({ params }: Props) {
     ...(parent ? [{ name: parent.name, href: `/danh-muc/${parent.slug}` }] : []),
     { name: category.name, href: `/danh-muc/${category.slug}` },
   ];
-  return (
-    <Section>
-      <ListingHeader crumbs={crumbs} title={category.name} count={products.length} />
-      <ProductGrid products={products.toSorted((a, b) => b.updatedAt.localeCompare(a.updatedAt))} />
-    </Section>
-  );
+  return <Listing crumbs={crumbs} title={category.name} products={products} current={category.slug} />;
 }

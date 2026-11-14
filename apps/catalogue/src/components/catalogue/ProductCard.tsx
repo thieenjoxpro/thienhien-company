@@ -3,11 +3,14 @@ import { Photo } from "@/components/ui/Photo";
 import type { Product } from "@/lib/schema";
 import { Price } from "./Price";
 
+/** Đủ dữ liệu cho một thẻ; danh sách "Mẫu vừa xem" lưu đúng chừng này trong trình duyệt. */
+export type CardProduct = Pick<Product, "sku" | "slug" | "name" | "images" | "mainSpec" | "priceFrom" | "unit">;
+
 /**
  * Thẻ sản phẩm (design/components/ProductCard/README.md): ảnh vuông và bốn dòng chữ đặt thẳng
  * trên trang, không nền, không viền, không badge. Cả thẻ là một link. Sản phẩm chưa có ảnh thì không có thẻ.
  */
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product }: { product: CardProduct }) {
   const [image] = product.images;
   if (!image) return null;
   return (
