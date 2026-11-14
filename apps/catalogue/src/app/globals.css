@@ -26,8 +26,10 @@
   --color-on-accent: #181715;
   --color-danger: #a3271b;
   --color-success: #1f6b3f;
-  --font-sans: "Be Vietnam Pro", sans-serif;
-  --font-mono: "IBM Plex Mono", monospace;
+
+  /* Hai họ chữ: biến --typeface-* do next/font khai trên <html> (src/app/fonts.ts), mỗi subset một họ */
+  --font-sans: var(--typeface-sans-latin), var(--typeface-sans-vietnamese), sans-serif;
+  --font-mono: var(--typeface-mono-latin), var(--typeface-mono-vietnamese), monospace;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --text-display: 38px;
