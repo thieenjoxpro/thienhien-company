@@ -1,0 +1,14 @@
+[
+  {
+    "slug": "giao-hang",
+    "title": "Giao hàng",
+    "updatedAt": "2026-11-01",
+    "body": "## Phạm vi giao\n\nXưởng giao trong nội thành bằng xe tải nhỏ.\n\n## Thời gian\n\n- Đơn sỉ: hẹn ngày khi báo giá\n- Đơn lẻ: khách lấy tại xưởng"
+  },
+  {
+    "slug": "doi-tra",
+    "title": "Đổi trả",
+    "updatedAt": "2026-11-01",
+    "body": "Hàng lỗi dập được đổi trong 7 ngày, mang theo mã sản phẩm.\n\nHàng cắt theo kích thước riêng không đổi trả."
+  }
+]

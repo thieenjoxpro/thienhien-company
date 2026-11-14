@@ -14,6 +14,7 @@ const config: NextConfig = {
       resolveAlias: {
         "@/data/categories.json": "./tests/fixtures/categories.json",
         "@/data/products.json": "./tests/fixtures/products.json",
+        "@/data/policies.json": "./tests/fixtures/policies.json",
         "@/lib/site.config": "./tests/fixtures/site.config.ts",
       },
     },

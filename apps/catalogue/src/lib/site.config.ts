@@ -19,6 +19,7 @@ export const site = {
     storefront: null as SitePhoto | null, // mặt tiền xưởng
   },
   workshopText: null as string | null, // 2 đến 3 câu chủ xưởng viết cho khối Xưởng; null thì bỏ khối
+  aboutText: null as string | null, // đoạn giới thiệu xưởng do chủ xưởng viết cho /gioi-thieu; null thì trang chỉ có ảnh và liên hệ
   showPrice: true,
   mainAction: "Hỏi giá qua Zalo", // một cách viết, dùng ở nav, hero, dải liên hệ, PhoneBar
 } as const;

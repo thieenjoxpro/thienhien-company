@@ -25,10 +25,6 @@
         "no-descending-specificity": null,
         "declaration-no-important": null
       }
-    },
-    {
-      "files": ["src/app/fonts.css"],
-      "rules": { "scale-unlimited/declaration-strict-value": null }
     }
   ]
 }

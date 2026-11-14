@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "./fonts.css";
 import "./globals.css";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { PhoneBar } from "@/components/layout/PhoneBar";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { businessLd } from "@/lib/seo";
 import { site } from "@/lib/site.config";
+import { fontVariables } from "./fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: site.name,
+  title: { default: site.name, template: `%s | ${site.name}` },
   description: `Catalogue pano, bản lề, tôn và mâm cầu thang của xưởng ${site.name}.`,
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const business = businessLd();
   return (
-    <html lang="vi">
+    <html lang="vi" className={fontVariables}>
       <body className="bg-ground font-sans text-body text-ink">
         <a href="#noi-dung" className="sr-only focus:not-sr-only focus:block focus:px-4 focus:py-3">
           Tới nội dung chính
@@ -24,6 +27,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main id="noi-dung">{children}</main>
         <Footer />
         <PhoneBar />
+        {business ? <JsonLd data={business} /> : null}
       </body>
     </html>
   );

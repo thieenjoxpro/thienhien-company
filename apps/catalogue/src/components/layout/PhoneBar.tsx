@@ -33,13 +33,13 @@ export function PhoneBar() {
           primaryInView !== false && "hidden",
         )}
       >
-        <Button asChild variant="primary" className="flex-1 px-4">
+        <Button asChild variant="primary" className="flex-1 max-sm:px-4">
           <a href={zalo} target="_blank" rel="noopener noreferrer">
             {site.mainAction}
           </a>
         </Button>
         {tel ? (
-          <Button asChild variant="secondary" className="flex-1 px-4">
+          <Button asChild variant="secondary" className="flex-1 max-sm:px-4">
             <a href={tel}>Gọi xưởng</a>
           </Button>
         ) : null}

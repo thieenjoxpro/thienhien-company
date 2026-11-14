@@ -84,3 +84,12 @@ Mỗi mục: chỗ lệch, lý do, ngày. Plan: `../../../docs/PLAN.md`.
 63. **PhoneBar không hiện ở `/hoi-gia`:** nút Zalo của thanh chỉ mở Zalo, không copy danh sách; ở trang này hành động chính duy nhất là nút gửi.
 64. **`usePrimaryInView` quét lại khi DOM đổi** (MutationObserver), vì nút gửi ở `/hoi-gia` chỉ xuất hiện sau khi hydrate; trước đó nút trên header không biết để nhường chỗ.
 65. **Mở Zalo bằng `window.open` sau khi copy xong.** Trình duyệt vẫn coi là thao tác của người dùng vì chỉ cách cú bấm một lần ghi clipboard. Zalo web không nhận nội dung soạn sẵn, nên khách tự dán.
+
+## M6 (14/11/2026)
+
+66. **Chính sách lưu trong `src/data/policies.json`** (`slug`, `title`, `updatedAt`, `body` markdown tối giản: đoạn văn, `## `, `- `), thay cho thư mục `data/policies/*.md`: đọc bằng import nên build fixture đổi được qua alias, và không cần thư viện markdown. Nội dung render bằng React, không chèn HTML thô. Hiện chưa có chính sách thật nào (nội dung do chủ xưởng viết), nên chưa có trang và chưa có cột "Chính sách" ở footer.
+67. **Bỏ `tailwind-merge`, `cn()` chỉ còn `clsx`:** tailwind-merge chiếm khoảng 8 KB gzip trong JS client của mọi trang, đẩy trang chủ vượt ngân sách (165.434 byte so với trần 163.840). Chỗ duy nhất cần ghi đè (padding nút PhoneBar) viết bằng `max-sm:px-4`.
+68. **`site.config` thêm `aboutText`** cho trang giới thiệu. Trang `/gioi-thieu` luôn có (header trỏ tới), thiếu chữ hay ảnh thì chỉ còn tiêu đề và link liên hệ.
+69. **Tiêu đề trang:** mẫu `%s | Thiện Hiền` ở layout. Trang chủ dùng h1 làm tiêu đề, trang chi tiết dùng "Tên Mã". `/hoi-gia` và trang 404 không có canonical và đặt `noindex`; `robots.txt` chặn `/hoi-gia` và `/dev/`.
+70. **Ô tìm trên trang 404** là form GET tới `/san-pham?q=`. Nút ghi "Xem mẫu khớp" vì "tìm" không có trong `rules/button-verbs.json`.
+71. **Font chuyển sang `next/font/local`** (thay mục 7): Lighthouse đo LCP 2.510 ms vì chữ hero chờ font, mà font chỉ được tải sau khi CSS về. `next/font` preload 4 file Be Vietnam Pro (latin, vietnamese; 400, 500) và tạo font dự phòng đã chỉnh cỡ; IBM Plex Mono không preload. Mỗi subset là một họ riêng có `unicode-range`, ghép trong `--font-sans`, `--font-mono`. Sau khi đổi: LCP 759 ms, performance 1. File woff2 chép từ @fontsource 5.3.0 vào `src/fonts/` kèm giấy phép OFL (Turbopack không dựng được `next/font/local` khi trỏ thẳng vào `node_modules`), và bỏ hai gói @fontsource. Bỏ `src/app/fonts.css` và ngoại lệ Stylelint của nó.

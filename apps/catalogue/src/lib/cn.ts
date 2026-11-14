@@ -1,16 +1,10 @@
 import { clsx, type ClassValue } from "clsx";
-import { extendTailwindMerge } from "tailwind-merge";
 
-// tailwind-merge phải biết thang chữ riêng của hệ; nếu không nó coi text-display là màu chữ và nuốt text-ink
-const twMerge = extendTailwindMerge({
-  extend: {
-    theme: {
-      text: ["display", "h2", "h3", "title", "body", "small", "label", "button", "sku", "spec", "price"],
-    },
-  },
-});
-
-/** Gộp class có điều kiện và bỏ class Tailwind xung đột (class sau thắng). */
+/**
+ * Gộp class có điều kiện. Không dùng tailwind-merge: nó thêm khoảng 8 KB gzip vào JS mọi trang
+ * (DEVIATIONS mục 67). Muốn ghi đè class gốc của component thì dùng biến thể (ví dụ `max-sm:px-4`),
+ * không viết hai class cùng thuộc tính ở cùng một mức.
+ */
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+  return clsx(inputs);
 }
