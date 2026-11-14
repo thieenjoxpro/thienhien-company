@@ -17,16 +17,20 @@ test("h1 gọi tên loại hàng và nơi chốn, chữ bằng Be Vietnam Pro t�
   await expect(page.getByText(/^22 mẫu pano, bản lề, tôn và mâm cầu thang/)).toBeVisible();
 
   await page.evaluate(() => document.fonts.ready);
-  const family = await heading.evaluate((el) => getComputedStyle(el).fontFamily);
-  expect(family.startsWith('"Be Vietnam Pro"') || family.startsWith("Be Vietnam Pro")).toBe(true);
+  // next/font đặt tên họ chữ riêng; họ đầu tiên của h1 phải là font tự host đã tải xong, không phải font dự phòng
+  const loaded = await heading.evaluate((el) => {
+    const first = getComputedStyle(el).fontFamily.split(",")[0]?.trim() ?? "";
+    return document.fonts.check(`400 38px ${first}`, "Thiện Hiền") && !/fallback|sans-serif|arial/i.test(first);
+  });
+  expect(loaded).toBe(true);
   const fonts = await page.evaluate(() =>
     performance
       .getEntriesByType("resource")
       .map((entry) => entry.name)
       .filter((name) => name.includes(".woff2")),
   );
-  expect(fonts.some((url) => url.includes("be-vietnam-pro-latin-400"))).toBe(true);
-  expect(fonts.some((url) => url.includes("be-vietnam-pro-vietnamese-400"))).toBe(true);
+  expect(fonts.some((url) => url.includes("be_vietnam_pro_latin_400"))).toBe(true);
+  expect(fonts.some((url) => url.includes("be_vietnam_pro_vietnamese_400"))).toBe(true);
   expect(fonts.every((url) => url.startsWith(new URL(page.url()).origin))).toBe(true);
 
   await expectPageBasics(page);
