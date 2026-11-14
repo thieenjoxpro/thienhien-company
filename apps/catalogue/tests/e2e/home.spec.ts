@@ -84,14 +84,14 @@ test.describe("trang chủ ở 1440×900 (mục 10, M3)", () => {
 test.describe("lưới sản phẩm", () => {
   test.skip(({ isMobile }) => isMobile, "tự đổi khổ màn hình");
 
-  test("2 cột dưới 768px, 3 cột từ 768px, 4 cột từ 1280px; không cuộn ngang ở 320px", async ({ page }) => {
+  test("trang danh sách: 2 cột dưới 768px, 3 cột từ 768px (cạnh cột danh mục 3/12); không cuộn ngang ở 320px", async ({ page }) => {
     for (const [width, columns] of [
       [320, 2],
       [390, 2],
       [768, 3],
       [1024, 3],
-      [1280, 4],
-      [1440, 4],
+      [1280, 3],
+      [1440, 3],
     ] as const) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto("/san-pham");

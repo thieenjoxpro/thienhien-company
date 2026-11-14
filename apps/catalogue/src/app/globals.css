@@ -161,6 +161,12 @@
   z-index: 40;
 }
 
+/* Cột thông tin trang chi tiết dính theo cuộn, dưới header (72px) một khoảng space-6 (mục 5.4) */
+@utility stick-aside {
+  position: sticky;
+  top: 96px;
+}
+
 @utility bar-bottom {
   position: fixed;
   inset-inline: 0;
