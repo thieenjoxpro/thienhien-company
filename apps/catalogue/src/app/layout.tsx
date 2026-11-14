@@ -8,6 +8,7 @@ import { PhoneBar } from "@/components/layout/PhoneBar";
 import { site } from "@/lib/site.config";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: site.name,
   description: `Catalogue pano, bản lề, tôn và mâm cầu thang của xưởng ${site.name}.`,
 };

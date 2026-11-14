@@ -27,6 +27,7 @@ const SCOPED_CLASSES = [
   { cls: "m-press", files: ["Button.tsx"] },
   { cls: "bar-top", files: ["Header.tsx"] },
   { cls: "bar-bottom", files: ["PhoneBar.tsx"] },
+  { cls: "stick-aside", files: ["ProductInfo.tsx"] },
 ];
 const REQUIRED_IN_PRODUCTION = ["district", "zaloWholesale"];
 
