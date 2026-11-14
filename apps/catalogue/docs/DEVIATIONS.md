@@ -64,3 +64,14 @@ Mỗi mục: chỗ lệch, lý do, ngày. Plan: `../../../docs/PLAN.md`.
 49. **Viền focus trên nền ink** đổi sang `on-ink`, vì viền màu ink nằm trên nền ink thì không thấy.
 50. **Unit test ProductCard** render bằng `react-dom/server` và mock `next/link`, `next/image`, `site.config`; không thêm Testing Library.
 51. **Cổng taste-skill (mục 9.8) chưa chạy:** cần tải và chạy mã từ GitHub (`npx skills add ...`), chờ người làm đồng ý. Ảnh để người duyệt nằm ở `test-results/review/` (`home-*.png`, `san-pham-*.png`).
+
+## M4 (14/11/2026)
+
+52. **Ô số lượng và nút "Thêm vào hỏi giá" trên trang chi tiết để sang M5**, cùng với danh sách hỏi giá; M4 có link "Hỏi riêng mã {sku} qua Zalo".
+53. **Cột thông tin dính theo cuộn** qua utility `stick-aside` (top 96px) khai trong `globals.css`, chỉ được dùng trong `ProductInfo.tsx` (luật `class-scope` của check-slop), vì class `sticky` bị ESLint cấm.
+54. **Thêm `"use client"`** cho `ProductGallery`, `RecentlyViewed`, `ProductBrowser` ngoài danh sách ở mục 2. "Mẫu vừa xem" lưu đủ dữ liệu của thẻ trong localStorage (`th-recent-v1`, tối đa 8 mẫu, đọc ghi trong try/catch), đọc sau khi hydrate.
+55. **Lưới trang danh sách 3 cột từ 768px** (nằm trong vùng 9 cột cạnh cột danh mục, theo mục 5.3), thay cho 4 cột từ 1280px ở design README; khối "Mẫu mới về" và "Cùng nhóm" vẫn 4 cột.
+56. **Bộ lọc trên desktop và bảng lọc mobile là hai bản render** của cùng `FilterBar`; bản bị ẩn có `display: none` nên không vào cây trợ năng. Trạng thái lọc đổi ngay trên giao diện, URL (`router.replace`, không cuộn) theo sau; Back và reload đọc lại từ URL. Ô tìm đẩy lên URL sau 250ms.
+57. **Trang đang lọc:** thẻ `<meta name="robots" content="noindex, follow">` do component client chèn (React 19 đưa lên `<head>`), để trang danh sách vẫn là trang tĩnh; canonical luôn là URL gốc. Thêm `metadataBase` từ `site.url`.
+58. **Nhãn độ dày luôn có một chữ số thập phân** ("2,0 mm"), theo design README của SpecTable.
+59. **E2E trên Windows:** `tests/e2e/teardown.ts` tắt server `next start` còn sót trên cổng 4310 sau mỗi lần chạy, chỉ tắt tiến trình có dòng lệnh nằm trong repo này.
