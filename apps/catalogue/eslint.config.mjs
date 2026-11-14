@@ -93,5 +93,5 @@ export default defineConfig(
       "max-lines": ["error", { max: 150, skipBlankLines: true, skipComments: true }],
     },
   },
-  { files: ["src/lib/catalog.ts"], rules: { "no-restricted-imports": "off" } },
+  { files: ["src/lib/catalog.ts", "src/lib/policies.ts"], rules: { "no-restricted-imports": "off" } },
 );

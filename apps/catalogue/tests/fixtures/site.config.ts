@@ -19,6 +19,7 @@ export const site = {
     storefront: { src: "/workshop/mat-tien.webp", alt: "Mặt tiền xưởng nhìn từ đường" } as SitePhoto | null,
   },
   workshopText: "Máy dập 60 tấn chạy thép CT3 và SS400 dày tới 3 ly. Nhận dập pano theo mẫu khách mang tới." as string | null, // 2 đến 3 câu chủ xưởng viết cho khối Xưởng; null thì bỏ khối
+  aboutText: "Xưởng dập pano, bản lề, mâm cầu thang từ thép tấm. Khách sỉ đặt theo mã trong catalogue, khách lẻ ghé xưởng xem hàng." as string | null, // đoạn giới thiệu xưởng do chủ xưởng viết cho /gioi-thieu; null thì trang chỉ có ảnh và liên hệ
   showPrice: true,
   mainAction: "Hỏi giá qua Zalo",
 } as const;
