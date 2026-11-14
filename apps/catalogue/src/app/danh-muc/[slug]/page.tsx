@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Listing } from "@/components/catalogue/Listing";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbLd } from "@/lib/seo";
 import { getCategories, getCategory, getProductsByCategory } from "@/lib/catalog";
 
 interface Props {
@@ -34,5 +36,10 @@ export default async function CategoryPage({ params }: Props) {
     ...(parent ? [{ name: parent.name, href: `/danh-muc/${parent.slug}` }] : []),
     { name: category.name, href: `/danh-muc/${category.slug}` },
   ];
-  return <Listing crumbs={crumbs} title={category.name} products={products} current={category.slug} />;
+  return (
+    <>
+      <Listing crumbs={crumbs} title={category.name} products={products} current={category.slug} />
+      <JsonLd data={breadcrumbLd(crumbs)} />
+    </>
+  );
 }

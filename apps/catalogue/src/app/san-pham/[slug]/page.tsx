@@ -5,9 +5,10 @@ import { ProductGallery } from "@/components/catalogue/ProductGallery";
 import { ProductInfo } from "@/components/catalogue/ProductInfo";
 import { RecentlyViewed } from "@/components/catalogue/RecentlyViewed";
 import { RelatedProducts } from "@/components/catalogue/RelatedProducts";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
 import { getCategory, getProduct, getProducts } from "@/lib/catalog";
-import { site } from "@/lib/site.config";
+import { breadcrumbLd, productLd } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = await getProduct((await params).slug);
   if (!product) return {};
   return {
-    title: { absolute: `${product.name} ${product.sku} | ${site.name}` },
+    title: `${product.name} ${product.sku}`,
     description: product.summary,
     alternates: { canonical: `/san-pham/${product.slug}` },
     openGraph: { images: product.images.slice(0, 1).map((image) => ({ url: image.src, alt: image.alt })) },
@@ -57,6 +58,8 @@ export default async function ProductPage({ params }: Props) {
       </Section>
       {group ? <RelatedProducts product={product} groupName={group.name} /> : null}
       <RecentlyViewed current={product} />
+      <JsonLd data={breadcrumbLd(crumbs)} />
+      <JsonLd data={productLd(product)} />
     </>
   );
 }
