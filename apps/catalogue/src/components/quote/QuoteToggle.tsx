@@ -19,7 +19,7 @@ export function QuoteToggle({ sku, name }: { sku: string; name: string }) {
         added ? "bg-ink text-on-ink" : "bg-ground text-ink hover:bg-surface",
       )}
     >
-      {added ? <Check size={16} strokeWidth={2.4} aria-hidden /> : <Plus size={16} strokeWidth={2.4} aria-hidden />}
+      {added ? <Check size={16} strokeWidth={2.4} aria-hidden className="m-pop" /> : <Plus size={16} strokeWidth={2.4} aria-hidden />}
       {added ? "Đã thêm vào hỏi giá" : "Thêm vào hỏi giá"}
       <span className="sr-only">: {name}</span>
     </button>

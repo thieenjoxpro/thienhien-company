@@ -177,6 +177,52 @@
   }
 }
 
+/*
+ * Hiện dần khi cuộn tới (thẻ, ô danh mục, khối dưới màn hình đầu): chạy theo vị trí cuộn bằng
+ * CSS scroll-driven animation, không JS. Trình duyệt không hiểu animation-timeline thì animation dài
+ * 0s và dừng ở khung cuối, tức hiện tĩnh như cũ. Không đặt cho hero và khối đầu trang (LCP).
+ * Khối chỉ trượt lên, chỉ ảnh bên trong mờ dần: chữ luôn đủ tương phản kể cả khi đang chạy.
+ */
+@utility m-reveal {
+  animation: rise linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 80%;
+
+  & img {
+    animation: fade-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 80%;
+  }
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(16px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Nảy nhẹ khi đổi: số đếm hỏi giá, dấu tick "Đã thêm" */
+@utility m-pop {
+  animation: pop 200ms ease-out;
+}
+
+@keyframes pop {
+  40% {
+    transform: scale(1.2);
+  }
+}
+
+/* View transition (React <ViewTransition>): ảnh thẻ sang ảnh trang chi tiết, lưới lọc đổi kết quả */
+::view-transition-group(*) {
+  animation-duration: 250ms;
+}
+
 /* Dính màn hình: chỉ header (bar-top) và thanh hành động điện thoại (bar-bottom) */
 @utility bar-top {
   position: sticky;
@@ -217,5 +263,11 @@
     animation: none !important;
     transition: none !important;
     transform: none !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

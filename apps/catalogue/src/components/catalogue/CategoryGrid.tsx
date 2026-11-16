@@ -30,7 +30,7 @@ export async function CategoryGrid() {
     <Section heading="Danh mục sản phẩm" headingAside={<p className="text-small text-ink-muted">{`${visible.length} nhóm hàng · ${total} mẫu`}</p>}>
       <ul className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
         {visible.map(({ group, image, count, cheapest, note }) => (
-          <li key={group.slug}>
+          <li key={group.slug} className="m-reveal">
             <Link href={`/danh-muc/${group.slug}`} className="m-lift flex h-full flex-col overflow-hidden rounded-card border border-line hover:border-ink">
               <Photo src={image.src} alt={image.alt} ratio="3/2" sizes="(min-width: 1024px) 300px, 50vw" className="m-zoom" />
               <span className="flex flex-col gap-1 p-4">

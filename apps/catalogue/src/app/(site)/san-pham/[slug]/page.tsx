@@ -50,7 +50,7 @@ export default async function ProductPage({ params }: Props) {
       <Container>
         <Breadcrumb items={crumbs} />
         <div className="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-12">
-          <ProductGallery images={product.images} />
+          <ProductGallery sku={product.sku} images={product.images} />
           <ProductInfo product={product} category={category} />
         </div>
         <section aria-labelledby="thong-so" className="mt-12 max-w-3xl lg:mt-14">

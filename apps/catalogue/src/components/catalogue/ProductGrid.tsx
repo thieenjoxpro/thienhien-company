@@ -10,17 +10,29 @@ const layouts = {
   listing: "grid-cols-2 md:grid-cols-3 xl:grid-cols-4",
 } as const;
 
-/** Lưới thẻ sản phẩm, thẻ cùng hàng cao bằng nhau. `extra` là ô cuối (ví dụ hộp "Không thấy mẫu cần tìm?"). */
-export function ProductGrid({ products, layout = "listing", extra }: { products: CardProduct[]; layout?: keyof typeof layouts; extra?: ReactNode }) {
+interface ProductGridProps {
+  products: CardProduct[];
+  layout?: keyof typeof layouts;
+  /** Ô cuối (ví dụ hộp "Không thấy mẫu cần tìm?"). */
+  extra?: ReactNode;
+  /**
+   * Ảnh thẻ biến sang ảnh trang chi tiết khi bấm (view transition đặt tên theo mã). Chỉ bật cho lưới
+   * mà mỗi mã xuất hiện một lần trên trang: hai phần tử cùng tên thì trình duyệt bỏ cả hiệu ứng.
+   */
+  morph?: boolean;
+}
+
+/** Lưới thẻ sản phẩm, thẻ cùng hàng cao bằng nhau, mỗi thẻ hiện dần khi cuộn tới. */
+export function ProductGrid({ products, layout = "listing", extra, morph = false }: ProductGridProps) {
   return (
     <ul className={cn("grid gap-3 lg:gap-4", layouts[layout])}>
       {products.map((product, index) => (
         // Kệ trang chủ trên điện thoại: 4 thẻ (2 hàng), đủ 6 từ 768px
-        <li key={product.sku} className={layout === "wide" && index >= 4 ? "max-md:hidden" : undefined}>
-          <ProductCard product={product} />
+        <li key={product.sku} className={cn("m-reveal", layout === "wide" && index >= 4 && "max-md:hidden")}>
+          <ProductCard product={product} morph={morph} />
         </li>
       ))}
-      {extra ? <li>{extra}</li> : null}
+      {extra ? <li className="m-reveal">{extra}</li> : null}
     </ul>
   );
 }

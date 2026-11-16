@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { QuoteToggle } from "@/components/quote/QuoteToggle";
 import { Photo } from "@/components/ui/Photo";
 import type { Product } from "@/lib/schema";
@@ -7,18 +8,36 @@ import { Price } from "./Price";
 /** Đủ dữ liệu cho một thẻ; danh sách "Mẫu vừa xem" lưu đúng chừng này trong trình duyệt. */
 export type CardProduct = Pick<Product, "sku" | "slug" | "name" | "images" | "mainSpec" | "priceFrom" | "unit"> & { isNew?: boolean };
 
+/** Tên view transition của ảnh sản phẩm, dùng chung giữa thẻ và ảnh chính trang chi tiết. */
+export const photoTransition = (sku: string) => `anh-${sku}`;
+
 /**
  * Thẻ sản phẩm design 3: viền line bo 6px, hover viền ink. Ô ảnh vuông nền photo, nhãn "Mới",
  * mã, tên, thông số chính, giá, nút thêm vào hỏi giá. Sản phẩm chưa có ảnh thì không có thẻ.
  */
-export function ProductCard({ product, sizes = "(min-width: 1280px) 200px, (min-width: 768px) 25vw, 50vw" }: { product: CardProduct; sizes?: string }) {
+export function ProductCard({
+  product,
+  sizes = "(min-width: 1280px) 200px, (min-width: 768px) 25vw, 50vw",
+  morph = false,
+}: {
+  product: CardProduct;
+  sizes?: string;
+  /** Đặt tên view transition cho ảnh để bấm vào thì ảnh biến sang ảnh trang chi tiết (xem ProductGrid). */
+  morph?: boolean;
+}) {
   const [image] = product.images;
   if (!image) return null;
   const href = `/san-pham/${product.slug}`;
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-card border border-line bg-ground hover:border-ink">
       <Link href={href} tabIndex={-1} aria-hidden className="relative block">
-        <Photo src={image.src} alt="" ratio="1/1" sizes={sizes} className="m-zoom" />
+        {morph ? (
+          <ViewTransition name={photoTransition(product.sku)}>
+            <Photo src={image.src} alt="" ratio="1/1" sizes={sizes} className="m-zoom" />
+          </ViewTransition>
+        ) : (
+          <Photo src={image.src} alt="" ratio="1/1" sizes={sizes} className="m-zoom" />
+        )}
         {product.isNew ? <span className="absolute top-2 left-2 rounded-tag bg-accent px-2 py-1 text-tag font-bold text-on-accent">Mới</span> : null}
       </Link>
       <div className="flex grow flex-col gap-1 px-3 pt-3 pb-3 lg:px-4">
