@@ -83,19 +83,26 @@ describe("catalog ẩn danh mục không còn sản phẩm có ảnh", () => {
   });
 });
 
-describe("catalog trên dữ liệu thật (src/data)", () => {
-  it("chưa có hàng thật: không sản phẩm, không danh mục nào lộ ra trang", async () => {
+describe("catalog khi chưa có hàng", () => {
+  const empty = createCatalog({ categories: fixtureCategories, products: [] });
+  it("không sản phẩm, không danh mục nào lộ ra trang", async () => {
     const sample = (await catalog.getProducts())[0];
     if (!sample) throw new Error("fixture rỗng");
-    expect(await realCatalog.getProducts()).toEqual([]);
-    expect(await realCatalog.getCategories()).toEqual([]);
-    expect(await realCatalog.getCategoryTree()).toEqual([]);
-    expect(await realCatalog.getCategory("pano")).toBeNull(); // có trong categories.json nhưng chưa có hàng
-    expect(await realCatalog.getProduct(sample.slug)).toBeNull();
-    expect(await realCatalog.getProductsByCategory("pano")).toEqual([]);
-    expect(await realCatalog.getRelatedProducts(sample)).toEqual([]);
-    expect(await realCatalog.getFeaturedProducts()).toEqual([]);
-    expect(await realCatalog.getNewProducts()).toEqual([]);
-    expect(await realCatalog.countByCategory()).toEqual({});
+    expect(await empty.getProducts()).toEqual([]);
+    expect(await empty.getCategories()).toEqual([]);
+    expect(await empty.getCategoryTree()).toEqual([]);
+    expect(await empty.getCategory("pano")).toBeNull(); // có trong categories.json nhưng chưa có hàng
+    expect(await empty.getProduct(sample.slug)).toBeNull();
+    expect(await empty.getProductsByCategory("pano")).toEqual([]);
+    expect(await empty.getRelatedProducts(sample)).toEqual([]);
+    expect(await empty.getFeaturedProducts()).toEqual([]);
+    expect(await empty.getNewProducts()).toEqual([]);
+    expect(await empty.countByCategory()).toEqual({});
+  });
+});
+
+describe("catalog trên dữ liệu demo (src/data)", () => {
+  it("mọi mẫu demo đều có ảnh nên đều lên trang", async () => {
+    expect(await realCatalog.getProducts()).toHaveLength(24);
   });
 });

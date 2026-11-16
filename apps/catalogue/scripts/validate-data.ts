@@ -65,6 +65,10 @@ for (const product of products) {
   }
 }
 
+if (production && existsSync(join(dataDir, "DEMO.md"))) {
+  fail(`production: ${join(dataDir, "DEMO.md")} còn đó, dữ liệu và ảnh đang là demo`);
+}
+
 if (production) {
   const withImages = products.filter((p) => p.images.length > 0);
   if (withImages.length < MIN_PRODUCTS_IN_PRODUCTION) {

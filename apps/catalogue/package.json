@@ -16,7 +16,8 @@
     "test:e2e": "playwright test",
     "lhci": "lhci autorun",
     "verify": "pnpm lint && pnpm lint:css && pnpm typecheck && pnpm check:slop && pnpm check:data && pnpm check:dead && pnpm test",
-    "verify:full": "pnpm verify && pnpm build && pnpm test:e2e && pnpm lhci"
+    "verify:full": "pnpm verify && pnpm build && pnpm test:e2e && pnpm lhci",
+    "demo:photos": "node scripts/demo-photos.mjs"
   },
   "dependencies": {
     "@thien-hien/shared": "workspace:*",

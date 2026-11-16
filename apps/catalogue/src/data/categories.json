@@ -30,5 +30,21 @@
     "description": "Mâm cầu thang và lan can, mỗi mẫu có mã, đường kính và độ dày.",
     "image": null,
     "order": 4
+  },
+  {
+    "slug": "ban-le-coi",
+    "name": "Bản lề cối",
+    "parentSlug": "ban-le",
+    "description": "Bản lề cối cho cửa sắt và cổng.",
+    "image": null,
+    "order": 1
+  },
+  {
+    "slug": "ban-le-la",
+    "name": "Bản lề lá",
+    "parentSlug": "ban-le",
+    "description": "Bản lề lá cho cửa sắt.",
+    "image": null,
+    "order": 2
   }
 ]

@@ -14,9 +14,10 @@ export const site = {
   zaloRetail: null as string | null, // null: dùng chung zaloWholesale
   // Ảnh xưởng trong public/workshop (mục 4.3); null thì khối dùng ảnh đó không render ảnh hoặc bị bỏ
   photos: {
-    warehouse: null as SitePhoto | null, // kho hàng hoặc hàng xếp chồng, 4:5, cho hero
-    workshop: null as SitePhoto | null, // máy dập đang chạy, 3:2
-    storefront: null as SitePhoto | null, // mặt tiền xưởng
+    // Đang là ảnh demo (src/data/DEMO.md); thay bằng ảnh thật ở M7
+    warehouse: { src: "/workshop/kho-hang.webp", alt: "Ảnh demo vị trí ảnh kho hàng" } as SitePhoto | null, // kho hàng hoặc hàng xếp chồng, 4:5, cho hero
+    workshop: { src: "/workshop/may-dap.webp", alt: "Ảnh demo vị trí ảnh máy dập" } as SitePhoto | null, // máy dập đang chạy, 3:2
+    storefront: { src: "/workshop/mat-tien.webp", alt: "Ảnh demo vị trí ảnh mặt tiền" } as SitePhoto | null, // mặt tiền xưởng
   },
   workshopText: null as string | null, // 2 đến 3 câu chủ xưởng viết cho khối Xưởng; null thì bỏ khối
   aboutText: null as string | null, // đoạn giới thiệu xưởng do chủ xưởng viết cho /gioi-thieu; null thì trang chỉ có ảnh và liên hệ

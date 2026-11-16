@@ -27,8 +27,19 @@ describe("check:data (scripts/validate-data.ts)", () => {
     expect(status, output).toBe(0);
   });
 
-  it("--production trên dữ liệu thật fail vì chưa đủ 12 sản phẩm có ảnh", () => {
+  it("--production trên dữ liệu demo fail vì src/data/DEMO.md còn", () => {
     const { status, output } = run("--production");
+    expect(status, output).toBe(1);
+    expect(output).toContain("đang là demo");
+  });
+
+  it("--production trên fixture fail khi chưa đủ 12 sản phẩm có ảnh", () => {
+    const few = mkdtempSync(join(tmpdir(), "th-few-"));
+    const products = JSON.parse(readFileSync(join(appRoot, "tests/fixtures/products.json"), "utf8")) as RawProduct[];
+    cpSync(join(appRoot, "tests/fixtures/categories.json"), join(few, "categories.json"));
+    writeFileSync(join(few, "products.json"), JSON.stringify(products.slice(0, 5)));
+    const { status, output } = run("--production", "--data-dir", few, "--image-dir", "tests/fixtures/photos");
+    rmSync(few, { recursive: true, force: true });
     expect(status, output).toBe(1);
     expect(output).toContain("cần ít nhất 12");
   });
