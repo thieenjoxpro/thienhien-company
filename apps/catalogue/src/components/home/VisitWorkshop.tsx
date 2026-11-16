@@ -23,7 +23,7 @@ export function VisitWorkshop() {
   return (
     <section id="xuong" aria-labelledby="ghe-xuong" className="mt-14 border-t border-line bg-surface">
       <Container className="grid gap-8 py-12 lg:grid-cols-2">
-        <div className="flex flex-col gap-5">
+        <div className="m-reveal flex flex-col gap-5">
           <SectionHeading id="ghe-xuong" rule={false}>
             Ghé xưởng xem hàng
           </SectionHeading>
@@ -55,7 +55,7 @@ export function VisitWorkshop() {
             ) : null}
           </div>
         </div>
-        {photo ? <Photo src={photo.src} alt={photo.alt} ratio="3/2" fit="cover" sizes="(min-width: 1024px) 600px, 100vw" className="rounded-card border border-line" /> : null}
+        {photo ? <Photo src={photo.src} alt={photo.alt} ratio="3/2" fit="cover" sizes="(min-width: 1024px) 600px, 100vw" className="m-reveal rounded-card border border-line" /> : null}
       </Container>
     </section>
   );

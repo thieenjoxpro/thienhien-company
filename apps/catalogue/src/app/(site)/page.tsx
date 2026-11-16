@@ -23,7 +23,7 @@ export default async function HomePage() {
   );
   const lastShelf = shelves.findLast((shelf) => shelf.items.length > 0)?.group.slug;
   const shelfList = [
-    { id: "moi", title: "Hàng mới về", products: fresh, more: { href: "/san-pham?sx=moi", label: "Xem tất cả hàng mới" }, subs: [], extra: null },
+    { id: "moi", title: "Hàng mới về", products: fresh, more: { href: "/san-pham?sx=moi", label: "Xem tất cả hàng mới" }, subs: [], extra: null, morph: false },
     ...shelves.map(({ group, items }) => ({
       id: group.slug,
       title: group.name,
@@ -31,6 +31,8 @@ export default async function HomePage() {
       more: { href: `/danh-muc/${group.slug}`, label: `Xem tất cả ${items.length} mẫu` },
       subs: group.children,
       extra: group.slug === lastShelf ? <HelpBox tone="dashed" /> : null,
+      // Hàng mới về lặp mã với kệ nhóm, nên chỉ kệ nhóm mang tên view transition
+      morph: true,
     })),
   ];
 

@@ -15,10 +15,12 @@ interface ProductShelfProps {
   subs?: { slug: string; name: string }[];
   /** Ô cuối lưới (hộp trợ giúp). */
   extra?: ReactNode;
+  /** Ảnh thẻ biến sang trang chi tiết; chỉ bật khi mã không lặp ở kệ khác (xem ProductGrid). */
+  morph?: boolean;
 }
 
 /** Kệ hàng trên trang chủ: tiêu đề khối, danh mục con, tối đa 6 thẻ một hàng. Không có mẫu thì bỏ cả khối. */
-export function ProductShelf({ id, title, products, more, subs = [], extra }: ProductShelfProps) {
+export function ProductShelf({ id, title, products, more, subs = [], extra, morph = false }: ProductShelfProps) {
   if (!products.length) return null;
   return (
     <Section
@@ -35,7 +37,7 @@ export function ProductShelf({ id, title, products, more, subs = [], extra }: Pr
         </div>
       }
     >
-      <ProductGrid products={products} layout="wide" extra={extra} />
+      <ProductGrid products={products} layout="wide" extra={extra} morph={morph} />
     </Section>
   );
 }

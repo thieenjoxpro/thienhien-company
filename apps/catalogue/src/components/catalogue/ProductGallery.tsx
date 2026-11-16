@@ -1,26 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, ViewTransition } from "react";
 import { Photo } from "@/components/ui/Photo";
 import { cn } from "@/lib/cn";
+import { photoTransition } from "./ProductCard";
 
-/** Ảnh chính 1:1 trong khung viền và hàng ảnh nhỏ 96px bấm để đổi (design 3). Không zoom, không lightbox. */
-export function ProductGallery({ images }: { images: { src: string; alt: string }[] }) {
+/**
+ * Ảnh chính 1:1 trong khung viền và hàng ảnh nhỏ 96px bấm để đổi (design 3). Không zoom, không lightbox.
+ * Ảnh chính mang tên view transition theo mã: bấm thẻ ở lưới thì ảnh thẻ biến thành ảnh này.
+ */
+export function ProductGallery({ sku, images }: { sku: string; images: { src: string; alt: string }[] }) {
   const [active, setActive] = useState(0);
   const current = images[active] ?? images[0];
   if (!current) return null;
   return (
     <div className="flex flex-col gap-3">
-      <Photo
-        key={current.src}
-        src={current.src}
-        alt={current.alt}
-        ratio="1/1"
-        sizes="(min-width: 1024px) 600px, 100vw"
-        priority
-        className="rounded-card border border-line"
-      />
+      <ViewTransition name={photoTransition(sku)}>
+        <Photo
+          key={current.src}
+          src={current.src}
+          alt={current.alt}
+          ratio="1/1"
+          sizes="(min-width: 1024px) 600px, 100vw"
+          priority
+          className="rounded-card border border-line"
+        />
+      </ViewTransition>
       {images.length > 1 ? (
         <ul aria-label="Chọn ảnh" className="flex gap-3">
           {images.map((image, index) => (

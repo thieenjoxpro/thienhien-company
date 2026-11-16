@@ -13,7 +13,7 @@ export async function RelatedProducts({ product, group }: { product: Product; gr
       heading={`Cùng nhóm ${group.name.toLowerCase()}`}
       headingAside={<MoreLink href={`/danh-muc/${group.slug}`}>{`Xem tất cả ${all.length} mẫu`}</MoreLink>}
     >
-      <ProductGrid products={related} layout="wide" />
+      <ProductGrid products={related} layout="wide" morph />
     </Section>
   );
 }

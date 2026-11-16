@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { createContext, use, useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, use, useCallback, useDeferredValue, useEffect, useMemo, useState, type ReactNode } from "react";
 import { applyFilters, facetsOf, isFiltered, parseFilters, serializeFilters, type FilterState } from "@/lib/filters";
 import type { Product } from "@/lib/schema";
 
@@ -34,7 +34,9 @@ export function FilterProvider({ products, children }: { products: Product[]; ch
   const query = params.toString();
   const [state, setState] = useState(() => parseFilters(new URLSearchParams(query)));
   useEffect(() => setState(parseFilters(new URLSearchParams(query))), [query]);
-  const results = useMemo(() => applyFilters(products, state), [products, state]);
+  // Ô lọc đổi ngay; lưới đọc giá trị trễ, lần render đó là transition nên <ViewTransition> quanh lưới chạy hiệu ứng
+  const shown = useDeferredValue(state);
+  const results = useMemo(() => applyFilters(products, shown), [products, shown]);
   const facets = useMemo(() => facetsOf(products), [products]);
   const update = useCallback(
     (next: FilterState) => {

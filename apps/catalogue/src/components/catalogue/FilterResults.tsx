@@ -2,7 +2,7 @@
 
 import { X } from "lucide-react";
 import Link from "next/link";
-import { useId, useRef, useState } from "react";
+import { useId, useRef, useState, ViewTransition } from "react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { GROUPS, SORTS, type SortKey } from "@/lib/filters";
@@ -91,7 +91,9 @@ export function FilterResults() {
         </Container>
       </dialog>
       {results.length ? (
-        <ProductGrid products={results.slice(0, shown)} />
+        <ViewTransition>
+          <ProductGrid products={results.slice(0, shown)} morph />
+        </ViewTransition>
       ) : (
         <div className="flex flex-col items-center gap-3 rounded-card border-2 border-dashed border-line-strong px-6 py-10 text-center">
           <p className="text-lead font-bold">Không có mẫu nào khớp với lọc này.</p>
