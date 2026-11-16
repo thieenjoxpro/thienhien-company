@@ -27,10 +27,32 @@ describe("check:data (scripts/validate-data.ts)", () => {
     expect(status, output).toBe(0);
   });
 
-  it("--production trên dữ liệu thật fail vì chưa đủ 12 sản phẩm có ảnh", () => {
+  it("--production trên dữ liệu demo fail vì src/data/DEMO.md còn", () => {
     const { status, output } = run("--production");
     expect(status, output).toBe(1);
+    expect(output).toContain("đang là demo");
+  });
+
+  it("--production trên fixture fail khi chưa đủ 12 sản phẩm có ảnh", () => {
+    const few = mkdtempSync(join(tmpdir(), "th-few-"));
+    const products = JSON.parse(readFileSync(join(appRoot, "tests/fixtures/products.json"), "utf8")) as RawProduct[];
+    cpSync(join(appRoot, "tests/fixtures/categories.json"), join(few, "categories.json"));
+    writeFileSync(join(few, "products.json"), JSON.stringify(products.slice(0, 5)));
+    const { status, output } = run("--production", "--data-dir", few, "--image-dir", "tests/fixtures/photos");
+    rmSync(few, { recursive: true, force: true });
+    expect(status, output).toBe(1);
     expect(output).toContain("cần ít nhất 12");
+  });
+
+  it("bắt site.json sai kiểu (site.config.ts không parse lúc chạy)", () => {
+    const dir = mkdtempSync(join(tmpdir(), "th-site-"));
+    cpSync(join(appRoot, "tests/fixtures/categories.json"), join(dir, "categories.json"));
+    cpSync(join(appRoot, "tests/fixtures/products.json"), join(dir, "products.json"));
+    writeFileSync(join(dir, "site.json"), JSON.stringify({ district: 5, showPrice: "có" }));
+    const { status, output } = run("--data-dir", dir, "--image-dir", "tests/fixtures/photos");
+    rmSync(dir, { recursive: true, force: true });
+    expect(status, output).toBe(1);
+    expect(output).toContain("site.json");
   });
 
   it("bắt mã trùng, danh mục không tồn tại, ảnh thiếu file, thiếu thông số kích thước", () => {

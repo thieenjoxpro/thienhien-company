@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { Section } from "@/components/ui/Section";
-import { ProductCard, type CardProduct } from "./ProductCard";
+import type { CardProduct } from "./ProductCard";
+import { ProductGrid } from "./ProductGrid";
 
 const KEY = "th-recent-v1";
 const KEEP = 8;
-const SHOW = 4;
+const SHOW = 6;
 
 function read(): CardProduct[] {
   try {
@@ -18,7 +19,7 @@ function read(): CardProduct[] {
 }
 
 /**
- * "Mẫu vừa xem" (mục 5.4): tối đa 4 thẻ, không tính mẫu đang xem; rỗng thì ẩn.
+ * "Mẫu vừa xem": tối đa 6 thẻ, không tính mẫu đang xem; rỗng thì ẩn.
  * Lưu trong trình duyệt, đọc sau khi hydrate để không lệch HTML máy chủ.
  */
 export function RecentlyViewed({ current }: { current: CardProduct }) {
@@ -37,13 +38,7 @@ export function RecentlyViewed({ current }: { current: CardProduct }) {
   if (items.length === 0) return null;
   return (
     <Section heading="Mẫu vừa xem">
-      <ul className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-6">
-        {items.map((product) => (
-          <li key={product.sku}>
-            <ProductCard product={product} />
-          </li>
-        ))}
-      </ul>
+      <ProductGrid products={items} layout="wide" />
     </Section>
   );
 }

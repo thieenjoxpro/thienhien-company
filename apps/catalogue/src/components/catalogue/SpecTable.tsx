@@ -8,11 +8,11 @@ export function SpecTable({ sku, specs }: { sku: string; specs: { label: string;
     <table className="w-full border-collapse">
       <tbody>
         {rows.map((row) => (
-          <tr key={row.label} className="border-t border-line last:border-b">
-            <th scope="row" className="w-2/5 py-3 text-left align-baseline text-label text-ink-muted">
+          <tr key={row.label} className="border-b border-line">
+            <th scope="row" className="w-2/5 py-3 text-left align-baseline text-base font-medium text-ink-muted">
               {row.label}
             </th>
-            <td className="py-3 align-baseline font-mono text-spec">{row.value}</td>
+            <td className="py-3 align-baseline text-base font-semibold">{row.value}</td>
           </tr>
         ))}
       </tbody>

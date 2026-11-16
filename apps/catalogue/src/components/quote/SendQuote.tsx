@@ -27,7 +27,7 @@ export function SendQuote({ message, zalo }: { message: string; zalo: string }) 
 
   return (
     <div>
-      <Button variant="primary" onClick={() => void send()}>
+      <Button variant="zalo" onClick={() => void send()}>
         {site.mainAction}
       </Button>
       <div role="status" className="mt-3">
@@ -41,7 +41,7 @@ export function SendQuote({ message, zalo }: { message: string; zalo: string }) 
               aria-label="Tin nhắn hỏi giá"
               value={message}
               rows={message.split("\n").length + 1}
-              className="w-full rounded-btn border border-ink-muted bg-surface p-4 font-mono text-spec"
+              className="w-full rounded-btn border border-ink-muted bg-surface p-4 text-base"
             />
           </>
         ) : null}

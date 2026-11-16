@@ -2,7 +2,7 @@
 import { z } from "zod";
 import policiesJson from "@/data/policies.json";
 
-const PolicySchema = z.object({
+export const PolicySchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
   title: z.string().min(2),
   updatedAt: z.iso.date(),

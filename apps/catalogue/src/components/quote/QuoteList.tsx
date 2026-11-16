@@ -31,7 +31,7 @@ export function QuoteList({ products, zalo }: QuoteListProps) {
     return (
       <div className="flex flex-col items-start gap-6">
         <p>Danh sách chưa có mẫu nào.</p>
-        <Button asChild variant="secondary">
+        <Button asChild variant="outline">
           <Link href="/san-pham">Xem catalogue</Link>
         </Button>
       </div>

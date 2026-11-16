@@ -67,6 +67,15 @@ test("sitemap có trang sản phẩm, danh mục, chính sách, không có /hoi-
   const robots = await (await request.get("/robots.txt")).text();
   expect(robots).toContain(`Sitemap: ${ORIGIN}/sitemap.xml`);
   expect(robots).toContain("Disallow: /hoi-gia");
+  expect(robots).toContain("Disallow: /admin");
+});
+
+test("bản build không có khu quản trị: /admin và trang con trả 404, không lộ form", async ({ page }) => {
+  for (const path of ["/admin", "/admin/san-pham", "/admin/san-pham/TH-BL03", "/admin/xuong"]) {
+    const response = await page.goto(path);
+    expect(response?.status(), path).toBe(404);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Không có trang này");
+  }
 });
 
 test("trang chính sách hiện tiêu đề con và danh sách; footer có cột Chính sách", async ({ page }) => {

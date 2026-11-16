@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "catalogue",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "catalogue", "dev"],
+      "port": 4310
+    }
+  ]
+}

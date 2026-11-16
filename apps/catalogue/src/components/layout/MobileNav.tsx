@@ -8,9 +8,10 @@ import { Container } from "@/components/ui/Container";
 import { telLink, zaloLink } from "@/lib/contact";
 import type { MenuGroup } from "@/lib/menu";
 import { site } from "@/lib/site.config";
+import { Logo } from "./Logo";
 
 const FOCUSABLE = "a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex='-1'])";
-const menuLink = "flex min-h-11 min-w-11 items-center";
+const menuLink = "flex min-h-11 min-w-11 items-center text-base font-semibold";
 
 /**
  * Menu dưới 1024px, mở toàn màn hình bằng <dialog> gốc (lớp trên cùng, không cần position: fixed).
@@ -60,9 +61,9 @@ export function MobileNav({ groups }: { groups: MenuGroup[] }) {
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         onClick={open}
-        className="flex size-11 items-center justify-center lg:hidden"
+        className="flex size-12 items-center justify-center rounded-btn border-2 border-line lg:hidden"
       >
-        <Menu size={20} strokeWidth={1.5} aria-hidden />
+        <Menu size={22} strokeWidth={2} aria-hidden />
       </button>
       <dialog
         ref={dialog}
@@ -74,32 +75,30 @@ export function MobileNav({ groups }: { groups: MenuGroup[] }) {
         className="m-0 size-full max-h-none max-w-none bg-ground p-0 text-ink"
       >
         <Container className="flex h-18 items-center justify-between border-b border-line">
-          <Link href="/" onClick={close} className="flex min-h-11 items-center text-title">
-            {site.name}
-          </Link>
+          <Logo onClick={close} />
           <button type="button" aria-label="Đóng menu" onClick={close} className="flex size-11 items-center justify-center">
-            <X size={20} strokeWidth={1.5} aria-hidden />
+            <X size={22} strokeWidth={2} aria-hidden />
           </button>
         </Container>
         <Container as="nav" aria-label="Menu chính" className="py-8">
           <ul className="mb-8">
             {groups.map((group) => (
               <li key={group.slug}>
-                <Link href={`/danh-muc/${group.slug}`} onClick={close} className={`${menuLink} text-h3`}>
+                <Link href={`/danh-muc/${group.slug}`} onClick={close} className="flex min-h-12 items-center border-b border-line font-display text-h3 uppercase">
                   {group.name}
                 </Link>
               </li>
             ))}
             <li>
-              <Link href="/gioi-thieu" onClick={close} className={`${menuLink} text-h3`}>
-                Xưởng
+              <Link href="/gioi-thieu" onClick={close} className="flex min-h-12 items-center border-b border-line font-display text-h3 uppercase">
+                Giới thiệu xưởng
               </Link>
             </li>
           </ul>
           <ul className="mb-8">
             <li>
-              <Link href="/san-pham" onClick={close} className={menuLink}>
-                Tìm mẫu
+              <Link href="/san-pham?sx=moi" onClick={close} className={menuLink}>
+                Hàng mới về
               </Link>
             </li>
             <li>
@@ -110,14 +109,14 @@ export function MobileNav({ groups }: { groups: MenuGroup[] }) {
           </ul>
           <div className="flex flex-col gap-3">
             {zalo ? (
-              <Button asChild variant="primary">
+              <Button asChild variant="zalo">
                 <a href={zalo} target="_blank" rel="noopener noreferrer">
                   {site.mainAction}
                 </a>
               </Button>
             ) : null}
             {tel ? (
-              <Button asChild variant="secondary">
+              <Button asChild variant="outline">
                 <a href={tel}>Gọi xưởng</a>
               </Button>
             ) : null}

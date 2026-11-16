@@ -1,17 +1,17 @@
+import { CategoryGrid } from "@/components/catalogue/CategoryGrid";
 import { Hero } from "@/components/home/Hero";
-import { CategoryGrid } from "@/components/home/CategoryGrid";
-import { NewProducts } from "@/components/home/NewProducts";
-import { WorkshopSplit } from "@/components/home/WorkshopSplit";
-import { ContactBand } from "@/components/home/ContactBand";
+import { ProductShelf } from "@/components/home/ProductShelf";
+import { QuoteSteps } from "@/components/home/QuoteSteps";
+import { VisitWorkshop } from "@/components/home/VisitWorkshop";
 
 export default function Page() {
   return (
     <main>
       <Hero />
+      <QuoteSteps />
       <CategoryGrid />
-      <NewProducts />
-      <WorkshopSplit />
-      <ContactBand />
+      <ProductShelf />
+      <VisitWorkshop />
     </main>
   );
 }
