@@ -25,7 +25,7 @@ export default async function EditProduct({ params, searchParams }: Props) {
         Sản phẩm
       </Link>
       <div className="mb-8 flex flex-col gap-2 lg:mb-12">
-        <p className="font-mono text-sku text-ink-muted">{product.sku}</p>
+        <p className="text-label font-semibold text-ink-muted">{product.sku}</p>
         <h1 className="text-h2">{product.name}</h1>
         {product.images.length ? (
           <Link href={`/san-pham/${product.slug}`} className="flex min-h-11 items-center underline underline-offset-4">

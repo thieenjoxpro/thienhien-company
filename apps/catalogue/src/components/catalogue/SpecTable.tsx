@@ -1,4 +1,3 @@
-import { cn } from "@/lib/cn";
 // design/components/SpecTable/README.md: hàng mở, kẻ ngang, thứ tự cố định, <th scope="row">
 const ORDER = ["Mã", "Kích thước", "Độ dày", "Vật liệu", "Bề mặt", "Khối lượng", "Đơn vị tính", "Quy cách đóng gói"];
 const rank = (label: string) => (ORDER.includes(label) ? ORDER.indexOf(label) : ORDER.length);
@@ -9,11 +8,11 @@ export function SpecTable({ sku, specs }: { sku: string; specs: { label: string;
     <table className="w-full border-collapse">
       <tbody>
         {rows.map((row) => (
-          <tr key={row.label} className="border-t border-line last:border-b">
-            <th scope="row" className="w-2/5 py-3 text-left align-baseline text-label text-ink-muted">
+          <tr key={row.label} className="border-b border-line">
+            <th scope="row" className="w-2/5 py-3 text-left align-baseline text-base font-medium text-ink-muted">
               {row.label}
             </th>
-            <td className={cn("py-3 align-baseline text-spec", /\d/.test(row.value) && "font-mono")}>{row.value}</td>
+            <td className="py-3 align-baseline text-base font-semibold">{row.value}</td>
           </tr>
         ))}
       </tbody>

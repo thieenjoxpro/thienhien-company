@@ -32,7 +32,7 @@ export function CategoryForm({ category, categories }: { category: Category | nu
         <Textarea label="Mô tả" name="description" rows={2} defaultValue={val("description", category?.description)} error={err("description")} hint="Một câu, tối đa 160 ký tự; hiện dưới tiêu đề trang danh mục." />
         <Input label="Thứ tự" name="order" inputMode="numeric" defaultValue={val("order", category?.order ?? categories.length + 1)} error={err("order")} hint="Số nhỏ đứng trước." className="max-w-xs" />
         <div>
-          <Button variant="primary" type="submit" disabled={pending}>
+          <Button variant="dark" type="submit" disabled={pending}>
             {pending ? "Đang lưu" : "Lưu danh mục"}
           </Button>
         </div>

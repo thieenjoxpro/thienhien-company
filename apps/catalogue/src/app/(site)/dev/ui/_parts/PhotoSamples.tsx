@@ -18,10 +18,10 @@ export async function PhotoSamples() {
         return image ? (
           <li key={product.sku}>
             <Photo src={image.src} alt={image.alt} ratio={ratio} sizes="(min-width: 768px) 33vw, 100vw" />
-            <p className="mt-4 font-mono text-sku text-ink-muted">
+            <p className="mt-4 text-label font-semibold text-ink-muted">
               {product.sku}, tỉ lệ {ratio}
             </p>
-            <p className="text-title">{product.name}</p>
+            <p className="text-lead font-semibold">{product.name}</p>
             <Price priceFrom={index === 2 ? null : product.priceFrom} unit={product.unit} />
           </li>
         ) : null;

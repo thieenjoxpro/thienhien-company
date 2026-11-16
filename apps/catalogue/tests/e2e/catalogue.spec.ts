@@ -7,7 +7,7 @@ const fixture = JSON.parse(readFileSync(new URL("../fixtures/products.json", imp
   images: unknown[];
 }[];
 const visibleSlugs = fixture.filter((p) => p.images.length > 0).map((p) => p.slug);
-const cards = (page: import("@playwright/test").Page) => page.locator("main ul.grid > li");
+const cards = (page: import("@playwright/test").Page) => page.locator("main article");
 
 test.describe("lọc và tìm trên /san-pham", () => {
   test.skip(({ isMobile }) => isMobile, "bộ lọc nằm trên lưới từ 1024px");
@@ -73,18 +73,20 @@ test("dưới 1024px, nút Lọc mẫu mở bảng lọc toàn màn hình", asyn
 });
 
 test.describe("trang chi tiết", () => {
-  test("ở 1440×900, mọi trang chi tiết có bảng thông số từ 2 hàng trong màn hình đầu", async ({ page, isMobile }) => {
+  test("ở 1440×900, mọi trang chi tiết có giá, chip thông số và nút thêm vào hỏi giá trong màn hình đầu", async ({ page, isMobile }) => {
     test.skip(isMobile, "đo ở khổ desktop");
     test.setTimeout(120_000);
     await page.setViewportSize({ width: 1440, height: 900 });
     for (const slug of visibleSlugs) {
       await page.goto(`/san-pham/${slug}`);
-      const rows = await page.locator("main table tr").evaluateAll((list) => list.filter((tr) => tr.getBoundingClientRect().bottom <= 900).length);
-      expect(rows, slug).toBeGreaterThanOrEqual(2);
+      const add = page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá", exact: true });
+      expect((await add.boundingBox())?.y ?? 9999, slug).toBeLessThan(900);
+      await expect(page.getByRole("list", { name: "Thông số chính" }).locator("li").first(), slug).toBeVisible();
+      await expect(page.locator("main table tr").first(), slug).toBeAttached();
     }
   });
 
-  test("đổi ảnh bằng hàng ảnh nhỏ; cùng nhóm có 4 thẻ; mẫu vừa xem ghi lại mẫu trước", async ({ page }) => {
+  test("đổi ảnh bằng hàng ảnh nhỏ; cùng nhóm có tối đa 6 thẻ; mẫu vừa xem ghi lại mẫu trước", async ({ page }) => {
     await page.goto("/san-pham/ban-le-coi-16-ly");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Bản lề cối 16 ly");
     const main = page.locator("main img").first();
@@ -94,7 +96,7 @@ test.describe("trang chi tiết", () => {
     expect(await page.locator("main img").first().getAttribute("src")).not.toBe(before);
 
     const related = page.getByRole("region", { name: "Cùng nhóm bản lề" });
-    await expect(related.locator("li")).toHaveCount(4);
+    await expect(related.locator("article")).toHaveCount(6);
     await expect(page.getByRole("region", { name: "Mẫu vừa xem" })).toHaveCount(0);
 
     await page.goto("/san-pham/pano-dap-o-vuong");

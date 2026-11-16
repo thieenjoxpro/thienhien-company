@@ -26,7 +26,7 @@ export function PolicyForm({ policy }: { policy: Policy | null }) {
         hint='Cách nhau một dòng trống giữa các đoạn. Dòng bắt đầu bằng "## " là tiêu đề nhỏ, "- " là gạch đầu dòng.'
       />
       <div>
-        <Button variant="primary" type="submit" disabled={pending}>
+        <Button variant="dark" type="submit" disabled={pending}>
           {pending ? "Đang lưu" : "Lưu chính sách"}
         </Button>
       </div>

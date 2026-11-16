@@ -44,6 +44,17 @@ describe("check:data (scripts/validate-data.ts)", () => {
     expect(output).toContain("cần ít nhất 12");
   });
 
+  it("bắt site.json sai kiểu (site.config.ts không parse lúc chạy)", () => {
+    const dir = mkdtempSync(join(tmpdir(), "th-site-"));
+    cpSync(join(appRoot, "tests/fixtures/categories.json"), join(dir, "categories.json"));
+    cpSync(join(appRoot, "tests/fixtures/products.json"), join(dir, "products.json"));
+    writeFileSync(join(dir, "site.json"), JSON.stringify({ district: 5, showPrice: "có" }));
+    const { status, output } = run("--data-dir", dir, "--image-dir", "tests/fixtures/photos");
+    rmSync(dir, { recursive: true, force: true });
+    expect(status, output).toBe(1);
+    expect(output).toContain("site.json");
+  });
+
   it("bắt mã trùng, danh mục không tồn tại, ảnh thiếu file, thiếu thông số kích thước", () => {
     const products = JSON.parse(readFileSync(join(appRoot, "tests/fixtures/products.json"), "utf8")) as RawProduct[];
     const [first, second, third, fourth, fifth] = products;

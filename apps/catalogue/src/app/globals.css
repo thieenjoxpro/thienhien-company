@@ -14,73 +14,103 @@
   --shadow-*: initial;
   --breakpoint-*: initial;
   --tracking-*: initial;
-  --color-ground: #e8e8e3;
-  --color-surface: #dcdcd6;
-  --color-ink: #181715;
-  --color-ink-muted: #5c5b55;
-  --color-on-ink: #e8e8e3;
-  --color-on-ink-muted: #a9a9a2;
-  --color-line: #c4c4bd;
-  --color-accent: #bfb21a;
-  --color-accent-strong: #a89c12;
-  --color-on-accent: #181715;
+  --container-*: initial;
+  --color-ground: #fff;
+  --color-surface: #f4f5f7;
+  --color-photo: #eef1f4;
+  --color-ink: #1c2127;
+  --color-ink-soft: #3b4450;
+  --color-ink-muted: #5b6470;
+  --color-line: #dfe3e8;
+  --color-line-strong: #c5ccd3;
+  --color-on-ink: #fff;
+  --color-on-ink-muted: #c9d0d8;
+  --color-on-ink-faint: #a3abb5;
+  --color-ink-line: #2e353d;
+  --color-accent: #f5b301;
+  --color-accent-strong: #dfa200;
+  --color-on-accent: #1c2127;
+  --color-zalo: #0068ff;
+  --color-zalo-strong: #0057d6;
+  --color-link: #0057d6;
   --color-danger: #a3271b;
   --color-success: #1f6b3f;
 
   /* Hai họ chữ: biến --typeface-* do next/font khai trên <html> (src/app/fonts.ts), mỗi subset một họ */
-  --font-sans: var(--typeface-sans-latin), var(--typeface-sans-vietnamese), sans-serif;
-  --font-mono: var(--typeface-mono-latin), var(--typeface-mono-vietnamese), monospace;
+  --font-sans: var(--typeface-sans-latin), var(--typeface-sans-vietnamese), system-ui, sans-serif;
+  --font-display: var(--typeface-display-latin), var(--typeface-display-vietnamese), "Arial Narrow", sans-serif;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
-  --text-display: 38px;
-  --text-display--line-height: 46px;
-  --text-display--letter-spacing: -0.03em;
-  --text-h2: 30px;
-  --text-h2--line-height: 38px;
-  --text-h2--letter-spacing: -0.02em;
-  --text-h3: 24px;
-  --text-h3--line-height: 32px;
-  --text-h3--letter-spacing: -0.01em;
-  --text-title: 18px;
-  --text-title--line-height: 26px;
-  --text-title--font-weight: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Tiêu đề Barlow Condensed (font-display, viết hoa ở component). Cỡ điện thoại ở đây, desktop ở dưới. */
+  --text-hero: 38px;
+  --text-hero--line-height: 40px;
+  --text-h1: 34px;
+  --text-h1--line-height: 36px;
+  --text-h2: 26px;
+  --text-h2--line-height: 28px;
+  --text-h3: 22px;
+  --text-h3--line-height: 24px;
+  --text-price-lg: 40px;
+  --text-price-lg--line-height: 40px;
+  --text-price: 24px;
+  --text-price--line-height: 24px;
+  --text-logo: 28px;
+  --text-logo--line-height: 28px;
+  --text-logo--letter-spacing: 0.02em;
+
+  /* Chữ Be Vietnam Pro */
+  --text-lead: 17px;
+  --text-lead--line-height: 27px;
   --text-body: 16px;
   --text-body--line-height: 26px;
+  --text-base: 15px;
+  --text-base--line-height: 22px;
   --text-small: 14px;
   --text-small--line-height: 22px;
   --text-label: 13px;
-  --text-label--line-height: 18px;
-  --text-label--font-weight: 500;
-  --text-button: 16px;
-  --text-button--line-height: 20px;
-  --text-button--font-weight: 500;
-  --text-sku: 14px;
-  --text-sku--line-height: 20px;
-  --text-sku--font-weight: 500;
-  --text-spec: 16px;
-  --text-spec--line-height: 26px;
-  --text-price: 20px;
-  --text-price--line-height: 28px;
-  --text-price--font-weight: 500;
-  --radius-none: 0px;
-  --radius-btn: 2px;
+  --text-label--line-height: 20px;
+  --text-tag: 12px;
+  --text-tag--line-height: 16px;
+  --text-eyebrow: 13px;
+  --text-eyebrow--line-height: 20px;
+  --text-eyebrow--letter-spacing: 0.06em;
+  --text-eyebrow--font-weight: 700;
+  --radius-tag: 3px;
+  --radius-btn: 4px;
+  --radius-card: 6px;
+  --radius-full: 9999px;
+  --shadow-float: 0 4px 12px rgb(28 33 39 / 25%);
+  --container-page: 1248px;
+  --container-prose: 640px;
+  --container-xs: 320px;
+  --container-md: 448px;
+  --container-lg: 512px;
+  --container-xl: 576px;
+  --container-3xl: 768px;
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
 }
 
-/* Cỡ desktop của bốn kiểu tiêu đề: một chỗ duy nhất, không lặp ở component */
+/* Cỡ desktop của tiêu đề: một chỗ duy nhất, không lặp ở component */
 @media (width >= 1024px) {
   :root {
-    --text-display: 72px;
-    --text-display--line-height: 80px;
-    --text-h2: 48px;
-    --text-h2--line-height: 56px;
-    --text-h3: 28px;
-    --text-h3--line-height: 36px;
-    --text-title: 20px;
-    --text-title--line-height: 28px;
+    --text-hero: 56px;
+    --text-hero--line-height: 57px;
+    --text-h1: 48px;
+    --text-h1--line-height: 48px;
+    --text-h2: 32px;
+    --text-h2--line-height: 32px;
+    --text-h3: 24px;
+    --text-h3--line-height: 26px;
+    --text-price-lg: 44px;
+    --text-price-lg--line-height: 44px;
+    --text-logo: 30px;
+    --text-logo--line-height: 30px;
   }
 }
 
@@ -89,7 +119,6 @@
     background-color: var(--color-ground);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-variant-numeric: tabular-nums;
   }
 
   :focus-visible {
@@ -98,7 +127,8 @@
   }
 
   /* Trên dải tối (footer, dải liên hệ) viền focus màu ink sẽ không thấy */
-  .bg-ink :focus-visible {
+  .bg-ink :focus-visible,
+  .bg-pattern :focus-visible {
     outline-color: var(--color-on-ink);
   }
 }
@@ -147,15 +177,6 @@
   }
 }
 
-/* Chiều cao khối trang chủ: một hoặc hai màn hình (mục 5.2), dùng qua Section screens={1|2} */
-@utility screen-1 {
-  min-height: 100svh;
-}
-
-@utility screen-2 {
-  min-height: 200svh;
-}
-
 /* Dính màn hình: chỉ header (bar-top) và thanh hành động điện thoại (bar-bottom) */
 @utility bar-top {
   position: sticky;
@@ -163,10 +184,10 @@
   z-index: 40;
 }
 
-/* Cột thông tin trang chi tiết dính theo cuộn, dưới header (72px) một khoảng space-6 (mục 5.4) */
+/* Cột thông tin trang chi tiết dính theo cuộn (header không dính nên chỉ chừa 24px) */
 @utility stick-aside {
   position: sticky;
-  top: 96px;
+  top: 24px;
 }
 
 @utility bar-bottom {
@@ -174,6 +195,21 @@
   inset-inline: 0;
   bottom: 0;
   z-index: 50;
+}
+
+/* Hai nút tròn Zalo, Gọi xưởng nổi góc phải dưới, từ 640px (dưới đó là PhoneBar) */
+@utility dock {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 50;
+}
+
+/* Hoa văn pano dập trên nền tối của hero và hộp trợ giúp (public/brand/hoa-van.svg) */
+@utility bg-pattern {
+  background-color: var(--color-ink);
+  background-image: url("/brand/hoa-van.svg");
+  background-size: 96px 96px;
 }
 
 @media (prefers-reduced-motion: reduce) {

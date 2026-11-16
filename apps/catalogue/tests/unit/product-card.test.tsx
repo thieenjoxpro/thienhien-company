@@ -38,11 +38,10 @@ describe("ProductCard", () => {
     state.showPrice = true;
   });
 
-  it("cả thẻ là một link tới trang chi tiết, có mã, tên, thông số chính và giá từ", () => {
+  it("ảnh và tên dẫn tới trang chi tiết; có mã, tên, thông số chính, giá từ và nút thêm vào hỏi giá", () => {
     const html = render();
-    expect(html.match(/<a /g)).toHaveLength(1);
-    expect(html).toContain('href="/san-pham/ban-le-coi-16-ly"');
-    expect(text(html)).toBe("TH-BL03 Bản lề cối 16 ly Ø16 × 100 mm từ 18.000 đ / cái");
+    expect(html.match(/href="\/san-pham\/ban-le-coi-16-ly"/g)).toHaveLength(2);
+    expect(text(html)).toBe("Mới Mã TH-BL03 Bản lề cối 16 ly Ø16 × 100 mm từ 18.000đ /cái Thêm vào hỏi giá : Bản lề cối 16 ly");
   });
 
   it('không có priceFrom thì hiện "Giá theo số lượng"', () => {
@@ -56,10 +55,11 @@ describe("ProductCard", () => {
     expect(html).not.toContain("18.000");
   });
 
-  it("không nút, không badge, chỉ một ảnh", () => {
+  it("một ảnh, một nút; nhãn Mới chỉ khi isNew", () => {
     const html = render();
-    expect(html).not.toContain("<button");
+    expect(html.match(/<button/g)).toHaveLength(1);
     expect(html.match(/<img /g)).toHaveLength(1);
+    expect(text(render({ isNew: false }))).not.toContain("Mới");
   });
 
   it("sản phẩm chưa có ảnh thì không có thẻ", () => {

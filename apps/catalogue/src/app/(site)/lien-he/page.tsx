@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { telLink, zaloLink } from "@/lib/contact";
 import { site } from "@/lib/site.config";
+import { PageTitle } from "@/components/ui/PageTitle";
 
 export const metadata: Metadata = {
   title: "Liên hệ",
@@ -16,7 +17,7 @@ export default function ContactPage() {
   const tel = telLink(site.phone);
   return (
     <Section>
-      <h1 className="mb-8 text-h2 lg:mb-12">Liên hệ xưởng {site.name}</h1>
+      <PageTitle>Liên hệ xưởng {site.name}</PageTitle>
       <dl className="mb-12 grid max-w-3xl gap-6 md:grid-cols-2">
         {site.street ? (
           <div>
@@ -34,7 +35,7 @@ export default function ContactPage() {
           <div>
             <dt className="mb-1 text-label text-ink-muted">Điện thoại</dt>
             <dd>
-              <a href={tel} className="flex min-h-11 items-center font-mono text-price underline underline-offset-4">
+              <a href={tel} className="flex min-h-11 items-center text-price underline underline-offset-4">
                 {site.phone}
               </a>
             </dd>
@@ -43,7 +44,7 @@ export default function ContactPage() {
       </dl>
       <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
         {zalo ? (
-          <Button asChild variant="primary">
+          <Button asChild variant="zalo">
             <a href={zalo} target="_blank" rel="noopener noreferrer">
               {site.mainAction}
             </a>

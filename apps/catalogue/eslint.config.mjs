@@ -43,13 +43,13 @@ export default defineConfig(
             "^(.*:)?animate-(?!none).*", // pulse, bounce, ping, spin
             "^(.*:)?(scale|rotate|skew|-?translate)-.*", // chuyển động chỉ qua m-lift, m-zoom, m-press, m-enter
             "^(.*:)?(transition|duration|ease|delay)(-.*)?$",
-            "^(.*:)?font-(semibold|bold|extrabold|black|light|thin)$",
-            "^(.*:)?(shadow|ring|drop-shadow)(-.*)?$",
-            "^(.*:)?(rounded-full|sticky|fixed)$", // dính chỉ qua utility bar-top, bar-bottom
+            "^(.*:)?font-(extrabold|black|light|thin)$", // design 3 dùng 400 đến 700
+            "^(.*:)?(shadow(?!-float$)|ring|drop-shadow)(-.*)?$", // chỉ shadow-float cho nút nổi
+            "^(.*:)?(sticky|fixed)$", // dính, nổi chỉ qua utility bar-top, bar-bottom, dock, stick-aside
             "^(.*:)?(text|bg|border)-opacity-.*",
             "^(.*:)?(text|bg|border|ring)-[a-z-]+/\\d+$", // pha độ trong suốt
-            "^(.*:)?text-(center|right|justify)$", // toàn site căn trái
-            "^(.*:)?(uppercase|italic|tracking-.*)$", // không nhãn viết hoa; tracking nằm trong token chữ
+            "^(.*:)?text-(right|justify)$", // căn trái; giữa chỉ cho ô trống, số bước
+            "^(.*:)?(italic|tracking-.*)$", // tracking nằm trong token chữ (logo, eyebrow)
             "^(.*:)?border-l-[2-9]$", // thẻ có vạch màu bên trái
           ],
         },
@@ -63,7 +63,7 @@ export default defineConfig(
         { selector: "Literal[value=/\\p{Extended_Pictographic}/u]", message: "Không dùng emoji trong giao diện." },
         {
           selector:
-            "JSXOpeningElement[name.name=/^h[1-6]$/] JSXAttribute[name.name='className'][value.value=/text-(body|sku|spec)/]",
+            "JSXOpeningElement[name.name=/^h[1-6]$/] JSXAttribute[name.name='className'][value.value=/text-(body|small|label|tag)( |$)/]",
           message: "Heading phải dùng kiểu chữ heading.",
         },
       ],

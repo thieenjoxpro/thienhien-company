@@ -9,7 +9,7 @@ export function ConfirmButton({ question, name, value, children }: { question: s
     if (!window.confirm(question)) event.preventDefault();
   };
   return (
-    <Button variant="secondary" type="submit" name={name} value={value} formNoValidate onClick={ask}>
+    <Button variant="outline" type="submit" name={name} value={value} formNoValidate onClick={ask}>
       {children}
     </Button>
   );

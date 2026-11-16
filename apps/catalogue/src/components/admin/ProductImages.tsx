@@ -47,7 +47,7 @@ export function ProductImages({ product }: { product: Product }) {
       ) : null}
       {product.images.length < 6 ? (
         <>
-          <h3 className="mb-4 text-title">Thêm ảnh</h3>
+          <h3 className="mb-4 text-lead font-semibold">Thêm ảnh</h3>
           <ImageUpload action={addProductImage} hidden={{ sku: product.sku }} submitLabel="Tải ảnh lên" />
         </>
       ) : (

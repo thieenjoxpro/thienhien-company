@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/components/catalogue/Breadcrumb";
 import { Section } from "@/components/ui/Section";
 import { getPolicies, getPolicy, parseBlocks } from "@/lib/policies";
+import { PageTitle } from "@/components/ui/PageTitle";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -32,7 +33,7 @@ export default async function PolicyPage({ params }: Props) {
         ]}
       />
       <article className="max-w-3xl">
-        <h1 className="mb-8 text-h2">{policy.title}</h1>
+        <PageTitle>{policy.title}</PageTitle>
         {parseBlocks(policy.body).map((block, index) => {
           if (block.kind === "h2") return <h2 key={index} className="mt-8 mb-3 text-h3">{block.text}</h2>;
           if (block.kind === "ul")

@@ -32,7 +32,7 @@ export function ImageUpload({ action, hidden, alt = "", fileOptional = false, su
       />
       <Input label="Mô tả ảnh" name="alt" defaultValue={state?.values.alt ?? alt} error={state?.errors.alt} hint="Tả thứ có trong ảnh, ví dụ: Bản lề cối Ø16, thép mạ kẽm, nhìn nghiêng." />
       <div>
-        <Button variant="secondary" type="submit" disabled={pending}>
+        <Button variant="outline" type="submit" disabled={pending}>
           {pending ? "Đang tải" : submitLabel}
         </Button>
       </div>

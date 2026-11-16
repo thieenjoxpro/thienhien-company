@@ -6,6 +6,7 @@ import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
 import { CategorySchema, ProductSchema } from "../src/lib/schema";
+import { SiteDataSchema } from "../src/lib/site-schema";
 
 const TOP_LEVEL = ["pano", "ban-le", "ton", "mam-cau-thang"];
 const MIN_PRODUCTS_IN_PRODUCTION = 12;
@@ -42,6 +43,8 @@ if (!hasData) {
 }
 
 const categories = load("categories.json", z.array(CategorySchema)) ?? [];
+// Thông tin xưởng: site.config.ts chỉ ép kiểu (không kéo zod xuống trình duyệt), nên kiểm ở đây
+if (existsSync(join(dataDir, "site.json"))) load("site.json", SiteDataSchema);
 const products = load("products.json", z.array(ProductSchema)) ?? [];
 
 const duplicates = (values: string[]) => values.filter((value, i) => values.indexOf(value) !== i);

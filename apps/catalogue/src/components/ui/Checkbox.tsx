@@ -3,17 +3,17 @@ import { cn } from "@/lib/cn";
 
 interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
   label: string;
-  /** Số mẫu khớp giá trị này (bộ lọc), in kiểu mã. */
+  /** Số mẫu khớp giá trị này (bộ lọc). */
   count?: number;
 }
 
 /** Checkbox gốc của trình duyệt, cả hàng là vùng bấm cao 44px. */
 export function Checkbox({ label, count, className, ...rest }: CheckboxProps) {
   return (
-    <label className={cn("flex min-h-11 cursor-pointer items-center gap-3 text-body", className)}>
+    <label className={cn("flex min-h-11 cursor-pointer items-center gap-3 text-base", className)}>
       <input type="checkbox" className="size-5 shrink-0 accent-ink" {...rest} />
-      <span>{label}</span>
-      {count === undefined ? null : <span className="font-mono text-sku text-ink-muted">{count}</span>}
+      <span className="grow">{label}</span>
+      {count === undefined ? null : <span className="text-label text-ink-muted">{count}</span>}
     </label>
   );
 }

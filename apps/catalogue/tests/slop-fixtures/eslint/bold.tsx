@@ -1,5 +1,5 @@
 // expect: better-tailwindcss/no-restricted-classes
-// expect-message: font-semibold
+// expect-message: font-black
 export function Fixture() {
-  return <div className="font-semibold">Bản lề cối 16 ly</div>;
+  return <div className="font-black">Bản lề cối 16 ly</div>;
 }

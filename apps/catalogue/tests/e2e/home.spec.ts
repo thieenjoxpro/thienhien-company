@@ -10,17 +10,17 @@ const visiblePrimaries = (page: Page) =>
     }).length,
   );
 
-test("h1 gọi tên loại hàng và nơi chốn, chữ bằng Be Vietnam Pro tự host đủ subset tiếng Việt", async ({ page }) => {
+test("h1 gọi tên loại hàng và người mua, tiêu đề bằng Barlow Condensed, chữ thường bằng Be Vietnam Pro, tự host", async ({ page }) => {
   await page.goto("/");
   const heading = page.getByRole("heading", { level: 1 });
-  await expect(heading).toHaveText("Xưởng pano và bản lề cửa sắt ở Bình Tân, TP.HCM");
-  await expect(page.getByText(/^22 mẫu pano, bản lề, tôn và mâm cầu thang/)).toBeVisible();
+  await expect(heading).toHaveText("Pano, bản lề, tôn, mâm cầu thang giá sỉ cho thợ và đại lý");
+  await expect(page.getByText(/^22 mẫu có sẵn mã, kích thước và độ dày/)).toBeVisible();
 
   await page.evaluate(() => document.fonts.ready);
-  // next/font đặt tên họ chữ riêng; họ đầu tiên của h1 phải là font tự host đã tải xong, không phải font dự phòng
+  // next/font đặt tên họ chữ riêng; họ đầu tiên phải là font tự host đã tải xong, không phải font dự phòng
   const loaded = await heading.evaluate((el) => {
     const first = getComputedStyle(el).fontFamily.split(",")[0]?.trim() ?? "";
-    return document.fonts.check(`400 38px ${first}`, "Thiện Hiền") && !/fallback|sans-serif|arial/i.test(first);
+    return document.fonts.check(`700 38px ${first}`, "Thiện Hiền") && !/fallback|sans-serif|arial/i.test(first);
   });
   expect(loaded).toBe(true);
   const fonts = await page.evaluate(() =>
@@ -29,77 +29,85 @@ test("h1 gọi tên loại hàng và nơi chốn, chữ bằng Be Vietnam Pro t�
       .map((entry) => entry.name)
       .filter((name) => name.includes(".woff2")),
   );
-  expect(fonts.some((url) => url.includes("be_vietnam_pro_latin_400"))).toBe(true);
+  expect(fonts.some((url) => url.includes("barlow_condensed_vietnamese_700"))).toBe(true);
   expect(fonts.some((url) => url.includes("be_vietnam_pro_vietnamese_400"))).toBe(true);
   expect(fonts.every((url) => url.startsWith(new URL(page.url()).origin))).toBe(true);
 
   await expectPageBasics(page);
 });
 
-test.describe("trang chủ ở 1440×900 (mục 10, M3)", () => {
+test.describe("trang chủ ở 1440×900 (design 3)", () => {
   test.skip(({ isMobile }) => isMobile, "đo ở khổ desktop");
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
   });
 
-  test("đủ 5 khối đúng thứ tự, mỗi khối cao 900 hoặc 1800px", async ({ page }) => {
-    const blocks = page.locator("main > section");
-    await expect(blocks).toHaveCount(5);
-    const headings = await blocks.evaluateAll((sections) => sections.map((s) => s.querySelector("h1, h2")?.textContent));
+  test("đủ khối đúng thứ tự: hero, 3 bước, danh mục, hàng mới, từng nhóm hàng, ghé xưởng", async ({ page }) => {
+    const headings = await page.locator("main > section").evaluateAll((sections) => sections.map((s) => s.querySelector("h1, h2")?.textContent));
     expect(headings).toEqual([
-      "Xưởng pano và bản lề cửa sắt ở Bình Tân, TP.HCM",
-      "Bốn nhóm hàng",
-      "Mẫu mới về",
-      "Hàng dập tại xưởng",
-      "Bình Tân, TP.HCM",
+      "Pano, bản lề, tôn, mâm cầu thang giá sỉ cho thợ và đại lý",
+      "Hỏi giá trong 3 bước",
+      "Danh mục sản phẩm",
+      "Hàng mới về",
+      "Pano",
+      "Bản lề",
+      "Tôn",
+      "Mâm cầu thang",
+      "Ghé xưởng xem hàng",
     ]);
-    for (const height of await blocks.evaluateAll((sections) => sections.map((s) => s.getBoundingClientRect().height))) {
-      const nearest = height > 1350 ? 1800 : 900;
-      expect(Math.abs(height - nearest), `khối cao ${height}px`).toBeLessThanOrEqual(8);
-    }
   });
 
-  test("mỗi khối có đúng một tiêu đề, ảnh trong khối đã tải (trừ dải liên hệ là khoảnh khắc chữ)", async ({ page }) => {
-    const blocks = await page.locator("main > section").all();
-    for (const [index, block] of blocks.entries()) {
+  test("mỗi khối có đúng một tiêu đề; ảnh trong các kệ hàng đã tải", async ({ page }) => {
+    for (const block of await page.locator("main > section").all()) {
       await block.scrollIntoViewIfNeeded();
       await expect(block.locator("h1, h2")).toHaveCount(1);
-      if (index === blocks.length - 1) continue;
-      const images = block.locator("img");
-      await expect(images.first()).toBeVisible();
+      const images = block.locator("article img");
+      if ((await images.count()) === 0) continue;
       await expect
         .poll(() => images.evaluateAll((list) => list.every((img) => (img as HTMLImageElement).complete && (img as HTMLImageElement).naturalWidth > 0)))
         .toBe(true);
     }
   });
 
-  test("đúng một nút tô màu trong mỗi màn hình", async ({ page }) => {
-    const tops = await page.locator("main > section").evaluateAll((sections) =>
-      sections.map((s) => s.getBoundingClientRect().top + window.scrollY),
-    );
-    for (const top of tops) {
-      await page.evaluate((y) => window.scrollTo(0, y), top);
-      await expect.poll(() => visiblePrimaries(page), { message: `màn hình bắt đầu ở ${top}px` }).toBe(1);
-    }
+  test("nút Zalo của hero mở zalo.me; hai nút nổi Zalo và Gọi xưởng luôn ở góc phải dưới", async ({ page }) => {
+    const hero = page.locator("main > section").first();
+    await expect(hero.locator("[data-primary-action]")).toHaveCount(1);
+    await expect(hero.getByRole("link", { name: "Hỏi giá qua Zalo" })).toHaveAttribute("href", "https://zalo.me/0900000000");
+    await page.mouse.wheel(0, 2400);
+    const zalo = page.getByRole("link", { name: "Nhắn Zalo cho xưởng" });
+    await expect(zalo).toBeInViewport();
+    await expect(page.getByRole("link", { name: "Gọi xưởng", exact: true }).last()).toHaveAttribute("href", "tel:0900000000");
+    expect(await visiblePrimaries(page)).toBeLessThanOrEqual(1);
+  });
+
+  test("bấm Thêm vào hỏi giá trên thẻ thì số đếm trên header tăng, bấm lần nữa thì bỏ", async ({ page }) => {
+    const button = page.getByRole("button", { name: /^Thêm vào hỏi giá\W+Pano dập hoa mai$/ });
+    const count = page.getByRole("link", { name: /^Danh sách hỏi giá, \d+ mẫu$/ });
+    await expect(count).toHaveAccessibleName("Danh sách hỏi giá, 0 mẫu");
+    await button.click();
+    await expect(page.getByRole("button", { name: /^Đã thêm vào hỏi giá\W+Pano dập hoa mai$/ })).toHaveAttribute("aria-pressed", "true");
+    await expect(count).toHaveAccessibleName("Danh sách hỏi giá, 1 mẫu");
+    await page.getByRole("button", { name: /^Đã thêm vào hỏi giá\W+Pano dập hoa mai$/ }).click();
+    await expect(count).toHaveAccessibleName("Danh sách hỏi giá, 0 mẫu");
   });
 });
 
 test.describe("lưới sản phẩm", () => {
   test.skip(({ isMobile }) => isMobile, "tự đổi khổ màn hình");
 
-  test("trang danh sách: 2 cột dưới 768px, 3 cột từ 768px (cạnh cột danh mục 3/12); không cuộn ngang ở 320px", async ({ page }) => {
+  test("trang danh sách: 2 cột dưới 768px, 3 cột từ 768px, 4 cột từ 1280px (cạnh cột lọc); không cuộn ngang ở 320px", async ({ page }) => {
     for (const [width, columns] of [
       [320, 2],
       [390, 2],
       [768, 3],
       [1024, 3],
-      [1280, 3],
-      [1440, 3],
+      [1280, 4],
+      [1440, 4],
     ] as const) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto("/san-pham");
-      const lefts = await page.locator("main ul.grid > li").evaluateAll((items) => new Set(items.map((li) => Math.round(li.getBoundingClientRect().left))).size);
+      const lefts = await page.locator("main article").evaluateAll((items) => new Set(items.map((li) => Math.round(li.getBoundingClientRect().left))).size);
       expect(lefts, `khổ ${width}`).toBe(columns);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(overflow, `khổ ${width} cuộn ngang`).toBeLessThanOrEqual(0);
@@ -110,9 +118,10 @@ test.describe("lưới sản phẩm", () => {
 test("trang danh mục có breadcrumb, gồm hàng của danh mục con; danh mục lạ trả 404", async ({ page }) => {
   await page.goto("/danh-muc/ban-le");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Bản lề");
+  await expect(page.getByRole("link", { name: /^Bản lề cối 4 mẫu$/ })).toHaveAttribute("href", "/danh-muc/ban-le-coi");
   await expect(page.getByRole("navigation", { name: "Đường dẫn" }).getByRole("link", { name: "Trang chủ" })).toBeVisible();
   await expect(page.getByText("8 mẫu", { exact: true })).toBeVisible();
-  await expect(page.locator("main ul.grid > li")).toHaveCount(8);
+  await expect(page.locator("main article")).toHaveCount(8);
 
   await page.goto("/danh-muc/ban-le-coi");
   await expect(page.getByRole("navigation", { name: "Đường dẫn" }).getByRole("link", { name: "Bản lề" })).toBeVisible();
@@ -139,7 +148,13 @@ test("chụp trang chủ, cửa hàng cho người duyệt (test-results/review)
     ]) {
       await page.goto(path ?? "/");
       await page.evaluate(() => document.fonts.ready);
-      for (const img of await page.locator("main img").all()) await img.scrollIntoViewIfNeeded();
+      // Cuộn dần xuống cuối để ảnh lười tải hết, rồi về đầu trang mới chụp
+      await page.evaluate(async () => {
+        for (let y = 0; y < document.body.scrollHeight; y += 600) {
+          window.scrollTo(0, y);
+          await new Promise((resolve) => setTimeout(resolve, 60));
+        }
+      });
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.screenshot({ path: `test-results/review/${name}-${width}.png`, fullPage: true });
     }

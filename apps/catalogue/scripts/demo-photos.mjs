@@ -1,5 +1,6 @@
-// Vẽ ảnh demo cho catalogue khi chưa có ảnh thật (M7). Mỗi ảnh ghi rõ "Ảnh demo", mã và tên hàng,
-// kèm hình vẽ nét đơn giản theo nhóm hàng. Chạy bằng Chromium của Playwright, xuất webp qua canvas.
+// Ảnh demo cho catalogue khi chưa có ảnh thật (M7). Ảnh sản phẩm: hình vẽ minh hoạ của design 3
+// (scripts/demo-art/*.svg, lấy từ artifact design) render ra webp nền trong 1200px. Ảnh xưởng: hình vẽ
+// nét ghi rõ "Ảnh demo". Chạy bằng Chromium của Playwright, xuất webp qua canvas.
 //
 //   node scripts/demo-photos.mjs            vẽ lại toàn bộ ảnh demo vào public/products và public/workshop
 //
@@ -16,21 +17,24 @@ const parentOf = new Map(categories.map((c) => [c.slug, c.parentSlug]));
 const topOf = (slug) => (parentOf.get(slug) ? topOf(parentOf.get(slug)) : slug);
 const font = (file) => readFileSync(join(root, "src/fonts", file)).toString("base64");
 
+// Mã hàng -> hình vẽ trong scripts/demo-art (bản lề cối, bản lề lá dùng chung một hình mỗi loại)
+const ART = {
+  "TH-PN01": "pano-o-vuong", "TH-PN02": "pano-hoa-mai", "TH-PN03": "pano-la-cay", "TH-PN04": "pano-trong-dong",
+  "TH-PN05": "pano-song-nuoc", "TH-PN06": "pano-chu-tho",
+  "TH-BL01": "ban-le-coi", "TH-BL02": "ban-le-coi", "TH-BL03": "ban-le-coi", "TH-BL04": "ban-le-coi",
+  "TH-BL05": "ban-le-la", "TH-BL06": "ban-le-la", "TH-BL07": "ban-le-la", "TH-BL08": "ban-le-la",
+  "TH-TN01": "ton-song-vuong", "TH-TN02": "ton-phang", "TH-TN03": "ton-song-ngoi", "TH-TN04": "ton-cuon", "TH-TN05": "ton-mang-xoi",
+  "TH-MC01": "mam-vuong", "TH-MC02": "mam-tron", "TH-MC03": "mam-chan-tru", "TH-MC04": "mam-inox", "TH-MC05": "mam-bat-giac",
+};
+const fallbackArt = { pano: "pano-o-vuong", "ban-le": "ban-le-coi", ton: "ton-song-vuong", "mam-cau-thang": "mam-tron" };
+const svgJobs = products.flatMap((product) =>
+  product.images.map((image) => ({
+    out: join(root, "public", image.src),
+    svg: readFileSync(join(root, "scripts/demo-art", `${ART[product.sku] ?? fallbackArt[topOf(product.categorySlug)] ?? "pano-o-vuong"}.svg`), "utf8"),
+  })),
+);
+
 const jobs = [];
-for (const product of products) {
-  product.images.forEach((image, index) => {
-    jobs.push({
-      out: join(root, "public", image.src),
-      width: 1600,
-      height: 1600,
-      shape: topOf(product.categorySlug),
-      angle: index,
-      code: product.sku,
-      title: product.name,
-      note: product.mainSpec,
-    });
-  });
-}
 jobs.push(
   { out: join(root, "public/workshop/kho-hang.webp"), width: 1600, height: 2000, shape: "kho", code: "Kho hàng", title: "Ảnh xưởng thật thay vào đây", note: "Tỉ lệ 4:5" },
   { out: join(root, "public/workshop/may-dap.webp"), width: 2400, height: 1600, shape: "may", code: "Máy dập", title: "Ảnh xưởng thật thay vào đây", note: "Tỉ lệ 3:2" },
@@ -122,10 +126,10 @@ function draw(job) {
   const unit = Math.min(w, h) / 1600;
   g.textBaseline = "alphabetic";
   g.fillStyle = muted;
-  g.font = `500 ${40 * unit}px Mono`;
+  g.font = `700 ${40 * unit}px Mono`;
   g.fillText("Ảnh demo", left, h * 0.08);
   g.fillStyle = ink;
-  g.font = `500 ${72 * unit}px Mono`;
+  g.font = `700 ${72 * unit}px Mono`;
   g.fillText(job.code, left, h - 200 * unit);
   g.font = `400 ${56 * unit}px Sans`;
   g.fillText(job.title, left, h - 120 * unit);
@@ -140,16 +144,30 @@ const page = await browser.newPage();
 await page.setContent(`<style>
 @font-face{font-family:Sans;src:url(data:font/woff2;base64,${font("be-vietnam-pro-latin-400-normal.woff2")});font-weight:400}
 @font-face{font-family:Sans;src:url(data:font/woff2;base64,${font("be-vietnam-pro-vietnamese-400-normal.woff2")});font-weight:400;unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB}
-@font-face{font-family:Mono;src:url(data:font/woff2;base64,${font("ibm-plex-mono-latin-500-normal.woff2")});font-weight:500}
-@font-face{font-family:Mono;src:url(data:font/woff2;base64,${font("ibm-plex-mono-vietnamese-500-normal.woff2")});font-weight:500;unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB}
-</style><p style="font-family:Sans">ẢẢ</p><p style="font-family:Mono;font-weight:500">ẢẢ</p>`);
+@font-face{font-family:Mono;src:url(data:font/woff2;base64,${font("barlow-condensed-latin-700-normal.woff2")});font-weight:700}
+@font-face{font-family:Mono;src:url(data:font/woff2;base64,${font("barlow-condensed-vietnamese-700-normal.woff2")});font-weight:700;unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB}
+</style><p style="font-family:Sans">ẢẢ</p><p style="font-family:Mono;font-weight:700">ẢẢ</p>`);
 await page.evaluate(async () => {
-  await Promise.all([document.fonts.load("400 20px Sans", "Ảnh"), document.fonts.load("500 20px Mono", "Ảnh")]);
+  await Promise.all([document.fonts.load("400 20px Sans", "Ảnh"), document.fonts.load("700 20px Mono", "Ảnh")]);
 });
+for (const job of svgJobs) {
+  const dataUrl = await page.evaluate(async (svg) => {
+    const img = new Image();
+    img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+    await img.decode();
+    const canvas = document.createElement("canvas");
+    canvas.width = 1200;
+    canvas.height = 1200;
+    canvas.getContext("2d").drawImage(img, 0, 0, 1200, 1200);
+    return canvas.toDataURL("image/webp", 0.9);
+  }, job.svg);
+  mkdirSync(dirname(job.out), { recursive: true });
+  writeFileSync(job.out, Buffer.from(dataUrl.split(",")[1], "base64"));
+}
 for (const job of jobs) {
   const dataUrl = await page.evaluate(draw, job);
   mkdirSync(dirname(job.out), { recursive: true });
   writeFileSync(job.out, Buffer.from(dataUrl.split(",")[1], "base64"));
 }
 await browser.close();
-console.log(`demo-photos: ${jobs.length} ảnh`);
+console.log(`demo-photos: ${svgJobs.length} ảnh sản phẩm, ${jobs.length} ảnh xưởng`);

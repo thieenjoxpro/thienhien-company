@@ -26,7 +26,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     <>
       <header className="border-b border-line">
         <Container className="flex flex-wrap items-center gap-x-6 py-3">
-          <Link href="/admin" className="mr-6 flex min-h-11 items-center text-title">
+          <Link href="/admin" className="mr-6 flex min-h-11 items-center text-lead font-semibold">
             Quản trị
           </Link>
           <nav aria-label="Khu quản trị" className="grow">

@@ -14,7 +14,7 @@ export function SpecFields({ specs, values, error }: Props) {
   const rows = Math.min(SPEC_ROWS, Math.max(specs.length + 3, 5));
   return (
     <fieldset>
-      <legend className="mb-2 text-title">Thông số</legend>
+      <legend className="mb-2 text-lead font-semibold">Thông số</legend>
       <p className="mb-4 text-ink-muted">Cần dòng tên &quot;Kích thước&quot; hoặc &quot;Độ dày&quot;. Dòng để trống sẽ bị bỏ.</p>
       <div className="flex flex-col gap-3">
         {Array.from({ length: rows }, (_, i) => (

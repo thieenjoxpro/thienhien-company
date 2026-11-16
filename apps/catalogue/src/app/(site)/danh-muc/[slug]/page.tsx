@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Listing } from "@/components/catalogue/Listing";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbLd } from "@/lib/seo";
-import { getCategories, getCategory, getProductsByCategory } from "@/lib/catalog";
+import { getCategories, getCategory, getCategoryTree, getProductsByCategory } from "@/lib/catalog";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -23,14 +23,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     : {};
 }
 
-// Trang danh mục (mục 5.3): cột danh mục, tìm, lọc, sắp xếp trong nhóm.
+// Trang danh mục (design 3): cột danh mục và lọc, danh mục con, tìm, lọc, sắp xếp trong nhóm.
 export default async function CategoryPage({ params }: Props) {
   const category = await getCategory((await params).slug);
   if (!category) notFound();
-  const [products, parent] = await Promise.all([
+  const [products, parent, tree] = await Promise.all([
     getProductsByCategory(category.slug),
     category.parentSlug ? getCategory(category.parentSlug) : null,
+    getCategoryTree(),
   ]);
+  const children = tree.find((node) => node.slug === category.slug)?.children ?? [];
+  const subs = children.map((child) => {
+    const items = products.filter((p) => p.categorySlug === child.slug);
+    return { slug: child.slug, name: child.name, count: items.length, image: items[0]?.images[0] ?? null };
+  });
   const crumbs = [
     { name: "Trang chủ", href: "/" },
     ...(parent ? [{ name: parent.name, href: `/danh-muc/${parent.slug}` }] : []),
@@ -38,7 +44,7 @@ export default async function CategoryPage({ params }: Props) {
   ];
   return (
     <>
-      <Listing crumbs={crumbs} title={category.name} products={products} current={category.slug} />
+      <Listing crumbs={crumbs} title={category.name} description={category.description} products={products} current={category.slug} subs={subs} />
       <JsonLd data={breadcrumbLd(crumbs)} />
     </>
   );

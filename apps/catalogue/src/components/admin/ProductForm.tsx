@@ -29,7 +29,7 @@ export function ProductForm({ product, categories }: Props) {
     <form key={state?.nonce} action={action} noValidate className="flex max-w-3xl flex-col gap-6">
       <input type="hidden" name="originalSku" value={product?.sku ?? ""} />
       <div className="grid gap-6 sm:grid-cols-2">
-        <Input label="Mã hàng" name="sku" defaultValue={val("sku", product?.sku)} error={err("sku")} hint="Dạng TH-BL03, trùng mã trong app quản lý." className="font-mono" />
+        <Input label="Mã hàng" name="sku" defaultValue={val("sku", product?.sku)} error={err("sku")} hint="Dạng TH-BL03, trùng mã trong app quản lý." />
         <Select label="Danh mục" name="categorySlug" defaultValue={val("categorySlug", product?.categorySlug)} error={err("categorySlug")}>
           <option value="">Chọn danh mục</option>
           {tops.map((top) => [
@@ -59,7 +59,7 @@ export function ProductForm({ product, categories }: Props) {
       </div>
       <SpecFields specs={product?.specs ?? []} values={state?.values} error={err("specs")} />
       <fieldset className="grid gap-6 sm:grid-cols-3">
-        <legend className="mb-4 text-title">Bộ lọc</legend>
+        <legend className="mb-4 text-lead font-semibold">Bộ lọc</legend>
         <Input label="Độ dày (mm)" name="thicknessMm" inputMode="decimal" defaultValue={val("thicknessMm", product?.filters.thicknessMm?.toString().replace(".", ","))} error={err("filters")} />
         <Input label="Vật liệu" name="material" defaultValue={val("material", product?.filters.material)} />
         <Input label="Bề mặt" name="finish" defaultValue={val("finish", product?.filters.finish)} />
@@ -75,7 +75,7 @@ export function ProductForm({ product, categories }: Props) {
         </p>
       ) : null}
       <div>
-        <Button variant="primary" type="submit" disabled={pending}>
+        <Button variant="dark" type="submit" disabled={pending}>
           {pending ? "Đang lưu" : product ? "Lưu thay đổi" : "Lưu sản phẩm"}
         </Button>
       </div>
