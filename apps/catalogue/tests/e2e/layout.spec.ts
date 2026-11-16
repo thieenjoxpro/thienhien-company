@@ -53,7 +53,7 @@ test.describe("bảng nhóm hàng trên header", () => {
     await page.goto("/");
     const nav = page.getByRole("banner").getByRole("navigation", { name: "Điều hướng chính" });
     await nav.getByRole("link", { name: "Pano", exact: true }).hover();
-    const panelLink = nav.getByRole("link", { name: /Tất cả 6 mẫu pano/ });
+    const panelLink = nav.getByRole("link", { name: "Xem tất cả 6 mẫu" });
     await expect(panelLink).toBeVisible();
     await expect(nav.locator("img")).toHaveCount(3);
     await page.mouse.move(640, 700);
@@ -91,7 +91,7 @@ test("hai lề của header, các khối và footer trùng nhau từng pixel ở
     expect(edges.length, `khổ ${width}: thiếu khung để đo`).toBeGreaterThanOrEqual(3);
     const [first] = edges;
     for (const edge of edges) expect(edge, `khổ ${width}: lề lệch`).toEqual(first);
-    const expectedLeft = width >= 1024 ? Math.max(48, (width - 1280) / 2) : 16;
+    const expectedLeft = width >= 1024 ? Math.max(32, (width - 1248) / 2) : 16;
     expect(first?.[0], `khổ ${width}: lề trái`).toBe(expectedLeft);
   }
 });

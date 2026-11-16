@@ -19,12 +19,12 @@ test("thêm 2 mẫu từ hai trang chi tiết, sửa số lượng, gửi: clipb
 
   await page.goto("/san-pham/ban-le-coi-16-ly");
   await page.getByRole("spinbutton", { name: "Số lượng (cái)" }).fill("50");
-  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá" }).click();
-  await expect(page.getByRole("status").filter({ hasText: "Đã thêm TH-BL03 vào danh sách hỏi giá." })).toBeVisible();
-  await expect(page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá" })).toBeVisible(); // nút giữ nguyên nhãn
+  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá", exact: true }).click();
+  await expect(page.getByRole("status").filter({ hasText: "Đã thêm TH-BL03 (50 cái) vào danh sách hỏi giá." })).toBeVisible();
+  await expect(page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá", exact: true })).toBeVisible(); // nút giữ nguyên nhãn
 
   await page.goto("/san-pham/pano-dap-o-vuong");
-  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá" }).click();
+  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá", exact: true }).click();
   await page.getByRole("link", { name: "Xem danh sách hỏi giá" }).click();
 
   await expect(page).toHaveURL(/\/hoi-gia$/);
@@ -69,7 +69,7 @@ test("số lượng ngoài 1 đến 9999 báo lỗi dưới ô; bỏ hết mẫu
   await expect(page.getByText("Số lượng từ 1 đến 9999.")).toBeVisible();
   await expect(qty).toHaveAttribute("aria-invalid", "true");
   await qty.fill("3");
-  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá" }).click();
+  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá", exact: true }).click();
 
   await page.goto("/hoi-gia");
   await page.getByRole("button", { name: "Bỏ mẫu này" }).click();
@@ -77,21 +77,20 @@ test("số lượng ngoài 1 đến 9999 báo lỗi dưới ô; bỏ hết mẫu
   await expect(page.getByRole("link", { name: "Xem catalogue" })).toHaveAttribute("href", "/san-pham");
 });
 
-test("số mẫu trên header tăng khi thêm (từ 1024px)", async ({ page, isMobile }) => {
-  test.skip(isMobile, "link danh sách hỏi giá trên header chỉ có từ 1024px");
+test("số mẫu trên header tăng khi thêm", async ({ page }) => {
   await page.goto("/san-pham/ton-phang-1-ly");
-  const link = page.getByRole("banner").getByRole("link", { name: /Danh sách hỏi giá/ });
-  await expect(link).toHaveText("Danh sách hỏi giá");
-  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá" }).click();
-  await expect(link).toHaveText(/Danh sách hỏi giá\s*1 mẫu/);
+  const link = page.getByRole("banner").getByRole("link", { name: /^Danh sách hỏi giá, \d+ mẫu$/ });
+  await expect(link).toHaveAccessibleName("Danh sách hỏi giá, 0 mẫu");
+  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá", exact: true }).click();
+  await expect(link).toHaveAccessibleName("Danh sách hỏi giá, 1 mẫu");
 });
 
 test("chụp trang hỏi giá cho người duyệt", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop", "chụp một lần");
   await page.goto("/san-pham/ban-le-coi-16-ly");
-  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá" }).click();
+  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá", exact: true }).click();
   await page.goto("/san-pham/mam-cau-thang-tron");
-  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá" }).click();
+  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá", exact: true }).click();
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/hoi-gia");

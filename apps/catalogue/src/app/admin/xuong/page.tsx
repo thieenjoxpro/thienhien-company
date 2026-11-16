@@ -35,7 +35,7 @@ export default async function AdminSite({ searchParams }: Props) {
             return (
               <li key={slot} className="grid gap-6 border-t border-line py-8 sm:grid-cols-3">
                 <div>
-                  <h3 className="mb-2 text-title">{label}</h3>
+                  <h3 className="mb-2 text-lead font-semibold">{label}</h3>
                   <p className="mb-4 text-small text-ink-muted">{note}</p>
                   {photo ? <Photo src={photo.src} alt={photo.alt} ratio={ratio} sizes="240px" /> : <p className="text-ink-muted">Chưa có ảnh; khối dùng ảnh này đang bị bỏ.</p>}
                 </div>

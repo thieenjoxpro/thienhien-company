@@ -3,72 +3,103 @@ import { Container } from "@/components/ui/Container";
 import { getMenuGroups } from "@/lib/menu";
 import { getPolicies } from "@/lib/policies";
 import { site } from "@/lib/site.config";
+import { Logo } from "./Logo";
 
-const footerLink = "flex min-h-11 min-w-11 items-center underline underline-offset-4";
+const footerLink = "flex min-h-11 items-center text-small text-on-ink-muted hover:text-on-ink";
+const columnTitle = "mb-3 text-eyebrow text-on-ink uppercase";
 
 /**
- * Footer nền ink (mục 5.1): cột xưởng, cột nhóm hàng; hàng cuối tên xưởng và năm.
- * Cột nào chưa có dữ kiện thì không render.
+ * Footer nền ink bốn cột (design 3): xưởng, sản phẩm, hỗ trợ khách, liên hệ xưởng; hàng bản quyền.
+ * Dòng liên hệ nào chưa có dữ kiện thì không render, cả cột trống thì bỏ cột.
  */
 export async function Footer() {
   const [groups, policies] = await Promise.all([getMenuGroups(), getPolicies()]);
-  const hasWorkshop = Boolean(site.street ?? site.openingHours ?? site.mapUrl);
+  const contact = [
+    site.street && ["Địa chỉ", site.street],
+    site.phone && ["Hotline", site.phone],
+    site.zaloWholesale && ["Zalo sỉ", site.zaloWholesale],
+    site.openingHours && ["Giờ mở cửa", site.openingHours],
+  ].filter((row): row is [string, string] => Boolean(row));
 
   return (
-    <footer className="bg-ink py-12 text-on-ink lg:py-24">
-      <Container>
-        <div className="grid gap-12 md:grid-cols-3">
-          {hasWorkshop ? (
-            <section aria-labelledby="footer-xuong">
-              <h2 id="footer-xuong" className="mb-4 text-label text-on-ink-muted">
-                Xưởng
-              </h2>
-              {site.street ? <p>{site.street}</p> : null}
-              {site.openingHours ? <p>{site.openingHours}</p> : null}
-              {site.mapUrl ? (
-                <a href={site.mapUrl} target="_blank" rel="noopener noreferrer" className={footerLink}>
-                  Chỉ đường tới xưởng
-                </a>
-              ) : null}
-            </section>
-          ) : null}
-          {groups.length ? (
-            <nav aria-labelledby="footer-nhom-hang">
-              <h2 id="footer-nhom-hang" className="mb-4 text-label text-on-ink-muted">
-                Nhóm hàng
-              </h2>
-              <ul>
-                {groups.map((group) => (
-                  <li key={group.slug}>
-                    <Link href={`/danh-muc/${group.slug}`} className={footerLink}>
-                      {group.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ) : null}
-          {policies.length ? (
-            <nav aria-labelledby="footer-chinh-sach">
-              <h2 id="footer-chinh-sach" className="mb-4 text-label text-on-ink-muted">
-                Chính sách
-              </h2>
-              <ul>
-                {policies.map((policy) => (
-                  <li key={policy.slug}>
-                    <Link href={`/chinh-sach/${policy.slug}`} className={footerLink}>
-                      {policy.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ) : null}
+    <footer className="mt-14 bg-ink text-on-ink-muted">
+      <Container className="grid gap-x-12 gap-y-8 py-12 md:grid-cols-2 lg:grid-cols-12">
+        <div className="flex flex-col gap-4 lg:col-span-4">
+          <Logo tone="dark" />
+          <p className="max-w-xs text-small">
+            Catalogue pano, bản lề, tôn và mâm cầu thang của xưởng {site.name}
+            {site.district ? ` ở ${site.district}` : ""}.
+          </p>
         </div>
-        <p className="mt-12 text-small text-on-ink-muted">
-          {site.name}, {new Date().getFullYear()}
-        </p>
+        {groups.length ? (
+          <nav aria-labelledby="footer-san-pham" className="lg:col-span-2">
+            <h2 id="footer-san-pham" className={columnTitle}>
+              Sản phẩm
+            </h2>
+            <ul>
+              {groups.flatMap((group) => [group, ...group.children]).map((category) => (
+                <li key={category.slug}>
+                  <Link href={`/danh-muc/${category.slug}`} className={footerLink}>
+                    {category.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ) : null}
+        <nav aria-labelledby="footer-ho-tro" className="lg:col-span-2">
+          <h2 id="footer-ho-tro" className={columnTitle}>
+            Hỗ trợ khách
+          </h2>
+          <ul>
+            <li>
+              <Link href="/#cach-hoi-gia" className={footerLink}>
+                Cách hỏi giá sỉ
+              </Link>
+            </li>
+            <li>
+              <Link href="/hoi-gia" className={footerLink}>
+                Danh sách hỏi giá
+              </Link>
+            </li>
+            {policies.map((policy) => (
+              <li key={policy.slug}>
+                <Link href={`/chinh-sach/${policy.slug}`} className={footerLink}>
+                  {policy.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        {contact.length || site.mapUrl ? (
+          <section aria-labelledby="footer-lien-he" className="lg:col-span-4">
+            <h2 id="footer-lien-he" className={columnTitle}>
+              Liên hệ xưởng
+            </h2>
+            <dl className="flex flex-col gap-2 text-small">
+              {contact.map(([label, value]) => (
+                <div key={label}>
+                  <dt className="inline">{label}: </dt>
+                  <dd className="inline text-on-ink">{value}</dd>
+                </div>
+              ))}
+            </dl>
+            {site.mapUrl ? (
+              <a href={site.mapUrl} target="_blank" rel="noopener noreferrer" className={`${footerLink} underline underline-offset-4`}>
+                Chỉ đường tới xưởng
+              </a>
+            ) : null}
+          </section>
+        ) : null}
       </Container>
+      <div className="border-t border-ink-line">
+        <Container className="flex flex-wrap justify-between gap-3 py-4 text-label text-on-ink-faint">
+          <p>
+            Xưởng {site.name}, {new Date().getFullYear()}
+          </p>
+          {site.district ? <p>{site.district}</p> : null}
+        </Container>
+      </div>
     </footer>
   );
 }

@@ -33,7 +33,7 @@ export function SiteForm({ site }: { site: SiteData }) {
       <Textarea label="Đoạn giới thiệu" name="aboutText" rows={5} defaultValue={val("aboutText")} hint="Hiện ở trang Giới thiệu. Để trống thì trang chỉ có ảnh và liên hệ." />
       <Checkbox label="Hiện giá lẻ trên site" name="showPrice" defaultChecked={state ? state.values.showPrice === "on" : site.showPrice} />
       <div>
-        <Button variant="primary" type="submit" disabled={pending}>
+        <Button variant="dark" type="submit" disabled={pending}>
           {pending ? "Đang lưu" : "Lưu thông tin xưởng"}
         </Button>
       </div>

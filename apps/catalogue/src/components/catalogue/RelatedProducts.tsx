@@ -1,21 +1,19 @@
 import { Section } from "@/components/ui/Section";
-import { getRelatedProducts } from "@/lib/catalog";
+import { MoreLink } from "@/components/ui/SectionHeading";
+import { getProductsByCategory, getRelatedProducts } from "@/lib/catalog";
 import type { Product } from "@/lib/schema";
-import { ProductCard } from "./ProductCard";
+import { ProductGrid } from "./ProductGrid";
 
-/** "Cùng nhóm {tên nhóm}" (mục 5.4): 4 thẻ cùng nhóm hàng; không có thì ẩn. */
-export async function RelatedProducts({ product, groupName }: { product: Product; groupName: string }) {
-  const related = await getRelatedProducts(product, 4);
+/** "Cùng nhóm {tên nhóm}" (design 3): tối đa 6 thẻ cùng nhóm hàng, link xem tất cả; không có thì ẩn. */
+export async function RelatedProducts({ product, group }: { product: Product; group: { slug: string; name: string } }) {
+  const [related, all] = await Promise.all([getRelatedProducts(product, 6), getProductsByCategory(group.slug)]);
   if (related.length === 0) return null;
   return (
-    <Section heading={`Cùng nhóm ${groupName.toLowerCase()}`}>
-      <ul className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-6">
-        {related.map((item) => (
-          <li key={item.sku}>
-            <ProductCard product={item} />
-          </li>
-        ))}
-      </ul>
+    <Section
+      heading={`Cùng nhóm ${group.name.toLowerCase()}`}
+      headingAside={<MoreLink href={`/danh-muc/${group.slug}`}>{`Xem tất cả ${all.length} mẫu`}</MoreLink>}
+    >
+      <ProductGrid products={related} layout="wide" />
     </Section>
   );
 }

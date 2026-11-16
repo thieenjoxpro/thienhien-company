@@ -4,6 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { getProducts } from "@/lib/catalog";
 import { zaloLink } from "@/lib/contact";
 import { site } from "@/lib/site.config";
+import { PageTitle } from "@/components/ui/PageTitle";
 
 export const metadata: Metadata = {
   title: "Danh sách hỏi giá",
@@ -25,7 +26,7 @@ export default async function QuotePage() {
   const retail = zaloLink(site.zaloRetail) ?? wholesale;
   return (
     <Section>
-      <h1 className="mb-8 text-h2 lg:mb-12">Danh sách hỏi giá</h1>
+      <PageTitle>Danh sách hỏi giá</PageTitle>
       <QuoteList products={products} zalo={wholesale && retail ? { wholesale, retail } : null} />
     </Section>
   );

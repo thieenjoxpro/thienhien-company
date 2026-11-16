@@ -21,7 +21,7 @@ export default async function AdminProducts({ searchParams }: Props) {
     <>
       <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between lg:mb-12">
         <h1 className="text-h2">Sản phẩm</h1>
-        <Button variant="primary" asChild>
+        <Button variant="dark" asChild>
           <Link href="/admin/san-pham/moi">Thêm sản phẩm</Link>
         </Button>
       </div>
@@ -33,7 +33,7 @@ export default async function AdminProducts({ searchParams }: Props) {
           </label>
           <input id="tim-sp" name="q" type="search" defaultValue={q} className="h-12 w-full rounded-btn border border-ink-muted bg-surface px-4" />
         </div>
-        <Button variant="secondary" type="submit">
+        <Button variant="outline" type="submit">
           Lọc danh sách
         </Button>
       </form>
@@ -52,7 +52,7 @@ export default async function AdminProducts({ searchParams }: Props) {
             <tbody>
               {shown.map((p) => (
                 <tr key={p.sku} className="border-b border-line">
-                  <td className="py-3 pr-6 font-mono text-sku">{p.sku}</td>
+                  <td className="py-3 pr-6 text-label font-semibold">{p.sku}</td>
                   <td className="py-3 pr-6">
                     <Link href={`/admin/san-pham/${p.sku}`} className="underline underline-offset-4">
                       {p.name}

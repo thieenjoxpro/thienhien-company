@@ -2,15 +2,14 @@
 
 Plan đầy đủ: `../../docs/PLAN.md`. Chỗ lệch so với plan: `docs/DEVIATIONS.md`.
 
-- Đọc design/README.md và design/tokens.json trước khi viết UI. Không tự đặt màu, cỡ chữ, bo góc.
-- Trang phẳng: không thẻ có nền/viền/bóng, không hộp lồng hộp, không gradient, không badge, không icon minh hoạ, không emoji.
-- Mỗi màn hình: một ảnh thật, một nút tô màu, khoảng 45 chữ. Căn trái. Hai lề bằng nhau.
-- Tiêu đề weight 400. Không dùng 600 trở lên. Không viết hoa toàn bộ.
-- h1 gọi tên loại hàng và nơi chốn. Tiêu đề khối là danh từ. Nút là động từ + thứ nhận được.
-- Hành động chính luôn viết "Hỏi giá qua Zalo".
-- Không bịa: số liệu, lời khen, logo đối tác, ảnh. Thiếu dữ kiện thì bỏ phần tử, không in chữ giữ chỗ.
-- Chuyển động chỉ qua m-enter, m-lift, m-zoom, m-press. Không fade khi cuộn.
-- Trạng thái rỗng, lỗi, đang tải có cho mọi danh sách và form; mỗi lỗi nằm dưới ô của nó.
+- Đọc design/README.md và design/tokens.json trước khi viết UI (design 3, artifact https://claude.ai/artifact/1KLzjUiUx8qMnmKigK88YJ). Không tự đặt màu, cỡ chữ, bo góc ngoài token.
+- Tiêu đề: `font-display` (Barlow Condensed 700) viết hoa, kèm vạch accent qua `SectionHeading` hoặc `PageTitle`. Chữ thường Be Vietnam Pro 400 đến 700.
+- Nút qua `<Button>`: `zalo` cho mọi nút mở Zalo, `dark` cho thêm vào hỏi giá, `outline`, `outlineLight`. Mỗi file tối đa một `variant="zalo"`.
+- Thẻ sản phẩm, hộp: viền `line` bo `card`. Không gradient, không blur, không bóng ngoài `shadow-float` của hai nút nổi, không emoji.
+- Hành động chính luôn viết "Hỏi giá qua Zalo". Nút là động từ + thứ nhận được, tối đa 5 chữ.
+- Không bịa: địa chỉ, số điện thoại, giờ mở cửa, lời giới thiệu chỉ lấy từ site.json. Thiếu dữ kiện thì bỏ phần tử, không in chữ giữ chỗ.
+- Mọi phần tử bấm được cao và rộng từ 44px. Trạng thái rỗng, lỗi có cho mọi danh sách và form; mỗi lỗi nằm dưới ô của nó.
+- `site.config.ts` vào cả component client: không import zod hay thư viện nặng vào đó.
 - Chạy `pnpm verify` trước mỗi commit. Không eslint-disable; cần ngoại lệ thì ghi DEVIATIONS.md.
 
 ## Lệnh
@@ -18,7 +17,7 @@ Plan đầy đủ: `../../docs/PLAN.md`. Chỗ lệch so với plan: `docs/DEVIA
 | Lệnh | Làm gì |
 |---|---|
 | `pnpm dev` | Chạy dev server; khu quản trị ở http://localhost:4310/admin (chỉ khi dev) |
-| `pnpm demo:photos` | Vẽ lại ảnh demo từ `src/data/products.json` |
+| `pnpm demo:photos` | Render ảnh demo từ hình vẽ trong `scripts/demo-art/` theo `src/data/products.json` |
 | `pnpm verify` | lint, lint:css, typecheck, check:slop, check:data, knip, unit test |
 | `pnpm verify:full` | verify + build + e2e + Lighthouse CI |
 | `pnpm check:slop --production` | Thêm luật chỉ bật khi lên production (trường bắt buộc, đủ 5 khối trang chủ) |

@@ -15,11 +15,11 @@ export function QuoteRow({ product, qty }: { product: CardProduct; qty: number }
     <li className="flex gap-4 border-t border-line py-6 last:border-b">
       {image ? <Photo src={image.src} alt={image.alt} ratio="1/1" sizes="96px" className="size-24 shrink-0" /> : null}
       <div className="flex grow flex-col gap-1">
-        <p className="font-mono text-sku text-ink-muted">{product.sku}</p>
-        <Link href={`/san-pham/${product.slug}`} className="flex min-h-11 items-center text-title underline-offset-4 hover:underline">
+        <p className="text-label font-semibold text-ink-muted">{product.sku}</p>
+        <Link href={`/san-pham/${product.slug}`} className="flex min-h-11 items-center text-lead font-semibold underline-offset-4 hover:underline">
           {product.name}
         </Link>
-        <p className="font-mono text-spec">{product.mainSpec}</p>
+        <p className="text-base">{product.mainSpec}</p>
         <div className="mt-3 flex flex-wrap items-end gap-x-6 gap-y-3">
           <Input
             label={`Số lượng ${product.sku} (${product.unit})`}

@@ -15,7 +15,7 @@ export function AdminList({ title, addHref, addLabel, rows, empty, notice }: { t
     <>
       <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between lg:mb-12">
         <h1 className="text-h2">{title}</h1>
-        <Button variant="primary" asChild>
+        <Button variant="dark" asChild>
           <Link href={addHref}>{addLabel}</Link>
         </Button>
       </div>

@@ -14,19 +14,21 @@ const appRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const rootIndex = args.indexOf("--root");
 const root = rootIndex >= 0 && args[rootIndex + 1] ? resolve(args[rootIndex + 1]) : appRoot;
 
-const ALLOWED_SPACING = new Set(["0", "1", "2", "3", "4", "6", "8", "12", "24"]);
-const BLOCKS = ["Hero", "CategoryGrid", "NewProducts", "WorkshopSplit", "ContactBand"];
+// Thang khoảng cách của design 3 (đơn vị Tailwind 4px): 4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 96
+const ALLOWED_SPACING = new Set(["0", "1", "2", "3", "4", "5", "6", "8", "10", "12", "14", "16", "24"]);
+const BLOCKS = ["Hero", "QuoteSteps", "CategoryGrid", "ProductShelf", "VisitWorkshop"];
 // "placehold." (placehold.co, placehold.it) chứ không phải "placehold": chữ placeholder trong code không phải ảnh ngoài
 const IMAGE_HOSTS = ["unsplash.", "pexels.", "pixabay.", "picsum.", "placehold.", "placeholder.com", "hammered.vn"];
-// Class chỉ được dùng trong đúng các file này (mục 7)
+// Class chỉ được dùng trong đúng các file này
 const SCOPED_CLASSES = [
-  { cls: "bg-accent(?:-strong)?", files: ["Button.tsx", "QuoteCount.tsx"] },
-  { cls: "bg-ink", files: ["Footer.tsx", "ContactBand.tsx", "Button.tsx"] },
+  { cls: "bg-zalo(?:-strong)?", files: ["Button.tsx", "PhoneBar.tsx"] }, // nút Zalo chỉ qua <Button variant="zalo"> và hai nút nổi
+  { cls: "shadow-float", files: ["PhoneBar.tsx"] },
+  { cls: "bg-pattern", files: ["Hero.tsx", "HelpBox.tsx"] },
   { cls: "m-enter", files: ["Hero.tsx"] },
-  { cls: "m-(?:lift|zoom)", files: ["ProductCard.tsx", "CategoryTile.tsx"] },
+  { cls: "m-(?:lift|zoom)", files: ["ProductCard.tsx", "CategoryGrid.tsx"] },
   { cls: "m-press", files: ["Button.tsx"] },
   { cls: "bar-top", files: ["Header.tsx"] },
-  { cls: "bar-bottom", files: ["PhoneBar.tsx"] },
+  { cls: "bar-bottom|dock", files: ["PhoneBar.tsx"] },
   { cls: "stick-aside", files: ["ProductInfo.tsx"] },
 ];
 const REQUIRED_IN_PRODUCTION = ["district", "zaloWholesale"];
@@ -89,7 +91,7 @@ for (const file of files) {
     if (isCode(file)) {
       const spacing = /(?<![\w:/-])(?:[a-z0-9-]+:)*-?(?:p[xytrblse]?|m[xytrblse]?|gap(?:-[xy])?|space-[xy])-(\d+(?:\.\d+)?)(?![\w.%/-])/g;
       for (const match of line.matchAll(spacing)) {
-        if (!ALLOWED_SPACING.has(match[1])) report(file, n, "spacing-scale", `"${match[0]}" ngoài thang 0, 1, 2, 3, 4, 6, 8, 12, 24`);
+        if (!ALLOWED_SPACING.has(match[1])) report(file, n, "spacing-scale", `"${match[0]}" ngoài thang ${[...ALLOWED_SPACING].join(", ")}`);
       }
     }
     // 6. Dấu gạch dài và ba chấm trang trí
@@ -124,8 +126,8 @@ for (const file of files) {
   // 11. Một nút chính mỗi trang / mỗi component
   const primaryScope = (isPage(file) && !rel(file).startsWith("app/dev/")) || (rel(file).startsWith("components/") && name !== "Button.tsx");
   if (primaryScope && file.endsWith(".tsx")) {
-    const hits = [...text.matchAll(/variant=\{?\s*["'`]primary["'`]/g)];
-    if (hits.length > 1) report(file, lineOf(text, hits[1].index), "one-primary", `${hits.length} nút variant="primary" trong một file`);
+    const hits = [...text.matchAll(/variant=\{?\s*["'`]zalo["'`]/g)];
+    if (hits.length > 1) report(file, lineOf(text, hits[1].index), "one-primary", `${hits.length} nút variant="zalo" trong một file`);
   }
   // 13. Nhãn nút
   if (file.endsWith(".tsx")) checkButtonLabels(file, text);

@@ -15,14 +15,18 @@ interface PhotoProps {
   sizes: string;
   /** Ảnh LCP (hero): tải trước. Next 16 gọi là preload. */
   priority?: boolean;
+  /** Ảnh sản phẩm: contain trên nền photo (ảnh chụp nền sáng hoặc hình vẽ). Ảnh xưởng: cover. */
+  fit?: "contain" | "cover";
+  /** Bỏ nền photo (hình vẽ nền trong đặt trên khối tối hoặc khối màu). */
+  bare?: boolean;
   className?: string;
 }
 
-/** Ảnh vuông góc, nền surface khi đang tải, không chú thích. img là con trực tiếp để lớp phóng ảnh của thẻ bắt được. */
-export function Photo({ src, alt, ratio, sizes, priority = false, className }: PhotoProps) {
+/** Ô ảnh nền photo, không chú thích. img là con trực tiếp để lớp phóng ảnh của thẻ bắt được. */
+export function Photo({ src, alt, ratio, sizes, priority = false, fit = "contain", bare = false, className }: PhotoProps) {
   return (
-    <div className={cn("relative overflow-hidden bg-surface", ratios[ratio], className)}>
-      <Image src={src} alt={alt} fill sizes={sizes} preload={priority} className="object-cover" />
+    <div className={cn("relative overflow-hidden", !bare && "bg-photo", ratios[ratio], className)}>
+      <Image src={src} alt={alt} fill sizes={sizes} preload={priority} className={fit === "cover" ? "object-cover" : "object-contain"} />
     </div>
   );
 }
