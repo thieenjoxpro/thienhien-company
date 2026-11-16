@@ -1,4 +1,4 @@
-import { formatPrice } from "@/lib/format";
+import { formatNumber } from "@/lib/format";
 import { site } from "@/lib/site.config";
 
 interface PriceProps {
@@ -6,12 +6,12 @@ interface PriceProps {
   unit: string;
 }
 
-/** "từ 18.000 đ / cái"; không có giá hoặc tắt giá toàn site thì "Giá theo số lượng". */
+/** "từ 18.000 đ / cái": chỉ phần số in mono (đ của font mono rộng, tách xa số); không có giá hoặc tắt giá toàn site thì "Giá theo số lượng". */
 export function Price({ priceFrom, unit }: PriceProps) {
   if (!site.showPrice || priceFrom === null) return <p className="text-body">Giá theo số lượng</p>;
   return (
     <p className="text-body">
-      từ <span className="font-mono text-price">{formatPrice(priceFrom)}</span> / {unit}
+      từ <span className="font-mono text-price">{formatNumber(priceFrom)}</span> đ / {unit}
     </p>
   );
 }

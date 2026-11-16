@@ -16,22 +16,33 @@ interface SectionProps {
 
 export function Section({ as: Tag = "section", heading, headingAside, screens, className, children }: SectionProps) {
   const headingId = useId();
+  const content = (
+    <Container>
+      {heading ? (
+        <div className="mb-8 flex items-baseline justify-between gap-6 lg:mb-12">
+          <h2 id={headingId} className="text-h2">
+            {heading}
+          </h2>
+          {headingAside}
+        </div>
+      ) : null}
+      {children}
+    </Container>
+  );
   return (
     <Tag
       aria-labelledby={heading ? headingId : undefined}
-      className={cn("py-12 lg:py-24", screens === 1 && "lg:screen-1", screens === 2 && "lg:screen-2", className)}
+      className={cn(
+        "py-12 lg:py-24",
+        // Khối cao một, hai màn hình: nội dung đứng giữa theo chiều dọc, không dồn lên trên để lại khoảng trống dưới
+        screens && "lg:flex lg:flex-col lg:justify-center",
+        screens === 1 && "lg:screen-1",
+        screens === 2 && "lg:screen-2",
+        className,
+      )}
     >
-      <Container>
-        {heading ? (
-          <div className="mb-8 flex items-baseline justify-between gap-6 lg:mb-12">
-            <h2 id={headingId} className="text-h2">
-              {heading}
-            </h2>
-            {headingAside}
-          </div>
-        ) : null}
-        {children}
-      </Container>
+      {/* Trong flex, Container có mx-auto sẽ co lại: bọc một div giãn hết chiều ngang */}
+      {screens ? <div>{content}</div> : content}
     </Tag>
   );
 }

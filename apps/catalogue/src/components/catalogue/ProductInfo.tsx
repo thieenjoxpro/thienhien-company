@@ -22,7 +22,7 @@ export function ProductInfo({ product }: { product: Product }) {
       <SpecTable sku={product.sku} specs={product.specs} />
       <AddToQuoteButton sku={product.sku} unit={product.unit} />
       {zalo ? (
-        <a href={zalo} target="_blank" rel="noopener noreferrer" className="mt-6 flex min-h-11 items-center underline underline-offset-4">
+        <a href={zalo} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center underline underline-offset-4">
           Hỏi riêng mã {product.sku} qua Zalo
         </a>
       ) : null}
