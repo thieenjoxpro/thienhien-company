@@ -104,5 +104,6 @@ describe("catalog khi chưa có hàng", () => {
 describe("catalog trên dữ liệu demo (src/data)", () => {
   it("mọi mẫu demo đều có ảnh nên đều lên trang", async () => {
     expect(await realCatalog.getProducts()).toHaveLength(24);
+    expect((await realCatalog.getFeaturedProducts()).length).toBeGreaterThan(0);
   });
 });

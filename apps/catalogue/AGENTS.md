@@ -17,11 +17,18 @@ Plan đầy đủ: `../../docs/PLAN.md`. Chỗ lệch so với plan: `docs/DEVIA
 
 | Lệnh | Làm gì |
 |---|---|
-| `pnpm dev` | Chạy dev server |
+| `pnpm dev` | Chạy dev server; khu quản trị ở http://localhost:4310/admin (chỉ khi dev) |
+| `pnpm demo:photos` | Vẽ lại ảnh demo từ `src/data/products.json` |
 | `pnpm verify` | lint, lint:css, typecheck, check:slop, check:data, knip, unit test |
 | `pnpm verify:full` | verify + build + e2e + Lighthouse CI |
 | `pnpm check:slop --production` | Thêm luật chỉ bật khi lên production (trường bắt buộc, đủ 5 khối trang chủ) |
 | `pnpm check:data --production` | Đủ 12 sản phẩm có ảnh, đủ bốn nhóm hàng |
+
+## Khu quản trị và dữ liệu
+
+- `/admin` ghi thẳng vào `src/data/*.json` và `public/`. Chỉ chạy khi dev; bản build trả 404. Lên web bằng commit và push.
+- Trang công khai nằm trong `src/app/(site)/`; `/admin` có layout riêng.
+- `src/data/DEMO.md` còn nghĩa là dữ liệu và ảnh đang là demo; xoá khi đã thay hàng thật.
 
 ## Hàng rào tự kiểm
 

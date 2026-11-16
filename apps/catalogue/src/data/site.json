@@ -1,0 +1,17 @@
+{
+  "district": null,
+  "street": null,
+  "mapUrl": null,
+  "openingHours": null,
+  "phone": null,
+  "zaloWholesale": null,
+  "zaloRetail": null,
+  "photos": {
+    "warehouse": { "src": "/workshop/kho-hang.webp", "alt": "Ảnh demo vị trí ảnh kho hàng" },
+    "workshop": { "src": "/workshop/may-dap.webp", "alt": "Ảnh demo vị trí ảnh máy dập" },
+    "storefront": { "src": "/workshop/mat-tien.webp", "alt": "Ảnh demo vị trí ảnh mặt tiền" }
+  },
+  "workshopText": null,
+  "aboutText": null,
+  "showPrice": true
+}

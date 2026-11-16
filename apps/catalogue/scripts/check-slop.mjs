@@ -55,7 +55,8 @@ function walk(dir) {
 
 const srcDir = join(root, "src");
 const files = walk(srcDir);
-const rel = (file) => relative(srcDir, file).split("\\").join("/");
+// Route group "(site)" không đổi URL: bỏ khỏi đường dẫn khi so luật theo trang
+const rel = (file) => relative(srcDir, file).split("\\").join("/").replace(/^app\/\([^/)]+\)\//, "app/");
 const isCode = (file) => /\.tsx?$/.test(file);
 const isPage = (file) => /^app\/(.+\/)?page\.tsx$/.test(rel(file));
 
@@ -214,12 +215,15 @@ function checkTokenDrift() {
 
 function checkRequiredConfig() {
   if (!production) return;
-  const configPath = join(root, "src/lib/site.config.ts");
-  if (!existsSync(configPath)) return report(configPath, 1, "required-null", "thiếu src/lib/site.config.ts");
-  const text = readFileSync(configPath, "utf8");
-  for (const field of REQUIRED_IN_PRODUCTION) {
-    const match = text.match(new RegExp(`\\b${field}\\s*:\\s*null\\b`));
-    if (match) report(configPath, lineOf(text, match.index), "required-null", `${field} còn null; bắt buộc khi production`);
+  // Dữ kiện xưởng nằm ở src/data/site.json (bản cũ: viết thẳng trong src/lib/site.config.ts)
+  const paths = ["src/data/site.json", "src/lib/site.config.ts"].map((p) => join(root, p)).filter((p) => existsSync(p));
+  if (!paths.length) return report(join(root, "src/data/site.json"), 1, "required-null", "thiếu src/data/site.json");
+  for (const path of paths) {
+    const text = readFileSync(path, "utf8");
+    for (const field of REQUIRED_IN_PRODUCTION) {
+      const match = text.match(new RegExp(`\\b${field}"?\\s*:\\s*null\\b`));
+      if (match) report(path, lineOf(text, match.index), "required-null", `${field} còn null; bắt buộc khi production`);
+    }
   }
 }
 
