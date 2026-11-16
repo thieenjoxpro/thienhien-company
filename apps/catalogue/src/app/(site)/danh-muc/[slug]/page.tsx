@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageSlide } from "@/components/layout/PageSlide";
 import { notFound } from "next/navigation";
 import { Listing } from "@/components/catalogue/Listing";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -44,8 +45,10 @@ export default async function CategoryPage({ params }: Props) {
   ];
   return (
     <>
-      <Listing crumbs={crumbs} title={category.name} description={category.description} products={products} current={category.slug} subs={subs} />
-      <JsonLd data={breadcrumbLd(crumbs)} />
+      <PageSlide>
+        <Listing crumbs={crumbs} title={category.name} description={category.description} products={products} current={category.slug} subs={subs} />
+        <JsonLd data={breadcrumbLd(crumbs)} />
+      </PageSlide>
     </>
   );
 }

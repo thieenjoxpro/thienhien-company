@@ -8,6 +8,9 @@ import { Price } from "./Price";
 /** Đủ dữ liệu cho một thẻ; danh sách "Mẫu vừa xem" lưu đúng chừng này trong trình duyệt. */
 export type CardProduct = Pick<Product, "sku" | "slug" | "name" | "images" | "mainSpec" | "priceFrom" | "unit"> & { isNew?: boolean };
 
+/** Link đi sâu vào trong (thẻ, ô danh mục): trang mới trượt từ phải sang (xem PageSlide). */
+export const FORWARD = ["nav-forward"];
+
 /** Tên view transition của ảnh sản phẩm, dùng chung giữa thẻ và ảnh chính trang chi tiết. */
 export const photoTransition = (sku: string) => `anh-${sku}`;
 
@@ -30,7 +33,7 @@ export function ProductCard({
   const href = `/san-pham/${product.slug}`;
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-card border border-line bg-ground hover:border-ink">
-      <Link href={href} tabIndex={-1} aria-hidden className="relative block">
+      <Link href={href} transitionTypes={FORWARD} tabIndex={-1} aria-hidden className="relative block">
         {morph ? (
           <ViewTransition name={photoTransition(product.sku)}>
             <Photo src={image.src} alt="" ratio="1/1" sizes={sizes} className="m-zoom" />
@@ -43,7 +46,7 @@ export function ProductCard({
       <div className="flex grow flex-col gap-1 px-3 pt-3 pb-3 lg:px-4">
         <p className="text-tag font-medium text-ink-muted">Mã {product.sku}</p>
         <h3 className="text-base font-semibold">
-          <Link href={href} className="block min-h-11 hover:text-link">
+          <Link href={href} transitionTypes={FORWARD} className="block min-h-11 hover:text-link">
             {product.name}
           </Link>
         </h3>

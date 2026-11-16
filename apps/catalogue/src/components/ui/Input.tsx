@@ -1,4 +1,4 @@
-import { useId, type InputHTMLAttributes } from "react";
+import { useId, type InputHTMLAttributes, type Ref } from "react";
 import { cn } from "@/lib/cn";
 
 interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "id"> {
@@ -7,6 +7,7 @@ interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "id"> {
   hint?: string;
   /** Lỗi nằm ngay dưới ô, luôn kèm lời. */
   error?: string;
+  ref?: Ref<HTMLInputElement>;
 }
 
 export function Input({ label, hint, error, className, ...rest }: InputProps) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { createContext, use, useCallback, useDeferredValue, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, use, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { applyFilters, facetsOf, isFiltered, parseFilters, serializeFilters, type FilterState } from "@/lib/filters";
 import type { Product } from "@/lib/schema";
 
@@ -33,7 +33,14 @@ export function FilterProvider({ products, children }: { products: Product[]; ch
   const pathname = usePathname();
   const query = params.toString();
   const [state, setState] = useState(() => parseFilters(new URLSearchParams(query)));
-  useEffect(() => setState(parseFilters(new URLSearchParams(query))), [query]);
+  // URL do chính trang ghi (router.replace) về trễ hơn state, nhất là khi view transition đang chạy.
+  // Bỏ qua các URL đó, nếu không URL cũ sẽ ghi đè lựa chọn mới; chỉ URL từ ngoài (Back, link) mới nạp lại state.
+  const pushed = useRef(new Set<string>());
+  useEffect(() => {
+    const fromUrl = parseFilters(new URLSearchParams(query));
+    if (pushed.current.delete(serializeFilters(fromUrl))) return;
+    setState(fromUrl);
+  }, [query]);
   // Ô lọc đổi ngay; lưới đọc giá trị trễ, lần render đó là transition nên <ViewTransition> quanh lưới chạy hiệu ứng
   const shown = useDeferredValue(state);
   const results = useMemo(() => applyFilters(products, shown), [products, shown]);
@@ -42,6 +49,7 @@ export function FilterProvider({ products, children }: { products: Product[]; ch
     (next: FilterState) => {
       setState(next);
       const qs = serializeFilters(next);
+      pushed.current.add(qs);
       router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
     },
     [router, pathname],

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useDeferredValue, useState, ViewTransition } from "react";
 import { type CardProduct } from "@/components/catalogue/ProductCard";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -17,7 +17,9 @@ interface QuoteListProps {
 
 /** Trang hỏi giá (mục 5.5): các mẫu đã chọn, thông tin khách tuỳ chọn, chọn sỉ hoặc lẻ, gửi qua Zalo. */
 export function QuoteList({ products, zalo }: QuoteListProps) {
-  const { items, hasHydrated } = useQuoteStore();
+  const { items: liveItems, hasHydrated } = useQuoteStore();
+  // Store đổi đồng bộ, không phải transition; đọc giá trị trễ để <ViewTransition> của từng hàng chạy enter, exit
+  const items = useDeferredValue(liveItems);
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [channel, setChannel] = useState<"wholesale" | "retail">("wholesale");
@@ -46,7 +48,10 @@ export function QuoteList({ products, zalo }: QuoteListProps) {
     <div className="grid gap-12 lg:grid-cols-12 lg:gap-6">
       <ul className="lg:col-span-7">
         {rows.map(({ product, qty }) => (
-          <QuoteRow key={product.sku} product={product} qty={qty} />
+          // Mẫu mới trượt vào, mẫu bỏ trượt ra; các hàng còn lại dồn lên theo tên riêng
+          <ViewTransition key={product.sku} name={`hang-${product.sku}`} enter="row-in" exit="row-out">
+            <QuoteRow product={product} qty={qty} />
+          </ViewTransition>
         ))}
       </ul>
       <div className="flex flex-col gap-6 lg:col-span-5">

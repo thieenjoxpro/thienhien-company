@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+/** Breadcrumb là đường lùi ra ngoài: trang mới trượt từ trái sang (xem PageSlide). */
+const BACK = ["nav-back"];
+
 export interface Crumb {
   name: string;
   href: string;
@@ -20,7 +23,7 @@ export function Breadcrumb({ items }: { items: Crumb[] }) {
                 </span>
               ) : (
                 <>
-                  <Link href={item.href} className="flex min-h-11 min-w-11 items-center hover:text-link">
+                  <Link href={item.href} transitionTypes={BACK} className="flex min-h-11 min-w-11 items-center hover:text-link">
                     {item.name}
                   </Link>
                   <span aria-hidden>/</span>

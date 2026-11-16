@@ -82,7 +82,7 @@ export function FilterResults() {
           </select>
         </div>
       </div>
-      <dialog ref={dialog} aria-label="Lọc mẫu" className="m-0 size-full max-h-none max-w-none bg-ground p-0 text-ink lg:hidden">
+      <dialog ref={dialog} aria-label="Lọc mẫu" className="m-drawer m-0 size-full max-h-none max-w-none bg-ground p-0 text-ink lg:hidden">
         <Container className="py-6">
           <FilterPanel />
           <Button variant="dark" onClick={() => dialog.current?.close()} className="mt-6">
