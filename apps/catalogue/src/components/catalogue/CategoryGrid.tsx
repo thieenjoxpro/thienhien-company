@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { Photo } from "@/components/ui/Photo";
+import { FORWARD } from "./ProductCard";
 import { getCategoryTree, getProductsByCategory } from "@/lib/catalog";
 import { formatNumber } from "@/lib/format";
 import { site } from "@/lib/site.config";
@@ -31,7 +32,7 @@ export async function CategoryGrid() {
       <ul className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
         {visible.map(({ group, image, count, cheapest, note }) => (
           <li key={group.slug} className="m-reveal">
-            <Link href={`/danh-muc/${group.slug}`} className="m-lift flex h-full flex-col overflow-hidden rounded-card border border-line hover:border-ink">
+            <Link href={`/danh-muc/${group.slug}`} transitionTypes={FORWARD} className="m-lift flex h-full flex-col overflow-hidden rounded-card border border-line hover:border-ink">
               <Photo src={image.src} alt={image.alt} ratio="3/2" sizes="(min-width: 1024px) 300px, 50vw" className="m-zoom" />
               <span className="flex flex-col gap-1 p-4">
                 <span className="font-display text-h3 uppercase">{group.name}</span>

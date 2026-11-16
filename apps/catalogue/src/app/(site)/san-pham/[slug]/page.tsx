@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageSlide } from "@/components/layout/PageSlide";
 import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/components/catalogue/Breadcrumb";
 import { ProductGallery } from "@/components/catalogue/ProductGallery";
@@ -47,23 +48,25 @@ export default async function ProductPage({ params }: Props) {
   ];
   return (
     <>
-      <Container>
-        <Breadcrumb items={crumbs} />
-        <div className="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-12">
-          <ProductGallery sku={product.sku} images={product.images} />
-          <ProductInfo product={product} category={category} />
-        </div>
-        <section aria-labelledby="thong-so" className="mt-12 max-w-3xl lg:mt-14">
-          <SectionHeading id="thong-so" rule={false} className="mb-4">
-            Thông số kỹ thuật
-          </SectionHeading>
-          <SpecTable sku={product.sku} specs={product.specs} />
-        </section>
-      </Container>
-      {group ? <RelatedProducts product={product} group={group} /> : null}
-      <RecentlyViewed current={product} />
-      <JsonLd data={breadcrumbLd(crumbs)} />
-      <JsonLd data={productLd(product)} />
+      <PageSlide>
+        <Container>
+          <Breadcrumb items={crumbs} />
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-12">
+            <ProductGallery sku={product.sku} images={product.images} />
+            <ProductInfo product={product} category={category} />
+          </div>
+          <section aria-labelledby="thong-so" className="mt-12 max-w-3xl lg:mt-14">
+            <SectionHeading id="thong-so" rule={false} className="mb-4">
+              Thông số kỹ thuật
+            </SectionHeading>
+            <SpecTable sku={product.sku} specs={product.specs} />
+          </section>
+        </Container>
+        {group ? <RelatedProducts product={product} group={group} /> : null}
+        <RecentlyViewed current={product} />
+        <JsonLd data={breadcrumbLd(crumbs)} />
+        <JsonLd data={productLd(product)} />
+      </PageSlide>
     </>
   );
 }

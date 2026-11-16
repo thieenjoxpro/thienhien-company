@@ -10,6 +10,7 @@ import { FilterProvider } from "./FilterContext";
 import { FilterPanel } from "./FilterPanel";
 import { FilterResults } from "./FilterResults";
 import { HelpBox } from "./HelpBox";
+import { FORWARD } from "./ProductCard";
 import { ProductGrid } from "./ProductGrid";
 
 interface SubCategory {
@@ -45,7 +46,7 @@ export function Listing({ crumbs, title, description, products, current, subs = 
     <ul className="mb-5 grid gap-3 sm:grid-cols-2">
       {subs.map((sub) => (
         <li key={sub.slug}>
-          <Link href={`/danh-muc/${sub.slug}`} className="flex items-center gap-4 rounded-card border-2 border-line p-3 hover:border-ink">
+          <Link href={`/danh-muc/${sub.slug}`} transitionTypes={FORWARD} className="flex items-center gap-4 rounded-card border-2 border-line p-3 hover:border-ink">
             {sub.image ? <Photo src={sub.image.src} alt="" ratio="1/1" sizes="88px" className="w-20 shrink-0 rounded-btn" /> : null}
             <span className="flex flex-col gap-1">
               <span className="text-lead font-bold">{sub.name}</span>

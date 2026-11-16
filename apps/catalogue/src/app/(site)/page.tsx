@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageSlide } from "@/components/layout/PageSlide";
 import { CategoryGrid } from "@/components/catalogue/CategoryGrid";
 import { HelpBox } from "@/components/catalogue/HelpBox";
 import { Hero } from "@/components/home/Hero";
@@ -38,13 +39,15 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero productCount={products.length} showcase={featured.length ? featured : products.slice(0, 2)} spotlight={fresh[0] ?? null} />
-      <QuoteSteps />
-      <CategoryGrid />
-      {shelfList.map((shelf) => (
-        <ProductShelf key={shelf.id} {...shelf} />
-      ))}
-      <VisitWorkshop />
+      <PageSlide>
+        <Hero productCount={products.length} showcase={featured.length ? featured : products.slice(0, 2)} spotlight={fresh[0] ?? null} />
+        <QuoteSteps />
+        <CategoryGrid />
+        {shelfList.map((shelf) => (
+          <ProductShelf key={shelf.id} {...shelf} />
+        ))}
+        <VisitWorkshop />
+      </PageSlide>
     </>
   );
 }

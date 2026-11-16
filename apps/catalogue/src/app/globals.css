@@ -182,28 +182,70 @@
  * CSS scroll-driven animation, không JS. Trình duyệt không hiểu animation-timeline thì animation dài
  * 0s và dừng ở khung cuối, tức hiện tĩnh như cũ. Không đặt cho hero và khối đầu trang (LCP).
  * Khối chỉ trượt lên, chỉ ảnh bên trong mờ dần: chữ luôn đủ tương phản kể cả khi đang chạy.
+ * So le: phần tử thứ 2 đến 6 của mỗi nhóm 6 bắt đầu muộn hơn một nhịp (--lag).
  */
 @utility m-reveal {
+  --lag: 0%;
+
   animation: rise linear both;
   animation-timeline: view();
-  animation-range: entry 0% entry 80%;
+  animation-range: entry var(--lag) entry calc(70% + var(--lag));
+
+  &:nth-child(6n + 2) {
+    --lag: 8%;
+  }
+
+  &:nth-child(6n + 3) {
+    --lag: 16%;
+  }
+
+  &:nth-child(6n + 4) {
+    --lag: 24%;
+  }
+
+  &:nth-child(6n + 5) {
+    --lag: 32%;
+  }
+
+  &:nth-child(6n) {
+    --lag: 40%;
+  }
 
   & img {
     animation: fade-in linear both;
     animation-timeline: view();
-    animation-range: entry 0% entry 80%;
+    animation-range: entry var(--lag) entry calc(70% + var(--lag));
   }
 }
 
 @keyframes rise {
   from {
-    transform: translateY(16px);
+    transform: translateY(32px);
   }
 }
 
 @keyframes fade-in {
   from {
     opacity: 0;
+  }
+}
+
+/* Bảng lọc toàn màn hình trên điện thoại (<dialog>): trượt vào từ cạnh phải, đóng thì trượt ra */
+@utility m-drawer {
+  translate: 100% 0;
+  transition-property: translate, display, overlay;
+  transition-duration: 250ms;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete; /* display, overlay đổi rời rạc: giữ dialog tới khi trượt ra xong */
+
+  &[open] {
+    translate: 0 0;
+  }
+
+  @starting-style {
+    &[open] {
+      translate: 100% 0;
+    }
   }
 }
 
@@ -221,6 +263,81 @@
 /* View transition (React <ViewTransition>): ảnh thẻ sang ảnh trang chi tiết, lưới lọc đổi kết quả */
 ::view-transition-group(*) {
   animation-duration: 250ms;
+}
+
+/* Lớp phủ của view transition không nuốt cú bấm trong lúc chạy */
+::view-transition {
+  pointer-events: none;
+}
+
+/*
+ * Chuyển trang có hướng (Link transitionTypes nav-forward, nav-back; khung là PageSlide):
+ * đi sâu vào thì nội dung trượt sang trái, quay lại thì sang phải. Header nằm ngoài PageSlide nên
+ * đứng yên; không đặt tên view transition cho header vì phần tử có tên bị bỏ qua cú bấm khi hiệu ứng chạy.
+ */
+::view-transition-old(.nav-forward) {
+  --slide-offset: -60px;
+
+  animation:
+    150ms ease-in both fade-in reverse,
+    400ms ease-in-out both slide reverse;
+}
+
+::view-transition-new(.nav-forward) {
+  --slide-offset: 60px;
+
+  animation:
+    210ms ease-out 150ms both fade-in,
+    400ms ease-in-out both slide;
+}
+
+::view-transition-old(.nav-back) {
+  --slide-offset: 60px;
+
+  animation:
+    150ms ease-in both fade-in reverse,
+    400ms ease-in-out both slide reverse;
+}
+
+::view-transition-new(.nav-back) {
+  --slide-offset: -60px;
+
+  animation:
+    210ms ease-out 150ms both fade-in,
+    400ms ease-in-out both slide;
+}
+
+@keyframes slide {
+  from {
+    translate: var(--slide-offset);
+  }
+
+  to {
+    translate: 0;
+  }
+}
+
+/* Hàng trong danh sách hỏi giá: mẫu mới trượt vào từ trái, mẫu bỏ đi trượt sang phải rồi mất */
+::view-transition-new(.row-in) {
+  animation: 250ms ease-out both row-in;
+}
+
+::view-transition-old(.row-out) {
+  animation: 200ms ease-in both row-out;
+}
+
+@keyframes row-in {
+  from {
+    opacity: 0;
+    translate: -32px 0;
+  }
+}
+
+@keyframes row-out {
+  to {
+    opacity: 0;
+    translate: 48px 0;
+  }
 }
 
 /* Dính màn hình: chỉ header (bar-top) và thanh hành động điện thoại (bar-bottom) */
@@ -266,6 +383,7 @@
   }
 
   ::view-transition-group(*),
+  ::view-transition-image-pair(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
     animation: none !important;

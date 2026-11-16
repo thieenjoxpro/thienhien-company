@@ -464,7 +464,7 @@ Parse `categories.json`, `products.json` bằng zod; kiểm thêm: `sku` và `sl
 - h1 gọi tên loại hàng và nơi chốn. Tiêu đề khối là danh từ. Nút là động từ + thứ nhận được.
 - Hành động chính luôn viết "Hỏi giá qua Zalo".
 - Không bịa: số liệu, lời khen, logo đối tác, ảnh. Thiếu dữ kiện thì bỏ phần tử, không in chữ giữ chỗ.
-- Chuyển động chỉ qua m-enter, m-lift, m-zoom, m-press, m-reveal (hiện dần khi cuộn, không cho hero), m-pop và React `<ViewTransition>`. Xem DEVIATIONS mục 87–89.
+- Chuyển động chỉ qua m-enter, m-lift, m-zoom, m-press, m-reveal (hiện dần khi cuộn, không cho hero), m-pop, m-drawer và React `<ViewTransition>` (ảnh thẻ, lưới lọc, chuyển trang có hướng, hàng hỏi giá). Xem DEVIATIONS mục 87–93.
 - Trạng thái rỗng, lỗi, đang tải có cho mọi danh sách và form; mỗi lỗi nằm dưới ô của nó.
 - Chạy `pnpm verify` trước mỗi commit. Không eslint-disable; cần ngoại lệ thì ghi DEVIATIONS.md.
 ```

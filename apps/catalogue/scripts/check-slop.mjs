@@ -29,6 +29,7 @@ const SCOPED_CLASSES = [
   { cls: "m-press", files: ["Button.tsx"] },
   { cls: "m-reveal", files: ["ProductGrid.tsx", "CategoryGrid.tsx", "VisitWorkshop.tsx"] }, // hiện dần khi cuộn, không cho hero và khối đầu trang
   { cls: "m-pop", files: ["QuoteCount.tsx", "QuoteToggle.tsx"] },
+  { cls: "m-drawer", files: ["FilterResults.tsx"] },
   { cls: "bar-top", files: ["Header.tsx"] },
   { cls: "bar-bottom|dock", files: ["PhoneBar.tsx"] },
   { cls: "stick-aside", files: ["ProductInfo.tsx"] },
