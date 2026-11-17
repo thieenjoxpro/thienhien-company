@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { telLink } from "@/lib/contact";
 import { getMenuGroups } from "@/lib/menu";
 import { getPolicies } from "@/lib/policies";
 import { site } from "@/lib/site.config";
@@ -8,28 +9,28 @@ import { Logo } from "./Logo";
 const footerLink = "flex min-h-11 items-center text-small text-on-ink-muted hover:text-on-ink";
 const columnTitle = "mb-3 text-eyebrow text-on-ink uppercase";
 
+/** "0947 111 191 (Hạnh, có Zalo)": tên và ghi chú gọn trong ngoặc. */
+const contactLabel = (contact: (typeof site.contacts)[number]) => {
+  const extra = [contact.name, contact.zalo ? "có Zalo" : contact.note].filter(Boolean).join(", ");
+  return extra ? `${contact.phone} (${extra})` : contact.phone;
+};
+
 /**
- * Footer nền ink bốn cột (design 3): xưởng, sản phẩm, hỗ trợ khách, liên hệ xưởng; hàng bản quyền.
- * Dòng liên hệ nào chưa có dữ kiện thì không render, cả cột trống thì bỏ cột.
+ * Footer nền ink bốn cột (design V2): pháp nhân (tên công ty, mã số thuế, địa chỉ), nhóm hàng,
+ * hỗ trợ khách, các số liên hệ và giờ mở cửa. Dòng nào chưa có dữ kiện thì không render.
  */
 export async function Footer() {
   const [groups, policies] = await Promise.all([getMenuGroups(), getPolicies()]);
-  const contact = [
-    site.street && ["Địa chỉ", site.street],
-    site.phone && ["Hotline", site.phone],
-    site.zaloWholesale && ["Zalo sỉ", site.zaloWholesale],
-    site.openingHours && ["Giờ mở cửa", site.openingHours],
-  ].filter((row): row is [string, string] => Boolean(row));
-
+  const legal = [site.legalName, site.taxCode && `Mã số thuế: ${site.taxCode}`, site.street].filter(Boolean);
+  const directions = site.mapUrl ?? (site.street ? "/#xuong" : null);
   return (
     <footer className="mt-14 bg-ink text-on-ink-muted">
       <Container className="grid gap-x-12 gap-y-8 py-12 md:grid-cols-2 lg:grid-cols-12">
-        <div className="flex flex-col gap-4 lg:col-span-4">
+        <div className="flex flex-col gap-3 text-small lg:col-span-4">
           <Logo tone="dark" />
-          <p className="max-w-xs text-small">
-            Catalogue pano, bản lề, tôn và mâm cầu thang của xưởng {site.name}
-            {site.district ? ` ở ${site.district}` : ""}.
-          </p>
+          {legal.map((line) => (
+            <p key={String(line)}>{line}</p>
+          ))}
         </div>
         {groups.length ? (
           <nav aria-labelledby="footer-san-pham" className="lg:col-span-2">
@@ -37,17 +38,17 @@ export async function Footer() {
               Sản phẩm
             </h2>
             <ul>
-              {groups.flatMap((group) => [group, ...group.children]).map((category) => (
-                <li key={category.slug}>
-                  <Link href={`/danh-muc/${category.slug}`} className={footerLink}>
-                    {category.name}
+              {groups.map((group) => (
+                <li key={group.slug}>
+                  <Link href={`/danh-muc/${group.slug}`} className={footerLink}>
+                    {group.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
         ) : null}
-        <nav aria-labelledby="footer-ho-tro" className="lg:col-span-2">
+        <nav aria-labelledby="footer-ho-tro" className="lg:col-span-3">
           <h2 id="footer-ho-tro" className={columnTitle}>
             Hỗ trợ khách
           </h2>
@@ -58,10 +59,17 @@ export async function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/hoi-gia" className={footerLink}>
+              <Link href="/hoi-gia" prefetch={false} className={footerLink}>
                 Danh sách hỏi giá
               </Link>
             </li>
+            {directions ? (
+              <li>
+                <a href={directions} className={footerLink} {...(site.mapUrl && { target: "_blank", rel: "noopener noreferrer" })}>
+                  Chỉ đường tới xưởng
+                </a>
+              </li>
+            ) : null}
             {policies.map((policy) => (
               <li key={policy.slug}>
                 <Link href={`/chinh-sach/${policy.slug}`} className={footerLink}>
@@ -71,33 +79,29 @@ export async function Footer() {
             ))}
           </ul>
         </nav>
-        {contact.length || site.mapUrl ? (
-          <section aria-labelledby="footer-lien-he" className="lg:col-span-4">
+        {site.contacts.length || site.openingHours ? (
+          <section aria-labelledby="footer-lien-he" className="lg:col-span-3">
             <h2 id="footer-lien-he" className={columnTitle}>
-              Liên hệ xưởng
+              Liên hệ
             </h2>
-            <dl className="flex flex-col gap-2 text-small">
-              {contact.map(([label, value]) => (
-                <div key={label}>
-                  <dt className="inline">{label}: </dt>
-                  <dd className="inline text-on-ink">{value}</dd>
-                </div>
+            <ul>
+              {site.contacts.map((contact) => (
+                <li key={contact.phone}>
+                  <a href={telLink(contact.phone) ?? undefined} className={footerLink}>
+                    {contactLabel(contact)}
+                  </a>
+                </li>
               ))}
-            </dl>
-            {site.mapUrl ? (
-              <a href={site.mapUrl} target="_blank" rel="noopener noreferrer" className={`${footerLink} underline underline-offset-4`}>
-                Chỉ đường tới xưởng
-              </a>
-            ) : null}
+            </ul>
+            {site.openingHours ? <p className="mt-2 text-small">{site.openingHours}</p> : null}
           </section>
         ) : null}
       </Container>
       <div className="border-t border-ink-line">
-        <Container className="flex flex-wrap justify-between gap-3 py-4 text-label text-on-ink-faint">
+        <Container className="py-4 text-label text-on-ink-faint">
           <p>
-            Xưởng {site.name}, {new Date().getFullYear()}
+            {site.legalName ?? `Xưởng ${site.name}`}, {new Date().getFullYear()}
           </p>
-          {site.district ? <p>{site.district}</p> : null}
         </Container>
       </div>
     </footer>

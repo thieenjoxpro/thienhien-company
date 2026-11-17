@@ -16,12 +16,12 @@ const root = rootIndex >= 0 && args[rootIndex + 1] ? resolve(args[rootIndex + 1]
 
 // Thang khoảng cách của design 3 (đơn vị Tailwind 4px): 4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 96
 const ALLOWED_SPACING = new Set(["0", "1", "2", "3", "4", "5", "6", "8", "10", "12", "14", "16", "24"]);
-const BLOCKS = ["Hero", "QuoteSteps", "CategoryGrid", "ProductShelf", "VisitWorkshop"];
+const BLOCKS = ["Hero", "CategoryGrid", "ProductShowcase", "QuoteSteps", "VisitWorkshop"];
 // "placehold." (placehold.co, placehold.it) chứ không phải "placehold": chữ placeholder trong code không phải ảnh ngoài
 const IMAGE_HOSTS = ["unsplash.", "pexels.", "pixabay.", "picsum.", "placehold.", "placeholder.com", "hammered.vn"];
 // Class chỉ được dùng trong đúng các file này
 const SCOPED_CLASSES = [
-  { cls: "bg-zalo(?:-strong)?", files: ["Button.tsx", "PhoneBar.tsx"] }, // nút Zalo chỉ qua <Button variant="zalo"> và hai nút nổi
+  { cls: "bg-zalo(?:-strong)?", files: ["Button.tsx", "PhoneBar.tsx", "VisitWorkshop.tsx"] }, // nút Zalo chỉ qua <Button variant="zalo"> và hai nút nổi
   { cls: "shadow-float", files: ["PhoneBar.tsx"] },
   { cls: "bg-pattern", files: ["Hero.tsx", "HelpBox.tsx"] },
   { cls: "m-enter", files: ["Hero.tsx"] },

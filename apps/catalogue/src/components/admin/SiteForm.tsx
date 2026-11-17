@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/Checkbox";
 import { Input } from "@/components/ui/Input";
 import type { FormState } from "@/lib/admin/form";
 import type { SiteData } from "@/lib/site-schema";
+import { ContactFields } from "./ContactFields";
 import { Textarea } from "./Field";
 
 const FIELDS = [
@@ -17,6 +18,8 @@ const FIELDS = [
   { name: "phone", label: "Số điện thoại", hint: "Để trống thì không hiện nút gọi." },
   { name: "zaloWholesale", label: "Số Zalo khách sỉ", hint: "Bắt buộc trước khi lên web; nút Hỏi giá qua Zalo dùng số này." },
   { name: "zaloRetail", label: "Số Zalo khách lẻ", hint: "Để trống thì dùng chung số Zalo sỉ." },
+  { name: "legalName", label: "Tên công ty", hint: "Như trên giấy phép, hiện ở footer." },
+  { name: "taxCode", label: "Mã số thuế", hint: "Hiện ở footer." },
 ] as const;
 
 export function SiteForm({ site }: { site: SiteData }) {
@@ -29,9 +32,10 @@ export function SiteForm({ site }: { site: SiteData }) {
           <Input key={field.name} label={field.label} name={field.name} defaultValue={val(field.name)} error={state?.errors[field.name]} hint={field.hint} />
         ))}
       </div>
+      <ContactFields contacts={site.contacts} values={state?.values} />
       <Textarea label="Chữ cho khối Xưởng ở trang chủ" name="workshopText" rows={3} defaultValue={val("workshopText")} hint="2 đến 3 câu chủ xưởng tự viết, có số liệu thật. Để trống thì bỏ khối." />
       <Textarea label="Đoạn giới thiệu" name="aboutText" rows={5} defaultValue={val("aboutText")} hint="Hiện ở trang Giới thiệu. Để trống thì trang chỉ có ảnh và liên hệ." />
-      <Checkbox label="Hiện giá lẻ trên site" name="showPrice" defaultChecked={state ? state.values.showPrice === "on" : site.showPrice} />
+      <Checkbox label="Hiện giá trên site (tắt: mọi mẫu hiện Liên hệ báo giá)" name="showPrice" defaultChecked={state ? state.values.showPrice === "on" : site.showPrice} />
       <div>
         <Button variant="dark" type="submit" disabled={pending}>
           {pending ? "Đang lưu" : "Lưu thông tin xưởng"}

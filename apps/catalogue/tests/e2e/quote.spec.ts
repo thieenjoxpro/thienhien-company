@@ -2,11 +2,10 @@ import { expectPageBasics } from "./checks";
 import { expect, test } from "./test";
 
 const EXPECTED_MESSAGE = [
-  "Chào xưởng Thiện Hiền, tôi cần báo giá:",
-  "1. TH-BL03 Bản lề cối 16 ly: 50 cái",
-  "2. TH-PN01 Pano dập ô vuông: 20 tấm",
-  "Tên: Anh Tư",
-  "Giao tới: Thủ Đức",
+  "Chào xưởng Thiện Hiền, em cần báo giá sỉ:",
+  "1. TH-BL03 · Bản lề cối 16 ly · Ø16 × 100 mm · SL: 50 cái",
+  "2. TH-PN01 · Pano dập ô vuông · 400 × 600 × 0,8 mm · SL: 20 tấm",
+  "Ghi chú: giao Thủ Đức",
 ].join("\n");
 
 test("thêm 2 mẫu từ hai trang chi tiết, sửa số lượng, gửi: clipboard đúng nội dung và mở tab zalo.me", async ({ page, context, baseURL }) => {
@@ -33,26 +32,10 @@ test("thêm 2 mẫu từ hai trang chi tiết, sửa số lượng, gửi: clipb
   await page.reload();
   await expect(page.locator("main li")).toHaveCount(2); // reload không mất danh sách
   await expect(page.getByRole("spinbutton", { name: "Số lượng TH-PN01 (tấm)" })).toHaveValue("20");
-  // Nút gửi xuất hiện sau khi hydrate: khi nó trong màn hình, nút trên header phải nhường, còn đúng một nút tô màu
-  const visiblePrimaries = () =>
-    page.$$eval("[data-primary-action]", (els) =>
-      els.filter((el) => {
-        const box = el.getBoundingClientRect();
-        return box.width > 0 && box.bottom > 0 && box.top < window.innerHeight;
-      }).length,
-    );
-  expect(await visiblePrimaries()).toBeLessThanOrEqual(1);
-  await page.locator("main").getByRole("button", { name: "Hỏi giá qua Zalo" }).scrollIntoViewIfNeeded();
-  await expect.poll(visiblePrimaries).toBe(1);
 
-  await page.getByRole("textbox", { name: "Tên của anh chị" }).fill("Anh Tư");
-  await page.getByRole("textbox", { name: "Giao tới đâu" }).fill("Thủ Đức");
-  await expect(page.getByRole("radio", { name: "Mua sỉ" })).toBeChecked();
-  const [zalo] = await Promise.all([
-    context.waitForEvent("page"),
-    page.locator("main").getByRole("button", { name: "Hỏi giá qua Zalo" }).click(),
-  ]);
-  await expect(page.getByText("Đã copy danh sách. Dán vào khung chat Zalo vừa mở.")).toBeVisible();
+  await page.getByRole("textbox", { name: "Ghi chú thêm (không bắt buộc)" }).fill("giao Thủ Đức");
+  const [zalo] = await Promise.all([context.waitForEvent("page"), page.locator("main").getByRole("button", { name: "Copy danh sách, mở Zalo" }).click()]);
+  await expect(page.getByText(/^Đã copy danh sách\. Zalo đang mở/)).toBeVisible();
   expect(zalo.url()).toBe("https://zalo.me/0900000000");
   // Clipboard của Windows đổi xuống dòng thành CRLF khi đọc lại; nội dung phải giống từng chữ
   const copied = await page.evaluate(() => navigator.clipboard.readText());
@@ -72,9 +55,29 @@ test("số lượng ngoài 1 đến 9999 báo lỗi dưới ô; bỏ hết mẫu
   await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá", exact: true }).click();
 
   await page.goto("/hoi-gia");
-  await page.getByRole("button", { name: "Bỏ mẫu này" }).click();
-  await expect(page.getByText("Danh sách chưa có mẫu nào.")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Xem catalogue" })).toHaveAttribute("href", "/san-pham");
+  await page.getByRole("button", { name: "Bỏ TH-BL03 khỏi danh sách" }).click();
+  await expect(page.getByText("Chưa có mã nào trong danh sách")).toBeVisible();
+  await expect(page.locator("main").getByRole("link", { name: "Xem mẫu" })).toHaveAttribute("href", "/san-pham");
+});
+
+test("popup: header mở danh sách tại chỗ, nút cộng từ 100 trở lên tăng 10, Esc đóng", async ({ page }) => {
+  await page.goto("/san-pham/ton-phang-1-ly");
+  await page.getByRole("spinbutton", { name: "Số lượng (tấm)" }).fill("100");
+  await page.locator("main").getByRole("button", { name: "Thêm vào hỏi giá", exact: true }).click();
+  await page.getByRole("banner").getByRole("link", { name: "Danh sách hỏi giá, 1 mẫu" }).click();
+  const dialog = page.getByRole("dialog", { name: /Danh sách hỏi giá \(1 mã\)/ });
+  await expect(dialog).toBeVisible();
+  await expect(page).toHaveURL(/\/san-pham\/ton-phang-1-ly$/); // không rời trang
+  const input = dialog.getByRole("spinbutton");
+  await expect(input).toHaveValue("100");
+  await dialog.getByRole("button", { name: /^Tăng TH-/ }).click();
+  await expect(input).toHaveValue("110");
+  await dialog.getByRole("button", { name: /^Giảm TH-/ }).click();
+  await expect(input).toHaveValue("100");
+  await dialog.getByRole("button", { name: /^Giảm TH-/ }).click();
+  await expect(input).toHaveValue("99");
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
 });
 
 test("số mẫu trên header tăng khi thêm", async ({ page }) => {

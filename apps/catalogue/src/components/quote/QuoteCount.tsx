@@ -4,6 +4,7 @@ import { ClipboardList } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useQuoteStore } from "@/lib/quote-store";
+import { useQuoteUi } from "@/lib/quote-ui";
 
 /**
  * Link "Danh sách hỏi giá" trên header kèm số mẫu (nền accent). Nằm ở mọi trang nên
@@ -13,6 +14,7 @@ import { useQuoteStore } from "@/lib/quote-store";
 export function QuoteCount() {
   const hydrated = useQuoteStore((state) => state.hasHydrated);
   const count = useQuoteStore((state) => (state.hasHydrated ? state.items.length : 0));
+  const setOpen = useQuoteUi((state) => state.setOpen);
   const badge = useRef<HTMLSpanElement>(null);
   const previous = useRef<number | null>(null);
   useEffect(() => {
@@ -32,6 +34,14 @@ export function QuoteCount() {
   return (
     <Link
       href="/hoi-gia"
+      // Không tải sẵn trang /hoi-gia: bấm là mở popup, trang chỉ dùng khi chưa có JS hoặc mở tab mới
+      prefetch={false}
+      // Mở popup; vẫn là link tới /hoi-gia cho lúc JS chưa chạy hoặc mở tab mới
+      onClick={(event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+        event.preventDefault();
+        setOpen(true);
+      }}
       aria-label={`Danh sách hỏi giá, ${count} mẫu`}
       className="flex h-12 items-center gap-2 rounded-btn border-2 border-line px-3 text-small font-semibold hover:border-ink lg:px-4"
     >

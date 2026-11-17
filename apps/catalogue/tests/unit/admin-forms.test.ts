@@ -105,8 +105,26 @@ describe("danh mục, chính sách, thông tin xưởng", () => {
   });
 
   it("thông tin xưởng: ô trống thành null, link bản đồ phải là URL", () => {
-    const current = { district: null, street: null, mapUrl: null, openingHours: null, phone: null, zaloWholesale: null, zaloRetail: null, photos: { warehouse: null, workshop: null, storefront: null }, workshopText: null, aboutText: null, showPrice: true };
+    const current = { district: null, street: null, mapUrl: null, openingHours: null, phone: null, zaloWholesale: null, zaloRetail: null, photos: { warehouse: null, workshop: null, storefront: null }, workshopText: null, aboutText: null, showPrice: true, legalName: null, taxCode: null, contacts: [] };
     expect(siteFromForm({ district: " Bình Tân, TP.HCM ", phone: "" }, current)).toMatchObject({ ok: true, data: { district: "Bình Tân, TP.HCM", phone: null, showPrice: false } });
     expect(siteFromForm({ mapUrl: "ban do" }, current)).toMatchObject({ ok: false, errors: { mapUrl: expect.any(String) } });
+  });
+
+  it("thông tin xưởng: hàng liên hệ trống số thì bỏ, giữ thứ tự, ô Có Zalo thành boolean", () => {
+    const current = { district: null, street: null, mapUrl: null, openingHours: null, phone: null, zaloWholesale: null, zaloRetail: null, photos: { warehouse: null, workshop: null, storefront: null }, workshopText: null, aboutText: null, showPrice: true, legalName: null, taxCode: null, contacts: [] };
+    const result = siteFromForm(
+      { contactName0: "Hạnh", contactNote0: "số chính", contactPhone0: " 0947 111 191 ", contactZalo0: "on", contactName1: "Bỏ", contactPhone1: " ", contactName2: "Hiền", contactPhone2: "0942 959 688", taxCode: "0319260193" },
+      current,
+    );
+    expect(result).toMatchObject({
+      ok: true,
+      data: {
+        taxCode: "0319260193",
+        contacts: [
+          { name: "Hạnh", note: "số chính", phone: "0947 111 191", zalo: true },
+          { name: "Hiền", note: "", phone: "0942 959 688", zalo: false },
+        ],
+      },
+    });
   });
 });

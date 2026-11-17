@@ -86,6 +86,13 @@ export function siteFromForm(values: Values, current: SiteData): Result<SiteData
     workshopText: orNull(values.workshopText),
     aboutText: orNull(values.aboutText),
     showPrice: values.showPrice === "on",
+    legalName: orNull(values.legalName),
+    taxCode: orNull(values.taxCode),
+    // Mỗi hàng liên hệ có 4 ô; hàng để trống số thì bỏ
+    contacts: [0, 1, 2, 3].flatMap((i) => {
+      const phone = values[`contactPhone${i}`]?.trim();
+      return phone ? [{ name: values[`contactName${i}`]?.trim() ?? "", note: values[`contactNote${i}`]?.trim() ?? "", phone, zalo: values[`contactZalo${i}`] === "on" }] : [];
+    }),
   });
   if (!parsed.success) return { ok: false, errors: zodErrors(parsed.error, { mapUrl: "Link bản đồ phải bắt đầu bằng https://." }) };
   return { ok: true, data: parsed.data };

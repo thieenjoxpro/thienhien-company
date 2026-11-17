@@ -20,8 +20,16 @@ export const SiteDataSchema = z.object({
   }),
   workshopText: text, // 2 đến 3 câu chủ xưởng viết cho khối Xưởng; null thì bỏ khối
   aboutText: text, // đoạn giới thiệu cho /gioi-thieu; null thì trang chỉ có ảnh và liên hệ
-  showPrice: z.boolean(),
+  showPrice: z.boolean(), // tắt thì mọi thẻ hiện "Liên hệ báo giá"; bật thì theo cờ showPrice của từng sản phẩm
+  legalName: text, // tên công ty trên giấy phép, ở footer
+  taxCode: text, // mã số thuế, ở footer
+  // Người nghe máy ở khối "Ghé xưởng" và footer, theo thứ tự hiện; zalo: số đó có Zalo
+  contacts: z
+    .array(z.object({ name: z.string().trim().min(1), note: z.string().trim(), phone: z.string().trim().min(8), zalo: z.boolean() }))
+    .max(4)
+    .default([]),
 });
 
 export type SiteData = z.infer<typeof SiteDataSchema>;
+export type SiteContact = SiteData["contacts"][number];
 export type SitePhotoSlot = keyof SiteData["photos"];

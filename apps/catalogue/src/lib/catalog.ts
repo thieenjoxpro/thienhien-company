@@ -91,5 +91,4 @@ export const getProduct = via("getProduct");
 export const getProductsByCategory = via("getProductsByCategory");
 export const getRelatedProducts = via("getRelatedProducts");
 export const getFeaturedProducts = via("getFeaturedProducts");
-export const getNewProducts = via("getNewProducts");
 export const countByCategory = via("countByCategory");

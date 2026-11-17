@@ -44,14 +44,20 @@ describe("ProductCard", () => {
     expect(text(html)).toBe("Mới Mã TH-BL03 Bản lề cối 16 ly Ø16 × 100 mm từ 18.000đ /cái Thêm vào hỏi giá : Bản lề cối 16 ly");
   });
 
-  it('không có priceFrom thì hiện "Giá theo số lượng"', () => {
-    expect(text(render({ priceFrom: null }))).toContain("Giá theo số lượng");
+  it('không có priceFrom thì hiện "Liên hệ báo giá"', () => {
+    expect(text(render({ priceFrom: null }))).toContain("Liên hệ báo giá");
   });
 
-  it('showPrice=false thì cũng hiện "Giá theo số lượng" dù có giá', () => {
+  it('tắt giá toàn site thì hiện "Liên hệ báo giá" dù có giá', () => {
     state.showPrice = false;
     const html = text(render());
-    expect(html).toContain("Giá theo số lượng");
+    expect(html).toContain("Liên hệ báo giá");
+    expect(html).not.toContain("18.000");
+  });
+
+  it('tắt giá riêng mẫu đó (showPrice của sản phẩm) thì hiện "Liên hệ báo giá"', () => {
+    const html = text(render({ showPrice: false }));
+    expect(html).toContain("Liên hệ báo giá");
     expect(html).not.toContain("18.000");
   });
 

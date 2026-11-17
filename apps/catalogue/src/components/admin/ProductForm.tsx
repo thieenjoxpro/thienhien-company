@@ -67,6 +67,7 @@ export function ProductForm({ product, categories }: Props) {
       <Input label="Giá lẻ từ (đồng)" name="priceFrom" inputMode="numeric" defaultValue={val("priceFrom", product?.priceFrom)} error={err("priceFrom")} hint="Để trống thì không hiện giá." />
       <div className="flex flex-wrap gap-x-8">
         <Checkbox label="Hàng mới" name="isNew" defaultChecked={checked("isNew", product?.isNew)} />
+        <Checkbox label="Hiện giá (tắt: Liên hệ báo giá)" name="showPrice" defaultChecked={checked("showPrice", product?.showPrice ?? true)} />
         <Checkbox label="Đưa lên trang chủ" name="isFeatured" defaultChecked={checked("isFeatured", product?.isFeatured)} />
       </div>
       {state ? (
