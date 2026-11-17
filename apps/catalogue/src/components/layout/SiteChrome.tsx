@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { QuoteDialogHost } from "@/components/quote/QuoteDialogHost";
+import { telLink, zaloLink } from "@/lib/contact";
 import { businessLd } from "@/lib/seo";
 import { site } from "@/lib/site.config";
 import { Footer } from "./Footer";
@@ -18,6 +20,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <main id="noi-dung">{children}</main>
       <Footer />
       <PhoneBar phone={site.phone} zaloWholesale={site.zaloWholesale} />
+      <QuoteDialogHost contact={{ zalo: zaloLink(site.zaloWholesale), tel: telLink(site.phone), phone: site.phone }} />
       {business ? <JsonLd data={business} /> : null}
     </>
   );

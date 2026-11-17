@@ -22,6 +22,10 @@ interface QuoteState {
 /** Số lượng nguyên trong khoảng 1 đến 9999; giá trị hỏng (rỗng, NaN) thành 1. */
 export const clampQty = (qty: number) => (Number.isFinite(qty) ? Math.min(QTY_MAX, Math.max(1, Math.round(qty))) : 1);
 
+/** Nút trừ, cộng trong danh sách hỏi giá (design V2): từ 100 trở lên mỗi lần 10, dưới 100 mỗi lần 1. */
+export const stepQty = (qty: number, direction: 1 | -1) =>
+  clampQty(qty + direction * (direction === 1 ? (qty >= 100 ? 10 : 1) : qty > 100 ? 10 : 1));
+
 /** localStorage bọc try/catch: chế độ ẩn danh hoặc bị chặn lưu trữ thì danh sách chỉ sống trong trang. */
 const safeLocalStorage: StateStorage = {
   getItem: (name) => {

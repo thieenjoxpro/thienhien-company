@@ -21,5 +21,11 @@ export const site = {
   workshopText: "Máy dập 60 tấn chạy thép CT3 và SS400 dày tới 3 ly. Nhận dập pano theo mẫu khách mang tới." as string | null, // 2 đến 3 câu chủ xưởng viết cho khối Xưởng; null thì bỏ khối
   aboutText: "Xưởng dập pano, bản lề, mâm cầu thang từ thép tấm. Khách sỉ đặt theo mã trong catalogue, khách lẻ ghé xưởng xem hàng." as string | null, // đoạn giới thiệu xưởng do chủ xưởng viết cho /gioi-thieu; null thì trang chỉ có ảnh và liên hệ
   showPrice: true,
+  legalName: "Công ty TNHH Thử Nghiệm" as string | null,
+  taxCode: "0000000000" as string | null,
+  contacts: [
+    { name: "Người thử", note: "số chính, có Zalo", phone: "0900 000 000", zalo: true },
+    { name: "Người thử hai", note: "", phone: "0900 000 001", zalo: false },
+  ] as { name: string; note: string; phone: string; zalo: boolean }[],
   mainAction: "Hỏi giá qua Zalo",
 } as const;

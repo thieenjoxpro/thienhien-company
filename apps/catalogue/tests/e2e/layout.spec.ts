@@ -46,34 +46,6 @@ test.describe("menu điện thoại", () => {
   });
 });
 
-test.describe("bảng nhóm hàng trên header", () => {
-  test.skip(({ isMobile }) => isMobile, "chỉ có từ 1024px");
-
-  test("rê chuột mở sau 150ms, có 3 mẫu kèm ảnh; rời chuột thì đóng", async ({ page }) => {
-    await page.goto("/");
-    const nav = page.getByRole("banner").getByRole("navigation", { name: "Điều hướng chính" });
-    await nav.getByRole("link", { name: "Pano", exact: true }).hover();
-    const panelLink = nav.getByRole("link", { name: "Xem tất cả 6 mẫu" });
-    await expect(panelLink).toBeVisible();
-    await expect(nav.locator("img")).toHaveCount(3);
-    await page.mouse.move(640, 700);
-    await expect(panelLink).toBeHidden();
-  });
-
-  test("focus mở bảng, Tab đi vào bảng, Esc đóng và trả focus về tên nhóm", async ({ page }) => {
-    await page.goto("/");
-    const nav = page.getByRole("banner").getByRole("navigation", { name: "Điều hướng chính" });
-    const group = nav.getByRole("link", { name: "Bản lề", exact: true });
-    await group.focus();
-    await expect(nav.getByRole("link", { name: "Bản lề cối", exact: true })).toBeVisible();
-    await page.keyboard.press("Tab");
-    await expect(nav.getByRole("link", { name: "Bản lề cối", exact: true })).toBeFocused();
-    await page.keyboard.press("Escape");
-    await expect(nav.getByRole("link", { name: "Bản lề cối", exact: true })).toBeHidden();
-    await expect(group).toBeFocused();
-  });
-});
-
 test("hai lề của header, các khối và footer trùng nhau từng pixel ở 1440 và 390", async ({ page, isMobile }) => {
   test.skip(isMobile, "chạy một lần, tự đổi khổ màn hình");
   for (const width of [1440, 390]) {

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import type { StateStorage } from "zustand/middleware";
 import { buildQuoteMessage } from "../../src/lib/quote-message";
-import { clampQty, createQuoteStore } from "../../src/lib/quote-store";
+import { clampQty, createQuoteStore, stepQty } from "../../src/lib/quote-store";
 
 function memoryStorage(): StateStorage & { data: Map<string, string> } {
   const data = new Map<string, string>();
@@ -15,22 +15,21 @@ function memoryStorage(): StateStorage & { data: Map<string, string> } {
 
 describe("buildQuoteMessage", () => {
   const lines = [
-    { sku: "TH-BL03", name: "Bản lề cối 16 ly", qty: 50, unit: "cái" },
-    { sku: "TH-PN01", name: "Pano dập ô vuông", qty: 20, unit: "tấm" },
+    { sku: "TH-BL03", name: "Bản lề cối 16 ly", spec: "Ø16 × 100 mm", qty: 50, unit: "cái" },
+    { sku: "TH-PN01", name: "Pano dập ô vuông", spec: "400 × 600 × 0,8 mm", qty: 20, unit: "tấm" },
   ];
 
-  it("đủ tên và nơi giao", () => {
-    expect(buildQuoteMessage(lines, { name: "Anh Tư", address: "Thủ Đức" })).toMatchInlineSnapshot(`
-      "Chào xưởng Thiện Hiền, tôi cần báo giá:
-      1. TH-BL03 Bản lề cối 16 ly: 50 cái
-      2. TH-PN01 Pano dập ô vuông: 20 tấm
-      Tên: Anh Tư
-      Giao tới: Thủ Đức"
+  it("mỗi mã một dòng: mã, tên, thông số, số lượng; có ghi chú", () => {
+    expect(buildQuoteMessage(lines, "giao Bình Chánh")).toMatchInlineSnapshot(`
+      "Chào xưởng Thiện Hiền, em cần báo giá sỉ:
+      1. TH-BL03 · Bản lề cối 16 ly · Ø16 × 100 mm · SL: 50 cái
+      2. TH-PN01 · Pano dập ô vuông · 400 × 600 × 0,8 mm · SL: 20 tấm
+      Ghi chú: giao Bình Chánh"
     `);
   });
 
-  it("bỏ dòng Tên, Giao tới khi khách để trống hoặc chỉ gõ khoảng trắng", () => {
-    expect(buildQuoteMessage(lines.slice(0, 1), { name: "  " })).toBe("Chào xưởng Thiện Hiền, tôi cần báo giá:\n1. TH-BL03 Bản lề cối 16 ly: 50 cái");
+  it("bỏ dòng Ghi chú khi khách để trống hoặc chỉ gõ khoảng trắng; thiếu thông số thì bỏ đoạn đó", () => {
+    expect(buildQuoteMessage([{ sku: "TH-BL03", name: "Bản lề cối 16 ly", spec: "", qty: 50, unit: "cái" }], "  ")).toBe(["Chào xưởng Thiện Hiền, em cần báo giá sỉ:", "1. TH-BL03 · Bản lề cối 16 ly · SL: 50 cái"].join("\n"));
   });
 });
 
@@ -38,6 +37,10 @@ describe("quote-store", () => {
   let storage: ReturnType<typeof memoryStorage>;
   beforeEach(() => {
     storage = memoryStorage();
+  });
+
+  it("stepQty: dưới 100 thì cộng trừ 1, từ 100 thì 10, không xuống dưới 1", () => {
+    expect([stepQty(1, 1), stepQty(99, 1), stepQty(100, 1), stepQty(150, -1), stepQty(100, -1), stepQty(1, -1)]).toEqual([2, 100, 110, 140, 99, 1]);
   });
 
   it("clampQty kẹp 1..9999, làm tròn, giá trị hỏng thành 1", () => {

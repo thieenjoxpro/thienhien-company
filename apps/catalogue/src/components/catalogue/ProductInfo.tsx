@@ -45,7 +45,7 @@ export function ProductInfo({ product, category }: { product: Product; category:
       </ul>
       <div className="overflow-hidden rounded-card border border-line">
         <div className="border-b border-line px-5 py-4">
-          <Price priceFrom={product.priceFrom} unit={product.unit} large />
+          <Price priceFrom={product.priceFrom} unit={product.unit} showPrice={product.showPrice} large />
         </div>
         <p className="bg-surface px-5 py-3 text-small text-ink-soft">Giá sỉ tính theo số lượng. Thêm vào danh sách rồi gửi qua Zalo, xưởng báo giá.</p>
       </div>

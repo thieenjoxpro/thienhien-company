@@ -1,43 +1,31 @@
-import { ChevronRight, Menu } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import type { MenuGroup } from "@/lib/menu";
-import { CategoryMenu } from "./CategoryMenu";
+
+const item = "flex min-h-13 min-w-11 shrink-0 items-center justify-center text-small font-semibold hover:text-link";
 
 /**
- * Thanh danh mục nền surface. Từ 1024px: ô tối "Danh mục sản phẩm", các nhóm hàng (rê chuột mở bảng),
- * Hàng mới về, Giới thiệu xưởng, link Cách hỏi giá sỉ bên phải. Dưới 1024px: nhóm hàng cuộn ngang.
+ * Thanh nhóm hàng nền surface (design V2): bốn nhóm hàng, "Tất cả N mẫu", bên phải "Ghé xưởng xem hàng".
+ * Dưới 1024px cuộn ngang, link ghé xưởng nằm trong menu.
  */
-export function CategoryNav({ groups }: { groups: MenuGroup[] }) {
+export function CategoryNav({ groups, total }: { groups: MenuGroup[]; total: number }) {
   return (
-    <div className="relative border-b border-line bg-surface">
-      <Container className="hidden items-stretch lg:flex">
-        <Link href="/san-pham" className="flex min-h-13 w-60 items-center gap-3 bg-ink px-5 text-small font-semibold text-on-ink uppercase">
-          <Menu size={20} strokeWidth={2} aria-hidden />
-          Danh mục sản phẩm
+    <nav aria-label="Nhóm hàng" className="border-b border-line bg-surface">
+      <Container className="flex items-stretch gap-x-6 overflow-x-auto lg:gap-x-8">
+        {groups.map((group) => (
+          <Link key={group.slug} href={`/danh-muc/${group.slug}`} className={item}>
+            {group.name}
+          </Link>
+        ))}
+        <Link href="/san-pham" className={item}>
+          Tất cả {total} mẫu
         </Link>
-        <CategoryMenu groups={groups} />
-        <Link href="/#cach-hoi-gia" className="ml-auto flex min-h-13 items-center gap-1 text-small font-semibold text-link hover:underline">
-          Cách hỏi giá sỉ
+        <Link href="/#xuong" className={`${item} ml-auto hidden gap-1 text-link lg:flex`}>
+          Ghé xưởng xem hàng
           <ChevronRight size={16} strokeWidth={2} aria-hidden />
         </Link>
       </Container>
-      <Container as="nav" aria-label="Nhóm hàng" className="lg:hidden">
-        <ul className="-mx-4 flex gap-2 overflow-x-auto px-4 py-2">
-          {groups.map((group) => (
-            <li key={group.slug} className="shrink-0">
-              <Link href={`/danh-muc/${group.slug}`} className="flex min-h-11 items-center rounded-full border border-line bg-ground px-4 text-small font-semibold">
-                {group.name}
-              </Link>
-            </li>
-          ))}
-          <li className="shrink-0">
-            <Link href="/san-pham?sx=moi" className="flex min-h-11 items-center rounded-full border border-line bg-ground px-4 text-small font-semibold">
-              Hàng mới
-            </Link>
-          </li>
-        </ul>
-      </Container>
-    </div>
+    </nav>
   );
 }

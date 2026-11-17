@@ -33,6 +33,7 @@
   --color-zalo: #0068ff;
   --color-zalo-strong: #0057d6;
   --color-link: #0057d6;
+  --color-scrim: rgb(28 33 39 / 60%); /* nền mờ sau popup, ink 60% */
   --color-danger: #a3271b;
   --color-success: #1f6b3f;
 
@@ -379,6 +380,10 @@
   * {
     animation: none !important;
     transition: none !important;
+  }
+
+  /* Phần tử trong SVG giữ transform: logo khối thép dựng hình bằng transform, xoá đi thì mất logo */
+  *:not(svg *) {
     transform: none !important;
   }
 

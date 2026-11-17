@@ -25,6 +25,7 @@ export const ProductSchema = z.object({
   }),
   unit: z.enum(["cái", "bộ", "tấm", "mét", "kg"]),
   priceFrom: z.number().int().positive().nullable(), // VND, giá lẻ khởi điểm
+  showPrice: z.boolean().default(true), // tắt thì thẻ và trang chi tiết hiện "Liên hệ báo giá"
   isNew: z.boolean().default(false),
   isFeatured: z.boolean().default(false),
   updatedAt: z.iso.date(),

@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { PageSlide } from "@/components/layout/PageSlide";
 import { CategoryGrid } from "@/components/catalogue/CategoryGrid";
-import { HelpBox } from "@/components/catalogue/HelpBox";
 import { Hero } from "@/components/home/Hero";
-import { ProductShelf } from "@/components/home/ProductShelf";
+import { ProductShowcase } from "@/components/home/ProductShowcase";
 import { QuoteSteps } from "@/components/home/QuoteSteps";
 import { VisitWorkshop } from "@/components/home/VisitWorkshop";
-import { getCategoryTree, getFeaturedProducts, getNewProducts, getProducts, getProductsByCategory } from "@/lib/catalog";
+import { PageSlide } from "@/components/layout/PageSlide";
+import { getCategoryTree, getProducts, getProductsByCategory } from "@/lib/catalog";
 import { site } from "@/lib/site.config";
 
 // Hàm chứ không phải hằng: ở chế độ máy chủ quận sửa được trong /admin, hằng sẽ giữ giá trị lúc nạp module
@@ -15,40 +14,17 @@ export const generateMetadata = (): Metadata => ({
   alternates: { canonical: "/" },
 });
 
-const SHELF_SIZE = 6;
-
-// Trang chủ design 3: hero, 3 bước hỏi giá, danh mục, kệ hàng mới và kệ từng nhóm, ghé xưởng.
+// Trang chủ design V2: hero, nhóm hàng, mẫu theo tab nhóm, 3 bước hỏi giá, ghé xưởng.
 export default async function HomePage() {
-  const [products, featured, fresh, groups] = await Promise.all([getProducts(), getFeaturedProducts(2), getNewProducts(SHELF_SIZE), getCategoryTree()]);
-  const shelves = await Promise.all(
-    groups.map(async (group) => ({ group, items: await getProductsByCategory(group.slug) })),
-  );
-  const lastShelf = shelves.findLast((shelf) => shelf.items.length > 0)?.group.slug;
-  const shelfList = [
-    { id: "moi", title: "Hàng mới về", products: fresh, more: { href: "/san-pham?sx=moi", label: "Xem tất cả hàng mới" }, subs: [], extra: null, morph: false },
-    ...shelves.map(({ group, items }) => ({
-      id: group.slug,
-      title: group.name,
-      products: items.slice(0, SHELF_SIZE - (group.slug === lastShelf ? 1 : 0)),
-      more: { href: `/danh-muc/${group.slug}`, label: `Xem tất cả ${items.length} mẫu` },
-      subs: group.children,
-      extra: group.slug === lastShelf ? <HelpBox tone="dashed" /> : null,
-      // Hàng mới về lặp mã với kệ nhóm, nên chỉ kệ nhóm mang tên view transition
-      morph: true,
-    })),
-  ];
-
+  const [products, tree] = await Promise.all([getProducts(), getCategoryTree()]);
+  const groups = await Promise.all(tree.map(async (group) => ({ slug: group.slug, name: group.name, products: await getProductsByCategory(group.slug) })));
   return (
-    <>
-      <PageSlide>
-        <Hero productCount={products.length} showcase={featured.length ? featured : products.slice(0, 2)} spotlight={fresh[0] ?? null} />
-        <QuoteSteps />
-        <CategoryGrid />
-        {shelfList.map((shelf) => (
-          <ProductShelf key={shelf.id} {...shelf} />
-        ))}
-        <VisitWorkshop />
-      </PageSlide>
-    </>
+    <PageSlide>
+      <Hero productCount={products.length} />
+      <CategoryGrid />
+      <ProductShowcase groups={groups} />
+      <QuoteSteps />
+      <VisitWorkshop />
+    </PageSlide>
   );
 }

@@ -13,7 +13,7 @@ const visiblePrimaries = (page: Page) =>
 test("h1 gọi tên loại hàng và người mua, tiêu đề bằng Barlow Condensed, chữ thường bằng Be Vietnam Pro, tự host", async ({ page }) => {
   await page.goto("/");
   const heading = page.getByRole("heading", { level: 1 });
-  await expect(heading).toHaveText("Pano, bản lề, tôn, mâm cầu thang giá sỉ cho thợ và đại lý");
+  await expect(heading).toHaveText("Pano, bản lề, tôn, mâm cầu thang giá sỉ cho đại lý và thợ");
   await expect(page.getByText(/^22 mẫu có sẵn mã, kích thước và độ dày/)).toBeVisible();
 
   await page.evaluate(() => document.fonts.ready);
@@ -36,33 +36,43 @@ test("h1 gọi tên loại hàng và người mua, tiêu đề bằng Barlow Con
   await expectPageBasics(page);
 });
 
-test.describe("trang chủ ở 1440×900 (design 3)", () => {
+test.describe("trang chủ ở 1440×900 (design V2)", () => {
   test.skip(({ isMobile }) => isMobile, "đo ở khổ desktop");
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
   });
 
-  test("đủ khối đúng thứ tự: hero, 3 bước, danh mục, hàng mới, từng nhóm hàng, ghé xưởng", async ({ page }) => {
+  test("đủ khối đúng thứ tự: hero, nhóm hàng, mẫu theo tab, 3 bước, ghé xưởng", async ({ page }) => {
     const headings = await page.locator("main > section").evaluateAll((sections) => sections.map((s) => s.querySelector("h1, h2")?.textContent));
     expect(headings).toEqual([
-      "Pano, bản lề, tôn, mâm cầu thang giá sỉ cho thợ và đại lý",
-      "Hỏi giá trong 3 bước",
-      "Danh mục sản phẩm",
-      "Hàng mới về",
-      "Pano",
-      "Bản lề",
-      "Tôn",
-      "Mâm cầu thang",
+      "Pano, bản lề, tôn, mâm cầu thang giá sỉ cho đại lý và thợ",
+      "Bốn nhóm hàng",
+      "Mẫu đang có tại xưởng",
+      "Hỏi giá sỉ trong 3 bước",
       "Ghé xưởng xem hàng",
     ]);
+  });
+
+  test("tab nhóm hàng: một nhóm hiện mỗi lúc, số trên tab đếm từ dữ liệu, đổi tab đổi thẻ", async ({ page }) => {
+    const block = page.locator("#mau");
+    const visible = block.locator("article").filter({ visible: true });
+    await expect(block.getByRole("button", { name: /^Pano \(\d+\)$/ })).toHaveAttribute("aria-pressed", "true");
+    await expect(visible.first()).toContainText("TH-PN");
+    const tab = block.getByRole("button", { name: /^Bản lề \((\d+)\)$/ });
+    await tab.click();
+    await expect(tab).toHaveAttribute("aria-pressed", "true");
+    await expect(visible.first()).toContainText("TH-BL");
+    await expect(visible).toHaveCount(6);
+    await expect(block.getByRole("link", { name: /^Xem tất cả 8 mẫu bản lề/ })).toBeVisible();
   });
 
   test("mỗi khối có đúng một tiêu đề; ảnh trong các kệ hàng đã tải", async ({ page }) => {
     for (const block of await page.locator("main > section").all()) {
       await block.scrollIntoViewIfNeeded();
       await expect(block.locator("h1, h2")).toHaveCount(1);
-      const images = block.locator("article img");
+      // Chỉ ảnh của tab đang mở: các tab ẩn chưa tải ảnh (lazy)
+      const images = block.locator("article img").filter({ visible: true });
       if ((await images.count()) === 0) continue;
       await expect
         .poll(() => images.evaluateAll((list) => list.every((img) => (img as HTMLImageElement).complete && (img as HTMLImageElement).naturalWidth > 0)))

@@ -6,7 +6,7 @@ import type { Product } from "@/lib/schema";
 import { Price } from "./Price";
 
 /** Đủ dữ liệu cho một thẻ; danh sách "Mẫu vừa xem" lưu đúng chừng này trong trình duyệt. */
-export type CardProduct = Pick<Product, "sku" | "slug" | "name" | "images" | "mainSpec" | "priceFrom" | "unit"> & { isNew?: boolean };
+export type CardProduct = Pick<Product, "sku" | "slug" | "name" | "images" | "mainSpec" | "priceFrom" | "showPrice" | "unit"> & { isNew?: boolean };
 
 /** Link đi sâu vào trong (thẻ, ô danh mục): trang mới trượt từ phải sang (xem PageSlide). */
 export const FORWARD = ["nav-forward"];
@@ -52,7 +52,7 @@ export function ProductCard({
         </h3>
         <p className="text-label text-ink-muted">{product.mainSpec}</p>
         <div className="mt-auto pt-2">
-          <Price priceFrom={product.priceFrom} unit={product.unit} />
+          <Price priceFrom={product.priceFrom} unit={product.unit} showPrice={product.showPrice} />
         </div>
         <QuoteToggle sku={product.sku} name={product.name} />
       </div>

@@ -1,17 +1,48 @@
 {
-  "district": null,
-  "street": null,
-  "mapUrl": null,
-  "openingHours": null,
-  "phone": null,
-  "zaloWholesale": null,
+  "district": "Bình Tân, TP.HCM",
+  "street": "738/20/5A Lê Đức Anh, Phường Bình Tân, TP.HCM",
+  "mapUrl": "https://www.google.com/maps/search/?api=1&query=738%2F20%2F5A+L%C3%AA+%C4%90%E1%BB%A9c+Anh%2C+B%C3%ACnh+T%C3%A2n%2C+TP.HCM",
+  "openingHours": "7:30 đến 17:00, thứ Hai đến thứ Bảy",
+  "phone": "0947 111 191",
+  "zaloWholesale": "0947 111 191",
   "zaloRetail": null,
   "photos": {
-    "warehouse": { "src": "/workshop/kho-hang.webp", "alt": "Ảnh demo vị trí ảnh kho hàng" },
-    "workshop": { "src": "/workshop/may-dap.webp", "alt": "Ảnh demo vị trí ảnh máy dập" },
-    "storefront": { "src": "/workshop/mat-tien.webp", "alt": "Ảnh demo vị trí ảnh mặt tiền" }
+    "warehouse": {
+      "src": "/workshop/kho-hang.webp",
+      "alt": "Ảnh demo vị trí ảnh kho hàng"
+    },
+    "workshop": {
+      "src": "/workshop/may-dap.webp",
+      "alt": "Ảnh demo vị trí ảnh máy dập"
+    },
+    "storefront": {
+      "src": "/workshop/mat-tien.webp",
+      "alt": "Ảnh demo vị trí ảnh mặt tiền"
+    }
   },
   "workshopText": null,
   "aboutText": null,
-  "showPrice": true
+  "showPrice": true,
+  "legalName": "Công ty TNHH Sản Xuất Thiện Hiền",
+  "taxCode": "0319260193",
+  "contacts": [
+    {
+      "name": "Hạnh",
+      "note": "số chính, có Zalo",
+      "phone": "0947 111 191",
+      "zalo": true
+    },
+    {
+      "name": "Hạnh",
+      "note": "số phụ",
+      "phone": "0903 695 110",
+      "zalo": false
+    },
+    {
+      "name": "Hiền",
+      "note": "",
+      "phone": "0942 959 688",
+      "zalo": false
+    }
+  ]
 }

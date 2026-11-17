@@ -48,6 +48,7 @@ export function productFromForm(values: Values, { products, categories, original
     unit: values.unit,
     priceFrom: parseNumber(values.priceFrom, true) ?? null,
     isNew: values.isNew === "on",
+    showPrice: values.showPrice === "on",
     isFeatured: values.isFeatured === "on",
     updatedAt: today(),
   });
