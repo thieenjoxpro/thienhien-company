@@ -8,6 +8,7 @@ export const site = {
   district: "Bình Tân, TP.HCM" as string | null,
   street: "12 đường số 7, Bình Tân, TP.HCM" as string | null,
   mapUrl: "https://maps.google.com/?q=Binh+Tan" as string | null,
+  mapEmbedUrl: null as string | null, // e2e không tải iframe của Google
   openingHours: "7:00 đến 17:30, thứ Hai đến thứ Bảy" as string | null,
   phone: "0900 000 000" as string | null,
   zaloWholesale: "0900000000" as string | null,

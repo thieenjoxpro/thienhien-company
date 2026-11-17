@@ -13,7 +13,8 @@ import { Textarea } from "./Field";
 const FIELDS = [
   { name: "district", label: "Quận, thành phố", hint: "Bắt buộc trước khi lên web. Ví dụ: Bình Tân, TP.HCM." },
   { name: "street", label: "Địa chỉ đầy đủ", hint: "Hiện ở trang liên hệ và footer." },
-  { name: "mapUrl", label: "Link Google Maps", hint: "Bắt đầu bằng https://." },
+  { name: "mapUrl", label: "Link Google Maps", hint: "Link của địa điểm xưởng; nút Chỉ đường mở link này." },
+  { name: "mapEmbedUrl", label: "Bản đồ nhúng", hint: "Google Maps › Chia sẻ › Nhúng bản đồ, dán cả đoạn <iframe>. Hiện cuối footer." },
   { name: "openingHours", label: "Giờ mở cửa", hint: "Ví dụ: 7:00 đến 17:30, thứ Hai đến thứ Bảy." },
   { name: "phone", label: "Số điện thoại", hint: "Để trống thì không hiện nút gọi." },
   { name: "zaloWholesale", label: "Số Zalo khách sỉ", hint: "Bắt buộc trước khi lên web; nút Hỏi giá qua Zalo dùng số này." },

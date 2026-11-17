@@ -7,7 +7,9 @@ const PhotoSchema = z.object({ src: z.string().startsWith("/workshop/"), alt: z.
 export const SiteDataSchema = z.object({
   district: text, // dạng "Quận, Thành phố"; BẮT BUỘC khi production
   street: text, // địa chỉ đầy đủ do chủ xưởng đưa
-  mapUrl: z.url().nullable(),
+  mapUrl: z.url().nullable(), // link mở Google Maps tới đúng địa điểm, cho nút Chỉ đường
+  // src của bản đồ nhúng (Google Maps › Chia sẻ › Nhúng bản đồ), hiện cuối footer; null thì không nhúng
+  mapEmbedUrl: z.url().startsWith("https://www.google.com/maps/embed").nullable().default(null),
   openingHours: text, // dạng "7:00 đến 17:30, thứ Hai đến thứ Bảy"
   phone: text,
   zaloWholesale: text, // BẮT BUỘC khi production
