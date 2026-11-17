@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { dataFileExists } from "@/lib/admin/files";
+import { serverMode } from "@/lib/server/mode";
 import { loadCategories, loadPolicies, loadProducts, loadSite } from "@/lib/admin/repo";
 
 // Tổng quan: đếm và danh sách việc còn thiếu trước khi lên web (giống check:data, check:slop --production)
@@ -7,7 +8,7 @@ export default async function AdminHome() {
   const [products, categories, policies, site] = await Promise.all([loadProducts(), loadCategories(), loadPolicies(), loadSite()]);
   const withImages = products.filter((p) => p.images.length > 0).length;
   const todo = [
-    dataFileExists("DEMO.md") && "Dữ liệu và ảnh đang là demo: thay hàng thật rồi xoá src/data/DEMO.md.",
+    !serverMode() && dataFileExists("DEMO.md") && "Dữ liệu và ảnh đang là demo: thay hàng thật rồi xoá src/data/DEMO.md.",
     withImages < 12 && `Mới có ${withImages} sản phẩm có ảnh; cần ít nhất 12.`,
     products.length > withImages && `${products.length - withImages} sản phẩm chưa có ảnh nên chưa hiện trên site.`,
     !site.district && "Chưa có quận (Thông tin xưởng).",

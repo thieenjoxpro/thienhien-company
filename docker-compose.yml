@@ -1,0 +1,55 @@
+# Chạy catalogue trên VPS: PostgreSQL + web (Next.js) + Caddy (HTTPS tự động). Hướng dẫn: docs/DEPLOY.md.
+# Các biến lấy từ file .env cạnh file này (mẫu: .env.example; tạo nhanh: node scripts/make-env.mjs).
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: thienhien
+      POSTGRES_DB: thienhien
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?thiếu POSTGRES_PASSWORD trong .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U thienhien -d thienhien"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  web:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SITE_URL: https://${SITE_DOMAIN:?thiếu SITE_DOMAIN trong .env}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://thienhien:${POSTGRES_PASSWORD}@db:5432/thienhien
+      # Tài khoản quản trị đầu tiên, chỉ dùng khi database chưa có tài khoản nào
+      ADMIN_USERNAME: ${ADMIN_USERNAME:?thiếu ADMIN_USERNAME trong .env}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?thiếu ADMIN_PASSWORD trong .env}
+    volumes:
+      - uploads:/data/uploads
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  pgdata:
+  uploads:
+  caddy_data:
+  caddy_config:

@@ -107,6 +107,7 @@ test.describe("lưới sản phẩm", () => {
     ] as const) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto("/san-pham");
+      await expect(page.locator("main article").nth(columns), `khổ ${width} đã có đủ thẻ`).toBeVisible(); // lưới stream sau khung trang
       const lefts = await page.locator("main article").evaluateAll((items) => new Set(items.map((li) => Math.round(li.getBoundingClientRect().left))).size);
       expect(lefts, `khổ ${width}`).toBe(columns);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);

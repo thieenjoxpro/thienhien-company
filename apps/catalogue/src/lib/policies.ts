@@ -1,25 +1,21 @@
 // Trang chính sách (mục 5.6). Nội dung do chủ xưởng viết; chưa có thì không có trang nào.
 import { z } from "zod";
 import policiesJson from "@/data/policies.json";
+import { PolicySchema, type Policy } from "./policy-schema";
+import { liveData } from "./server/mode";
 
-export const PolicySchema = z.object({
-  slug: z.string().regex(/^[a-z0-9-]+$/),
-  title: z.string().min(2),
-  updatedAt: z.iso.date(),
-  /** Markdown tối giản: đoạn văn, "## " tiêu đề, "- " danh sách. */
-  body: z.string().min(1),
-});
-
-export type Policy = z.infer<typeof PolicySchema>;
+export type { Policy };
 
 const policies = z.array(PolicySchema).parse(policiesJson);
 
+/** Chế độ máy chủ đọc bản trong bộ nhớ nạp từ database; còn lại là file JSON đi kèm bản build. */
 export async function getPolicies(): Promise<Policy[]> {
-  return policies;
+  if (!liveData()) return policies;
+  return (await (await import("./server/store")).ensureStore()).policies;
 }
 
 export async function getPolicy(slug: string): Promise<Policy | null> {
-  return policies.find((policy) => policy.slug === slug) ?? null;
+  return (await getPolicies()).find((policy) => policy.slug === slug) ?? null;
 }
 
 export type Block = { kind: "h2"; text: string } | { kind: "p"; text: string } | { kind: "ul"; items: string[] };

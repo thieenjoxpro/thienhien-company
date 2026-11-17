@@ -1,10 +1,13 @@
 import type { MetadataRoute } from "next";
+import { connection } from "next/server";
 import { getCategories, getProducts } from "@/lib/catalog";
 import { getPolicies } from "@/lib/policies";
 import { absolute } from "@/lib/seo";
+import { serverMode } from "@/lib/server/mode";
 
 // Mọi trang tĩnh công khai (mục 6); không gồm /hoi-gia (của riêng từng khách) và /dev/ui.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  if (serverMode()) await connection(); // đọc database lúc yêu cầu, không dựng sẵn lúc build
   const [products, categories, policies] = await Promise.all([getProducts(), getCategories(), getPolicies()]);
   const latest = products.map((p) => p.updatedAt).toSorted().at(-1);
   const newestIn = (slug: string) =>

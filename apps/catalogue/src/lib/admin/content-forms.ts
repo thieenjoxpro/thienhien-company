@@ -1,5 +1,5 @@
 // Form danh mục, chính sách và thông tin xưởng.
-import { PolicySchema, type Policy } from "@/lib/policies";
+import { PolicySchema, type Policy } from "@/lib/policy-schema";
 import { CategorySchema, type Category, type Product } from "@/lib/schema";
 import { SiteDataSchema, type SiteData } from "@/lib/site-schema";
 import { orNull, parseNumber, slugify, today, zodErrors, type Result, type Values } from "./form";

@@ -14,7 +14,7 @@ const done = (path: string) => {
 };
 
 export async function saveProduct(_prev: FormState, formData: FormData): Promise<FormState> {
-  assertAdmin();
+  await assertAdmin();
   const values = formValues(formData);
   const originalSku = values.originalSku || null;
   const [products, categories] = await Promise.all([loadProducts(), loadCategories()]);
@@ -32,7 +32,7 @@ export async function saveProduct(_prev: FormState, formData: FormData): Promise
 }
 
 export async function deleteProduct(formData: FormData): Promise<void> {
-  assertAdmin();
+  await assertAdmin();
   const sku = String(formData.get("sku"));
   const products = await loadProducts();
   const product = products.find((p) => p.sku === sku);
@@ -43,7 +43,7 @@ export async function deleteProduct(formData: FormData): Promise<void> {
 }
 
 export async function addProductImage(_prev: FormState, formData: FormData): Promise<FormState> {
-  assertAdmin();
+  await assertAdmin();
   const values = formValues(formData);
   const products = await loadProducts();
   const product = products.find((p) => p.sku === values.sku);
@@ -64,7 +64,7 @@ export async function addProductImage(_prev: FormState, formData: FormData): Pro
 
 /** Một form cho mỗi ảnh: nút bấm gửi intent = luu | len | xuong | xoa. */
 export async function editProductImage(formData: FormData): Promise<void> {
-  assertAdmin();
+  await assertAdmin();
   const values = formValues(formData);
   const index = Number(values.index);
   const products = await loadProducts();

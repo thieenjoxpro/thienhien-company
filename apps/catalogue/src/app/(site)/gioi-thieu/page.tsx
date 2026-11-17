@@ -5,13 +5,12 @@ import { Section } from "@/components/ui/Section";
 import { site } from "@/lib/site.config";
 import { PageTitle } from "@/components/ui/PageTitle";
 
-const place = site.district ? ` ở ${site.district}` : "";
-
-export const metadata: Metadata = {
-  title: `Xưởng ${site.name}${place}`,
+// Hàm chứ không phải hằng: ở chế độ máy chủ quận và đoạn giới thiệu sửa được trong /admin
+export const generateMetadata = (): Metadata => ({
+  title: `Xưởng ${site.name}${site.district ? ` ở ${site.district}` : ""}`,
   description: site.aboutText ?? undefined,
   alternates: { canonical: "/gioi-thieu" },
-};
+});
 
 // Giới thiệu (mục 5.6): chữ của chủ xưởng và 3 ảnh xưởng khác nhau; thiếu gì bỏ phần đó.
 export default function AboutPage() {
@@ -20,7 +19,7 @@ export default function AboutPage() {
     <Section>
       <PageTitle>
         Xưởng {site.name}
-        {place}
+        {site.district ? ` ở ${site.district}` : ""}
       </PageTitle>
       {site.aboutText ? <p className="mb-12 max-w-3xl">{site.aboutText}</p> : null}
       {photos.length ? (

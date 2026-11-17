@@ -1,0 +1,5 @@
+# Caddy tự xin và gia hạn chứng chỉ HTTPS cho tên miền trong SITE_DOMAIN (với localhost thì dùng chứng chỉ nội bộ).
+{$SITE_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy web:3000
+}

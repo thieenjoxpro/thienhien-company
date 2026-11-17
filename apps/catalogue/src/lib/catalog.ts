@@ -4,6 +4,7 @@ import { z } from "zod";
 import categoriesJson from "@/data/categories.json";
 import productsJson from "@/data/products.json";
 import { CategorySchema, ProductSchema, type Category, type Product } from "./schema";
+import { liveData } from "./server/mode";
 
 export type CategoryNode = Category & { children: CategoryNode[] };
 
@@ -67,15 +68,28 @@ export function createCatalog(source: { categories: unknown; products: unknown }
   };
 }
 
-export const {
-  getCategories,
-  getCategoryTree,
-  getCategory,
-  getProducts,
-  getProduct,
-  getProductsByCategory,
-  getRelatedProducts,
-  getFeaturedProducts,
-  getNewProducts,
-  countByCategory,
-} = createCatalog({ categories: categoriesJson, products: productsJson });
+type Catalog = ReturnType<typeof createCatalog>;
+
+const bundled = createCatalog({ categories: categoriesJson, products: productsJson });
+
+/** Chế độ máy chủ đọc bản trong bộ nhớ nạp từ database (src/lib/server/store.ts); còn lại là JSON đi kèm bản build. */
+async function current(): Promise<Catalog> {
+  if (!liveData()) return bundled;
+  return (await (await import("./server/store")).ensureStore()).catalog;
+}
+
+const via =
+  <K extends keyof Catalog>(name: K) =>
+  async (...args: Parameters<Catalog[K]>): Promise<Awaited<ReturnType<Catalog[K]>>> =>
+    (await ((await current())[name] as (...a: unknown[]) => unknown)(...args)) as Awaited<ReturnType<Catalog[K]>>;
+
+export const getCategories = via("getCategories");
+export const getCategoryTree = via("getCategoryTree");
+export const getCategory = via("getCategory");
+export const getProducts = via("getProducts");
+export const getProduct = via("getProduct");
+export const getProductsByCategory = via("getProductsByCategory");
+export const getRelatedProducts = via("getRelatedProducts");
+export const getFeaturedProducts = via("getFeaturedProducts");
+export const getNewProducts = via("getNewProducts");
+export const countByCategory = via("countByCategory");

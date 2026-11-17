@@ -37,7 +37,7 @@ export async function Header() {
               </a>
             ) : null}
             <QuoteCount />
-            <MobileNav groups={groups} />
+            <MobileNav groups={groups} phone={site.phone} zaloWholesale={site.zaloWholesale} />
           </div>
         </Container>
       </div>

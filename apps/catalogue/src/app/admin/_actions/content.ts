@@ -16,7 +16,7 @@ const done = (path: string) => {
 };
 
 export async function saveCategory(_prev: FormState, formData: FormData): Promise<FormState> {
-  assertAdmin();
+  await assertAdmin();
   const values = formValues(formData);
   const original = values.originalSlug || null;
   const [categories, products] = await Promise.all([loadCategories(), loadProducts()]);
@@ -30,7 +30,7 @@ export async function saveCategory(_prev: FormState, formData: FormData): Promis
 }
 
 export async function deleteCategory(_prev: FormState, formData: FormData): Promise<FormState> {
-  assertAdmin();
+  await assertAdmin();
   const slug = String(formData.get("slug"));
   const [categories, products] = await Promise.all([loadCategories(), loadProducts()]);
   const reason = categoryInUse(slug, products, categories);
@@ -41,7 +41,7 @@ export async function deleteCategory(_prev: FormState, formData: FormData): Prom
 }
 
 export async function savePolicy(_prev: FormState, formData: FormData): Promise<FormState> {
-  assertAdmin();
+  await assertAdmin();
   const values = formValues(formData);
   const original = values.originalSlug || null;
   const policies = await loadPolicies();
@@ -53,14 +53,14 @@ export async function savePolicy(_prev: FormState, formData: FormData): Promise<
 }
 
 export async function deletePolicy(formData: FormData): Promise<void> {
-  assertAdmin();
+  await assertAdmin();
   const slug = String(formData.get("slug"));
   await writeData("policies.json", (await loadPolicies()).filter((p) => p.slug !== slug));
   done("/admin/chinh-sach?xoa=1");
 }
 
 export async function saveSite(_prev: FormState, formData: FormData): Promise<FormState> {
-  assertAdmin();
+  await assertAdmin();
   const values = formValues(formData);
   const result = siteFromForm(values, await loadSite());
   if (!result.ok) return failed(result.errors, values);
@@ -72,7 +72,7 @@ export async function saveSite(_prev: FormState, formData: FormData): Promise<Fo
 const SLOT_FILE: Record<SitePhotoSlot, string> = { warehouse: "kho-hang", workshop: "may-dap", storefront: "mat-tien" };
 
 export async function removeSitePhoto(formData: FormData): Promise<void> {
-  assertAdmin();
+  await assertAdmin();
   const slot = String(formData.get("slot")) as SitePhotoSlot;
   const site = await loadSite();
   const current = site.photos[slot];
@@ -83,7 +83,7 @@ export async function removeSitePhoto(formData: FormData): Promise<void> {
 
 /** Ảnh xưởng: tải ảnh mới (kèm mô tả) hoặc chỉ sửa mô tả. */
 export async function saveSitePhoto(_prev: FormState, formData: FormData): Promise<FormState> {
-  assertAdmin();
+  await assertAdmin();
   const values = formValues(formData);
   const slot = values.slot as SitePhotoSlot;
   const site = await loadSite();

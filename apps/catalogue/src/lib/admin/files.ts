@@ -1,19 +1,30 @@
-// Đọc, ghi file dữ liệu và ảnh cho khu /admin. ADMIN_DATA_DIR, ADMIN_PUBLIC_DIR đổi thư mục khi test.
+// Đọc, ghi dữ liệu và ảnh cho khu /admin. ADMIN_DATA_DIR, ADMIN_PUBLIC_DIR đổi thư mục khi test.
+// Chế độ máy chủ (CATALOGUE_SERVER=1): dữ liệu vào database, ảnh vào UPLOAD_DIR (volume của Docker),
+// tên file dữ liệu ("products.json") thành khoá của bảng content.
 import { existsSync } from "node:fs";
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { z } from "zod";
+import { serverMode } from "@/lib/server/mode";
 
-const dataDir = () => process.env.ADMIN_DATA_DIR ?? join(process.cwd(), "src/data");
-const publicDir = () => process.env.ADMIN_PUBLIC_DIR ?? join(process.cwd(), "public");
+const dataDir = () => process.env.ADMIN_DATA_DIR ?? join(/* turbopackIgnore: true */ process.cwd(), "src/data");
+/** Thư mục ảnh tải lên của chế độ máy chủ; route /products/[file], /workshop/[file] phục vụ từ đây. */
+export const uploadDir = () => process.env.UPLOAD_DIR ?? join(/* turbopackIgnore: true */ process.cwd(), ".data/uploads");
+const publicDir = () => process.env.ADMIN_PUBLIC_DIR ?? (serverMode() ? uploadDir() : join(/* turbopackIgnore: true */ process.cwd(), "public"));
 
 export async function readData<T extends z.ZodType>(file: string, schema: T): Promise<z.infer<T>> {
-  return schema.parse(JSON.parse(await readFile(join(dataDir(), file), "utf8")));
+  if (serverMode()) return schema.parse(await (await import("@/lib/server/db")).readContent(file));
+  return schema.parse(JSON.parse(await readFile(join(/* turbopackIgnore: true */ dataDir(), file), "utf8")));
 }
 
 /** Ghi qua file tạm rồi đổi tên: dev server không bao giờ đọc phải file ghi dở. */
 export async function writeData(file: string, data: unknown): Promise<void> {
-  const path = join(dataDir(), file);
+  if (serverMode()) {
+    await (await import("@/lib/server/db")).writeContent(file, data);
+    await (await import("@/lib/server/store")).refreshStore(); // trang công khai thấy bản mới ngay
+    return;
+  }
+  const path = join(/* turbopackIgnore: true */ dataDir(), file);
   await writeFile(`${path}.tmp`, `${JSON.stringify(data, null, 2)}\n`, "utf8");
   await rename(`${path}.tmp`, path);
 }
@@ -32,20 +43,20 @@ export function checkUpload(file: FormDataEntryValue | null): string | null {
 /** Lưu ảnh vào public/<folder>/<tên>-<thời điểm>.<đuôi>; tên mới mỗi lần để cache ảnh của Next không giữ ảnh cũ. */
 export async function saveUpload(folder: "products" | "workshop", name: string, file: File): Promise<string> {
   const src = `/${folder}/${name}-${Date.now().toString(36)}.${IMAGE_TYPES[file.type] ?? "webp"}`;
-  const path = join(publicDir(), src);
+  const path = join(/* turbopackIgnore: true */ publicDir(), src);
   await mkdir(dirname(path), { recursive: true });
   await writeFile(path, Buffer.from(await file.arrayBuffer()));
   return src;
 }
 
 export async function removePublic(src: string): Promise<void> {
-  await rm(join(publicDir(), src), { force: true });
+  await rm(join(/* turbopackIgnore: true */ publicDir(), src), { force: true });
 }
 
 export async function renamePublic(from: string, to: string): Promise<void> {
-  if (existsSync(join(publicDir(), from))) await rename(join(publicDir(), from), join(publicDir(), to));
+  if (existsSync(join(/* turbopackIgnore: true */ publicDir(), from))) await rename(join(/* turbopackIgnore: true */ publicDir(), from), join(/* turbopackIgnore: true */ publicDir(), to));
 }
 
 export function dataFileExists(file: string): boolean {
-  return existsSync(join(dataDir(), file));
+  return existsSync(join(/* turbopackIgnore: true */ dataDir(), file));
 }
