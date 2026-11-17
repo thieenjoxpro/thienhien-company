@@ -105,13 +105,20 @@ describe("danh mục, chính sách, thông tin xưởng", () => {
   });
 
   it("thông tin xưởng: ô trống thành null, link bản đồ phải là URL", () => {
-    const current = { district: null, street: null, mapUrl: null, openingHours: null, phone: null, zaloWholesale: null, zaloRetail: null, photos: { warehouse: null, workshop: null, storefront: null }, workshopText: null, aboutText: null, showPrice: true, legalName: null, taxCode: null, contacts: [] };
+    const current = { district: null, street: null, mapUrl: null, openingHours: null, phone: null, zaloWholesale: null, zaloRetail: null, photos: { warehouse: null, workshop: null, storefront: null }, workshopText: null, aboutText: null, showPrice: true, legalName: null, taxCode: null, contacts: [], mapEmbedUrl: null };
     expect(siteFromForm({ district: " Bình Tân, TP.HCM ", phone: "" }, current)).toMatchObject({ ok: true, data: { district: "Bình Tân, TP.HCM", phone: null, showPrice: false } });
     expect(siteFromForm({ mapUrl: "ban do" }, current)).toMatchObject({ ok: false, errors: { mapUrl: expect.any(String) } });
   });
 
+  it("thông tin xưởng: bản đồ nhúng nhận cả thẻ iframe (lấy src), từ chối link không phải Google Maps embed", () => {
+    const current = { district: null, street: null, mapUrl: null, mapEmbedUrl: null, openingHours: null, phone: null, zaloWholesale: null, zaloRetail: null, photos: { warehouse: null, workshop: null, storefront: null }, workshopText: null, aboutText: null, showPrice: true, legalName: null, taxCode: null, contacts: [] };
+    const iframe = '<iframe src="https://www.google.com/maps/embed?pb=!1m18&amp;x=1" width="600" height="450" loading="lazy"></iframe>';
+    expect(siteFromForm({ mapEmbedUrl: iframe }, current)).toMatchObject({ ok: true, data: { mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18&x=1" } });
+    expect(siteFromForm({ mapEmbedUrl: "https://evil.example/embed" }, current)).toMatchObject({ ok: false, errors: { mapEmbedUrl: expect.any(String) } });
+  });
+
   it("thông tin xưởng: hàng liên hệ trống số thì bỏ, giữ thứ tự, ô Có Zalo thành boolean", () => {
-    const current = { district: null, street: null, mapUrl: null, openingHours: null, phone: null, zaloWholesale: null, zaloRetail: null, photos: { warehouse: null, workshop: null, storefront: null }, workshopText: null, aboutText: null, showPrice: true, legalName: null, taxCode: null, contacts: [] };
+    const current = { district: null, street: null, mapUrl: null, openingHours: null, phone: null, zaloWholesale: null, zaloRetail: null, photos: { warehouse: null, workshop: null, storefront: null }, workshopText: null, aboutText: null, showPrice: true, legalName: null, taxCode: null, contacts: [], mapEmbedUrl: null };
     const result = siteFromForm(
       { contactName0: "Hạnh", contactNote0: "số chính", contactPhone0: " 0947 111 191 ", contactZalo0: "on", contactName1: "Bỏ", contactPhone1: " ", contactName2: "Hiền", contactPhone2: "0942 959 688", taxCode: "0319260193" },
       current,

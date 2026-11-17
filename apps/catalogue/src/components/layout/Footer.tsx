@@ -97,6 +97,29 @@ export async function Footer() {
           </section>
         ) : null}
       </Container>
+      {site.mapEmbedUrl ? (
+        <Container as="section" aria-labelledby="footer-ban-do" className="pb-12">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-x-6">
+            <h2 id="footer-ban-do" className={columnTitle}>
+              Bản đồ tới xưởng
+            </h2>
+            {site.mapUrl ? (
+              <a href={site.mapUrl} target="_blank" rel="noopener noreferrer" className={`${footerLink} underline underline-offset-4`}>
+                Mở chỉ đường trên Google Maps
+              </a>
+            ) : null}
+          </div>
+          {/* lazy: chỉ tải bản đồ khi cuộn gần tới footer, không làm chậm trang */}
+          <iframe
+            src={site.mapEmbedUrl}
+            title={`Bản đồ đường tới xưởng ${site.name}${site.street ? `, ${site.street}` : ""}`}
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            className="block h-72 w-full rounded-card border-0 bg-ink-soft lg:h-80"
+          />
+        </Container>
+      ) : null}
       <div className="border-t border-ink-line">
         <Container className="py-4 text-label text-on-ink-faint">
           <p>

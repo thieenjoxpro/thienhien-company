@@ -77,12 +77,14 @@ export function policyFromForm(values: Values, policies: Policy[], originalSlug:
   return { ok: true, data: parsed.data };
 }
 
-const SITE_TEXT_FIELDS = ["district", "street", "mapUrl", "openingHours", "phone", "zaloWholesale", "zaloRetail"] as const;
+const SITE_TEXT_FIELDS = ["district", "street", "mapUrl", "mapEmbedUrl", "openingHours", "phone", "zaloWholesale", "zaloRetail"] as const;
 
 export function siteFromForm(values: Values, current: SiteData): Result<SiteData> {
   const parsed = SiteDataSchema.safeParse({
     ...current,
     ...Object.fromEntries(SITE_TEXT_FIELDS.map((field) => [field, orNull(values[field])])),
+    // Dán cả thẻ <iframe> Google đưa cũng được: chỉ lấy src
+    mapEmbedUrl: orNull(values.mapEmbedUrl?.match(/src="([^"]+)"/)?.[1]?.replaceAll("&amp;", "&") ?? values.mapEmbedUrl),
     workshopText: orNull(values.workshopText),
     aboutText: orNull(values.aboutText),
     showPrice: values.showPrice === "on",
@@ -94,6 +96,6 @@ export function siteFromForm(values: Values, current: SiteData): Result<SiteData
       return phone ? [{ name: values[`contactName${i}`]?.trim() ?? "", note: values[`contactNote${i}`]?.trim() ?? "", phone, zalo: values[`contactZalo${i}`] === "on" }] : [];
     }),
   });
-  if (!parsed.success) return { ok: false, errors: zodErrors(parsed.error, { mapUrl: "Link bản đồ phải bắt đầu bằng https://." }) };
+  if (!parsed.success) return { ok: false, errors: zodErrors(parsed.error, { mapUrl: "Link bản đồ phải bắt đầu bằng https://.", mapEmbedUrl: "Dán link nhúng của Google Maps (bắt đầu bằng https://www.google.com/maps/embed)." }) };
   return { ok: true, data: parsed.data };
 }
