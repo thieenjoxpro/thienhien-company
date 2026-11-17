@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { createContext, use, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { applyFilters, facetsOf, isFiltered, parseFilters, serializeFilters, type FilterState } from "@/lib/filters";
 import type { Product } from "@/lib/schema";
@@ -25,15 +25,14 @@ export function useFilters(): FilterApi {
 
 /**
  * Trạng thái tìm, lọc, sắp xếp của trang danh sách, dùng chung cho cột lọc và lưới (hai cột khác nhau).
- * Đổi ngay trên giao diện, URL theo sau (router.replace, không cuộn); Back hoặc reload thì đọc lại từ URL.
+ * Đổi ngay trên giao diện, URL theo sau (history.replaceState, không cuộn); Back hoặc reload thì đọc lại từ URL.
  */
 export function FilterProvider({ products, children }: { products: Product[]; children: ReactNode }) {
   const params = useSearchParams();
-  const router = useRouter();
   const pathname = usePathname();
   const query = params.toString();
   const [state, setState] = useState(() => parseFilters(new URLSearchParams(query)));
-  // URL do chính trang ghi (router.replace) về trễ hơn state, nhất là khi view transition đang chạy.
+  // URL do chính trang ghi có thể về trễ hơn state, nhất là khi view transition đang chạy.
   // Bỏ qua các URL đó, nếu không URL cũ sẽ ghi đè lựa chọn mới; chỉ URL từ ngoài (Back, link) mới nạp lại state.
   const pushed = useRef(new Set<string>());
   useEffect(() => {
@@ -50,9 +49,11 @@ export function FilterProvider({ products, children }: { products: Product[]; ch
       setState(next);
       const qs = serializeFilters(next);
       pushed.current.add(qs);
-      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+      // history.replaceState thay cho router.replace: Next vẫn đồng bộ useSearchParams, nhưng URL đổi ngay,
+      // không phải chờ một lượt điều hướng (bị view transition đang chạy giữ lại) và không gọi lại server.
+      window.history.replaceState(null, "", qs ? `${pathname}?${qs}` : pathname);
     },
-    [router, pathname],
+    [pathname],
   );
   const filtered = isFiltered(state);
   const api = useMemo(() => ({ state, update, results, facets, filtered, pathname }), [state, update, results, facets, filtered, pathname]);

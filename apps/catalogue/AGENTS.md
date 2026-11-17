@@ -26,6 +26,8 @@ Plan đầy đủ: `../../docs/PLAN.md`. Chỗ lệch so với plan: `docs/DEVIA
 ## Khu quản trị và dữ liệu
 
 - `/admin` ghi thẳng vào `src/data/*.json` và `public/`. Chỉ chạy khi dev; bản build trả 404. Lên web bằng commit và push.
+- Chế độ máy chủ (`CATALOGUE_SERVER=1`, Docker, xem `../../docs/DEPLOY.md`): dữ liệu trong PostgreSQL, `/admin` đăng nhập ở `/dang-nhap`, sửa là lên ngay. Mã chỉ dành cho chế độ này nằm trong `src/lib/server/`; không import nó vào component client.
+- Dữ kiện sửa được của xưởng (`site.phone`, `site.district`, số Zalo) không dùng ở cấp module và không dùng trong component client: đọc trong hàm của component server rồi truyền props.
 - Trang công khai nằm trong `src/app/(site)/`; `/admin` có layout riêng.
 - `src/data/DEMO.md` còn nghĩa là dữ liệu và ảnh đang là demo; xoá khi đã thay hàng thật.
 

@@ -9,10 +9,11 @@ import { VisitWorkshop } from "@/components/home/VisitWorkshop";
 import { getCategoryTree, getFeaturedProducts, getNewProducts, getProducts, getProductsByCategory } from "@/lib/catalog";
 import { site } from "@/lib/site.config";
 
-export const metadata: Metadata = {
+// Hàm chứ không phải hằng: ở chế độ máy chủ quận sửa được trong /admin, hằng sẽ giữ giá trị lúc nạp module
+export const generateMetadata = (): Metadata => ({
   title: { absolute: `Pano, bản lề, tôn, mâm cầu thang giá sỉ${site.district ? ` ở ${site.district}` : ""} | ${site.name}` },
   alternates: { canonical: "/" },
-};
+});
 
 const SHELF_SIZE = 6;
 

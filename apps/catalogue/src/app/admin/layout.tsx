@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { Container } from "@/components/ui/Container";
-import { adminEnabled } from "@/lib/admin/guard";
+import { signOut } from "@/app/dang-nhap/actions";
+import { requireAdmin } from "@/lib/admin/guard";
+import { serverMode } from "@/lib/server/mode";
 
 export const metadata: Metadata = {
   title: { default: "Quản trị", template: "%s | Quản trị Thiện Hiền" },
@@ -19,9 +20,10 @@ const LINKS = [
   { href: "/admin/xuong", label: "Thông tin xưởng" },
 ];
 
-// Khu quản trị chạy trên máy (pnpm dev), ghi thẳng vào src/data và public/. Bản build không có trang này.
-export default function AdminLayout({ children }: { children: ReactNode }) {
-  if (!adminEnabled()) notFound();
+// Khu quản trị: pnpm dev ghi thẳng vào src/data và public/; chế độ máy chủ ghi database và phải đăng nhập.
+// Bản build thường (Vercel) không có trang này.
+export default async function AdminLayout({ children }: { children: ReactNode }) {
+  await requireAdmin();
   return (
     <>
       <header className="border-b border-line">
@@ -43,6 +45,13 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           <Link href="/" className="flex min-h-11 items-center text-ink-muted underline underline-offset-4">
             Xem site
           </Link>
+          {serverMode() ? (
+            <form action={signOut}>
+              <button type="submit" className="flex min-h-11 items-center text-ink-muted underline underline-offset-4">
+                Đăng xuất
+              </button>
+            </form>
+          ) : null}
         </Container>
       </header>
       <main id="noi-dung">

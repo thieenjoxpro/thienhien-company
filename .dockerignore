@@ -1,0 +1,11 @@
+**/node_modules
+**/.next
+**/.next-fixtures
+**/test-results
+**/playwright-report
+**/.lighthouseci
+**/.data
+.git
+.env
+*.md
+!apps/catalogue/src/data/*.md

@@ -14,11 +14,12 @@ import { usePrimaryInView } from "@/lib/use-primary-in-view";
  * không còn nút Zalo nào khác trong màn hình. Từ 640px: hai nút tròn nổi góc phải dưới.
  * Thiếu số Zalo thì không render. Không có ở trang hỏi giá: ở đó nút Zalo phải đi kèm việc copy danh sách.
  */
-export function PhoneBar() {
+export function PhoneBar({ phone, zaloWholesale }: { phone: string | null; zaloWholesale: string | null }) {
   const bar = useRef<HTMLDivElement>(null);
   const primaryInView = usePrimaryInView("[data-primary-action]", bar);
-  const zalo = zaloLink(site.zaloWholesale);
-  const tel = telLink(site.phone);
+  // Số Zalo, số gọi nhận từ SiteChrome (server): ở chế độ máy chủ chúng sửa được trong /admin
+  const zalo = zaloLink(zaloWholesale);
+  const tel = telLink(phone);
   const pathname = usePathname();
 
   if (!zalo || pathname === "/hoi-gia") return null;

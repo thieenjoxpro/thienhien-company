@@ -17,12 +17,12 @@ const menuLink = "flex min-h-11 min-w-11 items-center text-base font-semibold";
  * Menu dưới 1024px, mở toàn màn hình bằng <dialog> gốc (lớp trên cùng, không cần position: fixed).
  * Tab bị giữ trong menu, Esc đóng, đóng xong focus về nút mở.
  */
-export function MobileNav({ groups }: { groups: MenuGroup[] }) {
+export function MobileNav({ groups, phone, zaloWholesale }: { groups: MenuGroup[]; phone: string | null; zaloWholesale: string | null }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const zalo = zaloLink(site.zaloWholesale);
-  const tel = telLink(site.phone);
+  const zalo = zaloLink(zaloWholesale);
+  const tel = telLink(phone);
 
   const open = () => {
     dialog.current?.showModal();

@@ -70,12 +70,14 @@ test("sitemap có trang sản phẩm, danh mục, chính sách, không có /hoi-
   expect(robots).toContain("Disallow: /admin");
 });
 
-test("bản build không có khu quản trị: /admin và trang con trả 404, không lộ form", async ({ page }) => {
-  for (const path of ["/admin", "/admin/san-pham", "/admin/san-pham/TH-BL03", "/admin/xuong"]) {
+test("bản build thường không có khu quản trị: /admin, trang con và /dang-nhap trả 404, không lộ form", async ({ page }) => {
+  for (const path of ["/admin", "/admin/san-pham", "/admin/san-pham/TH-BL03", "/admin/xuong", "/dang-nhap"]) {
     const response = await page.goto(path);
     expect(response?.status(), path).toBe(404);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Không có trang này");
   }
+  // Route phục vụ ảnh tải lên chỉ chạy ở chế độ máy chủ
+  expect((await page.request.get("/products/khong-co.png")).status()).toBe(404);
 });
 
 test("trang chính sách hiện tiêu đề con và danh sách; footer có cột Chính sách", async ({ page }) => {

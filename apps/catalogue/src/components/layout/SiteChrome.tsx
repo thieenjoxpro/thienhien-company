@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { businessLd } from "@/lib/seo";
+import { site } from "@/lib/site.config";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { PhoneBar } from "./PhoneBar";
@@ -16,7 +17,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <Header />
       <main id="noi-dung">{children}</main>
       <Footer />
-      <PhoneBar />
+      <PhoneBar phone={site.phone} zaloWholesale={site.zaloWholesale} />
       {business ? <JsonLd data={business} /> : null}
     </>
   );
