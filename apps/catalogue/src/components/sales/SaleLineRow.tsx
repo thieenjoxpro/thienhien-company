@@ -72,7 +72,7 @@ export function SaleLineRow({ index, line, product, lastPrice, errors, onQuantit
           ) : null}
           {over ? (
             <p className="mt-3 rounded-btn border-2 border-accent bg-warning-surface px-3 py-2 text-sale text-ink">
-              Kho chỉ còn {formatNumber(product.stock)} {product.unit}. Vẫn bán được, nhớ nhập thêm hàng.
+              {product.stock > 0 ? `Kho chỉ còn ${formatNumber(product.stock)} ${product.unit}.` : "Kho đã hết hàng này."} Vẫn bán được, nhớ nhập thêm hàng.
             </p>
           ) : null}
         </div>

@@ -29,6 +29,7 @@ test("luồng chính: khách quen, chạm 3 mặt hàng, trả đủ, in phiếu
   await taps.tap(tiles(page).nth(2));
   await taps.tap(page.getByRole("button", { name: "Trả đủ" }));
   await expect(page.getByText("Trả đủ, không nợ thêm")).toBeVisible();
+  await page.screenshot({ path: `test-results/review/ban-hang-${info.project.name}.png`, fullPage: true });
   await taps.tap(page.getByRole("button", { name: "Xong, in phiếu" }));
 
   await expect(page.getByRole("heading", { name: "Đã lưu đơn" })).toBeVisible();
