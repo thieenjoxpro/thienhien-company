@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { requireAdmin } from "@/lib/admin/guard";
 import Link from "next/link";
 import { SalesOff } from "@/components/sales/SalesOff";
 import { Button } from "@/components/ui/Button";
@@ -15,6 +16,7 @@ type Props = { searchParams: Promise<Record<string, string | string[] | undefine
 const field = "h-12 w-full rounded-btn border-2 border-ink-muted bg-ground px-3 text-sale";
 
 export default async function OrdersPage({ searchParams }: Props) {
+  await requireAdmin(); // layout và page render song song: trang tự kiểm quyền trước khi đọc dữ liệu
   if (!salesEnabled()) return <SalesOff />;
   const params = await searchParams;
   const filter = orderFilterFrom(params);

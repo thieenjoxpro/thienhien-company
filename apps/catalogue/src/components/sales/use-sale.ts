@@ -14,6 +14,7 @@ export function useSaleState(key: string, initial: SaleState | null) {
   const [state, dispatch] = useReducer(saleReducer, initial ?? emptySale);
   const [restored, setRestored] = useState(false);
   const ready = useRef(false);
+  const done = useRef(false); // đơn đã lưu: hẹn giờ ghi nháp còn treo không được ghi lại
 
   useEffect(() => {
     if (!initial) {
@@ -27,8 +28,12 @@ export function useSaleState(key: string, initial: SaleState | null) {
   }, [key, initial]);
 
   useEffect(() => {
-    if (!ready.current) return;
-    const timer = window.setTimeout(() => (hasContent(state) ? writeDraft(key, state) : clearDraft(key)), 500);
+    if (!ready.current || done.current) return;
+    const timer = window.setTimeout(() => {
+      if (done.current) return;
+      if (hasContent(state)) writeDraft(key, state);
+      else clearDraft(key);
+    }, 500);
     return () => window.clearTimeout(timer);
   }, [key, state]);
 
@@ -37,7 +42,11 @@ export function useSaleState(key: string, initial: SaleState | null) {
     dispatch({ type: "reset" });
     setRestored(false);
   };
-  return { state, dispatch, restored, discard, finish: () => clearDraft(key) };
+  const finish = () => {
+    done.current = true;
+    clearDraft(key);
+  };
+  return { state, dispatch, restored, discard, finish };
 }
 
 /** Nợ cũ, giá lần trước, đơn gần nhất của khách đang chọn; null khi đang tải hoặc chưa chọn khách. */

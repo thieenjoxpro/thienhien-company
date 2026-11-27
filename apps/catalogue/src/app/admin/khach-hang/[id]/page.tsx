@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { requireAdmin } from "@/lib/admin/guard";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CustomerForm } from "@/components/sales/CustomerForm";
@@ -17,6 +18,7 @@ type Props = { params: Promise<{ id: string }>; searchParams: Promise<Record<str
 const NOTICE: Record<string, string> = { luu: "Đã lưu khách.", thu: "Đã ghi khoản trả nợ." };
 
 export default async function CustomerPage({ params, searchParams }: Props) {
+  await requireAdmin(); // layout và page render song song: trang tự kiểm quyền trước khi đọc dữ liệu
   if (!salesEnabled()) return <SalesOff />;
   const id = Number((await params).id);
   const customer = Number.isInteger(id) ? await getCustomer(id) : null;

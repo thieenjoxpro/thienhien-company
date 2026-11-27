@@ -25,9 +25,14 @@ export function ReceiptActions({ orderId, fileName }: Props) {
       const blob = await response.blob();
       const file = new File([blob], `${fileName}.png`, { type: "image/png" });
       if (navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file], title: "Phiếu bán hàng" });
-        setStatus(null);
-        return;
+        try {
+          await navigator.share({ files: [file], title: "Phiếu bán hàng" });
+          setStatus(null);
+          return;
+        } catch (error) {
+          if (error instanceof DOMException && error.name === "AbortError") throw error;
+          // máy không cho chia sẻ (hết lượt chạm sau khi tải ảnh, hay gặp trên iPhone): tải ảnh về như máy tính
+        }
       }
       const url = URL.createObjectURL(blob);
       const link = Object.assign(document.createElement("a"), { href: url, download: file.name });

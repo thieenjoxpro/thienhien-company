@@ -124,6 +124,45 @@ describe("màn bán hàng", () => {
     expect(screen.getByText("Số lượng phải lớn hơn 0.")).toBeTruthy();
   });
 
+  it("lưu xong: nút chốt vẫn khoá (không lưu trùng), hẹn giờ nháp còn treo không ghi lại nháp", async () => {
+    server.submit.mockResolvedValue({ ok: true, id: 7, warnings: [] });
+    renderScreen();
+    fireEvent.click(screen.getByText("Khách lẻ"));
+    fireEvent.click(screen.getByText("Bản lề cối 16 ly"));
+    // bấm chốt ngay, chưa đủ 500ms của nháp
+    fireEvent.click(screen.getByRole("button", { name: "Xong, in phiếu" }));
+    await flush();
+    await act(async () => vi.advanceTimersByTime(600));
+    expect(screen.getByRole("button", { name: "Đang lưu" })).toHaveProperty("disabled", true);
+    fireEvent.click(screen.getByRole("button", { name: "Đang lưu" }));
+    await flush();
+    expect(server.submit).toHaveBeenCalledTimes(1);
+    expect(window.localStorage.getItem("th-ban-hang-nhap:chu-xuong")).toBeNull();
+  });
+
+  it("máy chủ không trả lời: báo lỗi nằm yên, đơn còn nguyên, bấm lại được", async () => {
+    server.submit.mockRejectedValue(new Error("mất mạng"));
+    renderScreen();
+    fireEvent.click(screen.getByText("Khách lẻ"));
+    fireEvent.click(screen.getByText("Bản lề cối 16 ly"));
+    fireEvent.click(screen.getByRole("button", { name: "Xong, in phiếu" }));
+    await flush();
+    expect(screen.getByRole("alert").textContent).toContain("Chưa lưu được đơn");
+    expect(screen.getByRole("button", { name: "Xong, in phiếu" })).toHaveProperty("disabled", false);
+    expect(within(screen.getByRole("list", { name: "Hàng trong đơn" })).getByText(/Bản lề cối 16 ly/)).toBeTruthy();
+  });
+
+  it("khách vãng lai trả thiếu thì báo cạnh ô Khách trả, không gửi", async () => {
+    renderScreen();
+    fireEvent.click(screen.getByText("Khách lẻ"));
+    fireEvent.click(screen.getByText("Bản lề cối 16 ly"));
+    fireEvent.click(screen.getByRole("button", { name: "Chưa trả" }));
+    fireEvent.click(screen.getByRole("button", { name: "Xong, in phiếu" }));
+    await flush();
+    expect(screen.getByText(/Khách vãng lai phải trả đủ/)).toBeTruthy();
+    expect(server.submit).not.toHaveBeenCalled();
+  });
+
   it("lưu xong thì sang màn phiếu và xoá nháp", async () => {
     server.submit.mockResolvedValue({ ok: true, id: 42, warnings: [] });
     renderScreen();

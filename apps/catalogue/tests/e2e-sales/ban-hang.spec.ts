@@ -131,3 +131,35 @@ test("API: chưa đăng nhập 401, đơn không có 404, Excel đúng kiểu v�
   const shown = await page.locator("main ul > li").count();
   expect(book.getWorksheet("Đơn hàng")?.rowCount).toBe(shown + 1);
 });
+
+test("trang đơn, khách, kho không lộ dữ liệu khi chưa đăng nhập, kể cả request RSC", async ({ playwright, baseURL }) => {
+  const anonymous = await playwright.request.newContext({ baseURL, storageState: { cookies: [], origins: [] }, maxRedirects: 0 });
+  for (const path of ["/admin/don-hang", "/admin/don-hang/1", "/admin/khach-hang", "/admin/khach-hang/1", "/admin/kho", "/admin/ban-hang"]) {
+    for (const headers of [{}, { RSC: "1" }] as Record<string, string>[]) {
+      const response = await anonymous.get(path, { headers });
+      const body = await response.text();
+      expect(body, `${path} ${JSON.stringify(headers)}`).not.toContain("Khách lẻ");
+      expect(body).not.toContain("PH000001");
+      expect(body).not.toMatch(/Nợ \d|Đang nợ/);
+    }
+  }
+  await anonymous.dispose();
+});
+
+test("In phiếu: bản in của trang đơn đúng một trang A5, không có menu quản trị; đơn huỷ có dấu ĐÃ HUỶ", async ({ page }, info) => {
+  await page.goto("/admin/don-hang/1");
+  await page.emulateMedia({ media: "print" });
+  await expect(page.getByRole("navigation", { name: "Khu quản trị" })).toBeHidden();
+  await expect(page.getByRole("button", { name: "In phiếu" })).toBeHidden();
+  const pdf = (await page.pdf({ preferCSSPageSize: true })).toString("latin1");
+  expect(pdf.match(/\/Type\s*\/Page\b/g)).toHaveLength(1);
+  expect(Number(/MediaBox \[0 0 ([\d.]+)/.exec(pdf)?.[1])).toBeCloseTo(419.5, -1);
+  await page.emulateMedia({ media: "screen" });
+
+  if (info.project.name !== "desktop") return; // huỷ đơn một lần là đủ
+  page.on("dialog", (dialog) => dialog.accept());
+  await page.getByRole("button", { name: "Huỷ đơn này" }).click();
+  await expect(page.getByText("Đơn này đã huỷ, không tính vào nợ.")).toBeVisible();
+  await expect(page.locator("[data-receipt]").getByLabel("Đơn đã huỷ")).toBeVisible();
+  await page.locator("[data-receipt]").screenshot({ path: "test-results/review/phieu-da-huy.png" });
+});

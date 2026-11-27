@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { requireAdmin } from "@/lib/admin/guard";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cancelOrderAction } from "@/app/admin/_actions/sales-admin";
@@ -17,6 +18,7 @@ type Props = { params: Promise<{ id: string }>; searchParams: Promise<Record<str
 
 // Sau khi chốt đơn (?moi=1) và khi mở lại đơn cũ: xem phiếu, in, gửi Zalo, tải PDF.
 export default async function OrderPage({ params, searchParams }: Props) {
+  await requireAdmin(); // layout và page render song song: trang tự kiểm quyền trước khi đọc dữ liệu
   if (!salesEnabled()) return <SalesOff />;
   const id = Number((await params).id);
   const data = Number.isInteger(id) ? await receiptData(id) : null;

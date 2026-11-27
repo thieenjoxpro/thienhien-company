@@ -155,3 +155,18 @@ Yêu cầu gốc là prompt "Tối ưu màn Bán hàng cho người lớn tuổi
 120. **E2E bán hàng** riêng: `playwright.sales.config.ts`, build chế độ máy chủ vào `.next-sales` (biến `CATALOGUE_DIST_DIR`), PGlite trong bộ nhớ, cổng 4320, một worker (một database chung), hai cỡ 390×844 và 1280×800, kiểm axe, không cuộn ngang, vùng chạm 44px bằng `expectPageBasics` có sẵn. Teardown dọn cả cổng 4310 và 4320.
 121. **Số lần chạm đo được** (e2e, 27/11/2026): đơn 3 món cho khách quen là **6 lần chạm** ở cả 390×844 và 1280×800 (chọn Khách lẻ, chạm 3 mặt hàng, "Trả đủ", "Xong, in phiếu"); với Khách lẻ, "Trả đủ" đã bật sẵn nên tối thiểu là 5. Mục tiêu ≤ 8.
 122. **Câu hỏi còn mở**: (a) máy in ở xưởng in được khổ A5 không, hay in A4 rồi cắt; (b) chủ xưởng có muốn giá gợi ý cho khách sỉ là giá lần trước (như mục 110) hay luôn giá bảng; (c) cần phiếu nhập kho, sửa đơn, trả hàng một phần không (chưa làm); (d) VietQR cần quét thử bằng app ngân hàng thật với số tài khoản thật trước khi in cho khách; (e) Docker image có Chromium chưa build lần nào.
+123. **B5 không có `GET/PUT /api/settings`**: ba trường ngân hàng sửa qua form `/admin/xuong` (server action, kiểm phiên như mọi form quản trị); không có API JSON riêng.
+124. **Khách vãng lai phải trả đủ** (kiểm ở cả màn bán và máy chủ): "Khách lẻ" dùng chung không có sổ nợ để thu lại, nên trả thiếu thì báo cạnh ô Khách trả; muốn ghi nợ thì chọn hoặc thêm tên khách. Khách lẻ có tên vẫn ghi nợ được.
+125. **Chống lưu trùng**: lưu xong thì nút chốt giữ "Đang lưu" tới khi sang màn phiếu; gửi lỗi (mất mạng, hết phiên) thì báo trên thanh chốt, đơn còn nguyên, bấm lại được. Trang đơn, khách, kho tự gọi `requireAdmin` (không dựa vào layout); e2e kiểm cả request RSC khi chưa đăng nhập.
+
+### Trạng thái
+
+| Phần | Trạng thái | Kiểm bằng |
+|---|---|---|
+| M1 đến M4 bản gọn (khách, đơn, thanh toán, sổ nợ, kho) | Xong | `sales-db.test.ts` (PGlite), e2e |
+| A. Màn `/admin/ban-hang` cho người lớn tuổi | Xong | RTL `sale-screen.test.tsx`, e2e 390×844 và 1280×800, axe |
+| Milestone 5 (B1 đến B6): phiếu A5, in, PNG, PDF, VietQR, số thành chữ | Xong | unit `so-thanh-chu`, `vietqr`, e2e PDF A5, PNG, bản in một trang |
+| C. Excel khách, sổ nợ, đơn | Xong | unit `sales-excel.test.ts`, e2e số dòng |
+| Docker image có Chromium | Chưa chạy thử | máy không có Docker |
+| VietQR quét bằng app ngân hàng thật | Chưa thử | cần số tài khoản thật |
+| `pnpm lhci` | Không chạy lại | không đổi trang công khai |

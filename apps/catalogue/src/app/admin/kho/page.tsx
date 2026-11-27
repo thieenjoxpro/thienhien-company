@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { requireAdmin } from "@/lib/admin/guard";
 import { Notice, noticeFrom } from "@/components/admin/Notice";
 import { SalesOff } from "@/components/sales/SalesOff";
 import { StockRow } from "@/components/sales/StockRow";
@@ -12,6 +13,7 @@ type Props = { searchParams: Promise<Record<string, string | string[] | undefine
 
 // Tồn kho theo mặt hàng của catalogue. Bán thì tự trừ, huỷ đơn thì cộng lại; đếm kho xong thì đặt lại số ở đây.
 export default async function StockPage({ searchParams }: Props) {
+  await requireAdmin(); // layout và page render song song: trang tự kiểm quyền trước khi đọc dữ liệu
   if (!salesEnabled()) return <SalesOff />;
   const [products, stock] = await Promise.all([loadProducts(), stockMap()]);
   return (

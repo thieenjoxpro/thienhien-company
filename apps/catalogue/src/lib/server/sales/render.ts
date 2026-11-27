@@ -10,15 +10,21 @@ const TIMEOUT_MS = 20_000;
 const shared = globalThis as { __thBrowser?: Promise<Browser>; __thRenderSlots?: { busy: number; queue: (() => void)[] } };
 const slots = (shared.__thRenderSlots ??= { busy: 0, queue: [] });
 
-async function browser(): Promise<Browser> {
-  const current = shared.__thBrowser ? await shared.__thBrowser.catch(() => null) : null;
-  if (current?.isConnected()) return current;
+const launch = async (): Promise<Browser> => {
   const { chromium } = await import("playwright-core");
-  shared.__thBrowser = chromium.launch({
+  return chromium.launch({
     executablePath: process.env.CHROMIUM_PATH || undefined,
     // --no-sandbox: Chromium chạy trong container bằng user không phải root, không có namespace để dựng sandbox
     args: ["--no-sandbox", "--disable-dev-shm-usage", "--font-render-hinting=none"],
   });
+};
+
+/** Gán promise trước mọi await: hai yêu cầu đầu tiên cùng lúc vẫn chỉ mở một Chromium. */
+async function browser(): Promise<Browser> {
+  const pending = (shared.__thBrowser ??= launch());
+  const current = await pending.catch(() => null);
+  if (current?.isConnected()) return current;
+  if (shared.__thBrowser === pending) shared.__thBrowser = launch(); // trình duyệt chết hoặc mở lỗi: mở lại
   return shared.__thBrowser;
 }
 

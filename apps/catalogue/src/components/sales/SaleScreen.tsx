@@ -34,11 +34,12 @@ export function SaleScreen({ products, customers: initialCustomers, frequent, to
   const [tried, setTried] = useState(false);
   const [serverErrors, setServerErrors] = useState<OrderErrors>({});
   const [saving, setSaving] = useState(false);
+  const [failure, setFailure] = useState<string | null>(null);
   const context = useCustomerContext(state.customerId);
   const bySku = new Map(products.map((p) => [p.sku, p]));
   const customer = customers.find((c) => c.id === state.customerId) ?? null;
   const numbers = saleNumbers(state);
-  const errors = tried ? { ...validateOrder(toOrderInput(state)), ...serverErrors } : {};
+  const errors = tried ? { ...validateOrder(toOrderInput(state), customer?.walkIn), ...serverErrors } : {};
   const priceOf = (p: SaleProduct) => suggestPrice(p, customer?.kind ?? null, context?.lastPrices ?? {});
 
   useEffect(() => setServerErrors({}), [state]);
@@ -57,18 +58,22 @@ export function SaleScreen({ products, customers: initialCustomers, frequent, to
   const submit = async () => {
     const input = toOrderInput(state);
     setTried(true);
-    if (Object.keys(validateOrder(input)).length) return scrollToError();
+    if (Object.keys(validateOrder(input, customer?.walkIn)).length) return scrollToError();
     setSaving(true);
+    setFailure(null);
     try {
       const result = await submitOrder(input);
       if (!result.ok) {
+        setSaving(false);
         setServerErrors(result.errors);
         return scrollToError();
       }
+      // lưu xong: nút giữ "Đang lưu" tới khi sang màn phiếu, không bấm lần hai được
       finish();
       router.push(`/admin/don-hang/${result.id}?moi=1`);
-    } finally {
+    } catch {
       setSaving(false);
+      setFailure("Chưa lưu được đơn. Kiểm tra mạng hoặc đăng nhập lại, rồi bấm lại. Đơn vẫn còn trên màn hình.");
     }
   };
 
@@ -131,7 +136,7 @@ export function SaleScreen({ products, customers: initialCustomers, frequent, to
         onThousand={() => dispatch({ type: "paid", text: appendThousand(state.paidMode === "custom" ? state.paid : moneyText(numbers.paid)) })}
       />
       <div aria-hidden="true" className="h-48" />
-      <SaleBar customerName={customer?.name ?? null} count={state.lines.length} total={numbers.total} paid={numbers.paid} saving={saving} onSubmit={submit} />
+      <SaleBar customerName={customer?.name ?? null} count={state.lines.length} total={numbers.total} paid={numbers.paid} saving={saving} failure={failure} onSubmit={submit} />
     </div>
   );
 }

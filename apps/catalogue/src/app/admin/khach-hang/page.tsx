@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { requireAdmin } from "@/lib/admin/guard";
 import Link from "next/link";
 import { CustomerForm } from "@/components/sales/CustomerForm";
 import { SalesOff } from "@/components/sales/SalesOff";
@@ -12,6 +13,7 @@ export const metadata: Metadata = { title: "Khách hàng" };
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
 
 export default async function CustomersPage({ searchParams }: Props) {
+  await requireAdmin(); // layout và page render song song: trang tự kiểm quyền trước khi đọc dữ liệu
   if (!salesEnabled()) return <SalesOff />;
   const q = (await searchParams).q;
   const query = typeof q === "string" ? q : "";

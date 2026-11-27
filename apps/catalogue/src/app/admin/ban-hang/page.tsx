@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { requireAdmin } from "@/lib/admin/guard";
 import { SaleScreen } from "@/components/sales/SaleScreen";
 import { SalesOff } from "@/components/sales/SalesOff";
 import { loadProducts } from "@/lib/admin/repo";
@@ -15,6 +16,7 @@ export const metadata: Metadata = { title: "Bán hàng" };
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
 
 export default async function SalePage({ searchParams }: Props) {
+  await requireAdmin(); // layout và page render song song: trang tự kiểm quyền trước khi đọc dữ liệu
   if (!salesEnabled()) return <SalesOff />;
   const params = await searchParams;
   const [catalogue, rows, frequentIds, top, stock, user] = await Promise.all([loadProducts(), listCustomers(), frequentCustomerIds(8), topSkus(8), stockMap(), currentUser()]);

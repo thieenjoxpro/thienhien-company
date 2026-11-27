@@ -75,6 +75,11 @@ describe("bán hàng trên database (PGlite)", () => {
     expect(await listOrders()).toHaveLength(before);
   });
 
+  it("máy chủ cũng chặn khách vãng lai trả thiếu", async () => {
+    const result = await createOrder({ customerId: walkIn, lines: [{ sku: a.sku, quantity: 1, unitPrice: 50_000 }], discount: 0, paid: 0 }, products, null);
+    expect(result).toEqual({ ok: false, errors: { paid: expect.stringContaining("vãng lai") } });
+  });
+
   it("ngữ cảnh khách: nợ, giá lần trước, đơn gần nhất", async () => {
     const ctx = await customerContext(hung);
     expect(ctx.debt).toBe(600_002);

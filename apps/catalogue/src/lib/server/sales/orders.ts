@@ -23,6 +23,7 @@ export async function createOrder(input: OrderInput, products: Product[], user: 
   const db = await getDb();
   const customer = input.customerId ? await getCustomer(input.customerId) : null;
   if (input.customerId && !customer) errors.customer = "Không tìm thấy khách này.";
+  if (customer?.walkIn) Object.assign(errors, { ...validateOrder(input, true), ...errors });
   if (!customer || Object.keys(errors).length) return { ok: false, errors };
 
   const { subtotal, total } = orderTotals(input.lines, input.discount, input.paid);

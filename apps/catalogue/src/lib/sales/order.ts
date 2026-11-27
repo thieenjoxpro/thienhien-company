@@ -36,7 +36,7 @@ const money = (value: number) => Number.isInteger(value) && value >= 0 && value 
  * Lỗi theo ô, lời đời thường. Khoá: customer, lines, line-<i>-quantity, line-<i>-price, discount, paid.
  * Rỗng là hợp lệ.
  */
-export function validateOrder(input: OrderInput): OrderErrors {
+export function validateOrder(input: OrderInput, walkIn = false): OrderErrors {
   const errors: OrderErrors = {};
   if (!input.customerId) errors.customer = "Chưa chọn khách.";
   if (input.lines.length === 0) errors.lines = "Chưa chọn hàng nào.";
@@ -50,6 +50,10 @@ export function validateOrder(input: OrderInput): OrderErrors {
   if (!money(input.discount)) errors.discount = "Số giảm giá chưa đúng.";
   else if (input.discount > subtotal) errors.discount = "Giảm giá lớn hơn tiền hàng.";
   if (!money(input.paid)) errors.paid = "Số tiền khách trả chưa đúng.";
+  // Khách vãng lai không có sổ nợ để thu lại sau
+  else if (walkIn && !errors.discount && input.paid < orderTotals(input.lines, input.discount, 0).total) {
+    errors.paid = "Khách vãng lai phải trả đủ. Muốn ghi nợ thì chọn hoặc thêm tên khách.";
+  }
   return errors;
 }
 
