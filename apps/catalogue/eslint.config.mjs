@@ -9,6 +9,7 @@ export default defineConfig(
   globalIgnores([
     ".next/**",
     ".next-fixtures/**",
+    ".next-sales/**",
     "out/**",
     "coverage/**",
     "playwright-report/**",

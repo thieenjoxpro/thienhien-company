@@ -6,12 +6,13 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../../..")
 
 /**
  * Trên Windows, Playwright tắt tiến trình cha của webServer nhưng `next start` (tiến trình con) vẫn giữ cổng,
- * làm lần chạy sau báo cổng bận. Chỉ tắt server Next đang nghe cổng 4310 mà dòng lệnh nằm trong repo này.
+ * làm lần chạy sau báo cổng bận. Chỉ tắt server Next đang nghe cổng 4310 (e2e catalogue) hoặc 4320 (e2e bán hàng)
+ * mà dòng lệnh nằm trong repo này.
  */
 export default function teardown() {
   if (process.platform !== "win32") return;
   const script = [
-    "Get-NetTCPConnection -LocalPort 4310 -State Listen -ErrorAction SilentlyContinue | ForEach-Object {",
+    "Get-NetTCPConnection -LocalPort 4310,4320 -State Listen -ErrorAction SilentlyContinue | ForEach-Object {",
     "  $p = Get-CimInstance Win32_Process -Filter \"ProcessId=$($_.OwningProcess)\";",
     `  if ($p.CommandLine -like '*${repoRoot.replace(/'/g, "''")}*start-server.js*') { Stop-Process -Id $p.ProcessId -Force }`,
     "}",

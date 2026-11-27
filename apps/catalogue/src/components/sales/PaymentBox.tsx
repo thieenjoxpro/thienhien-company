@@ -42,7 +42,7 @@ export function PaymentBox({ subtotal, total, paid, discountText, paidText, paid
         <p className="text-sale text-ink-soft">{docSoThanhChu(total)}</p>
       </div>
       <MoneyInput label="Khách trả" value={paidMode === "full" ? moneyText(total) : paidMode === "none" ? "" : paidText} onChange={onPaid} error={errors.paid}>
-        <button type="button" className={quick(false)} onClick={onThousand} aria-label="Thêm ba số 0">
+        <button type="button" className={quick(false)} onClick={onThousand} aria-label="Thêm 000">
           000
         </button>
         <button type="button" className={quick(paidMode === "full")} aria-pressed={paidMode === "full"} onClick={() => onPaidMode("full")}>

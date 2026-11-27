@@ -39,7 +39,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             <ul className="flex flex-wrap gap-x-6">
               {LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="flex min-h-11 items-center underline-offset-4 hover:underline">
+                  <Link href={link.href} className="flex min-h-11 min-w-11 items-center underline-offset-4 hover:underline">
                     {link.label}
                   </Link>
                 </li>
