@@ -7,6 +7,7 @@ import policiesJson from "@/data/policies.json";
 import productsJson from "@/data/products.json";
 import siteJson from "@/data/site.json";
 import { hashPassword } from "./password";
+import { SALES_SCHEMA } from "./sales/schema";
 
 type Row = Record<string, unknown>;
 export interface Db {
@@ -32,6 +33,7 @@ CREATE TABLE IF NOT EXISTS admin_sessions (
   user_id integer NOT NULL REFERENCES admin_users(id) ON DELETE CASCADE,
   expires_at timestamptz NOT NULL
 );
+${SALES_SCHEMA}
 `;
 
 /** Dữ liệu ban đầu của database mới: đúng các file JSON đi kèm bản build. */

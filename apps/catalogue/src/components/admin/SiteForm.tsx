@@ -21,6 +21,9 @@ const FIELDS = [
   { name: "zaloRetail", label: "Số Zalo khách lẻ", hint: "Để trống thì dùng chung số Zalo sỉ." },
   { name: "legalName", label: "Tên công ty", hint: "Như trên giấy phép, hiện ở footer." },
   { name: "taxCode", label: "Mã số thuế", hint: "Hiện ở footer." },
+  { name: "bankBin", label: "Mã ngân hàng (BIN)", hint: "6 chữ số, ví dụ Vietcombank 970436. Dùng cho mã QR trên phiếu bán hàng." },
+  { name: "bankAccount", label: "Số tài khoản nhận tiền", hint: "In thành mã QR trên phiếu. Để trống thì phiếu không có QR." },
+  { name: "bankAccountName", label: "Tên chủ tài khoản", hint: "In dưới mã QR, ví dụ NGUYEN VAN A." },
 ] as const;
 
 export function SiteForm({ site }: { site: SiteData }) {

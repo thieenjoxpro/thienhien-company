@@ -45,5 +45,8 @@
       "phone": "0942 959 688",
       "zalo": false
     }
-  ]
+  ],
+  "bankBin": null,
+  "bankAccount": null,
+  "bankAccountName": null
 }
