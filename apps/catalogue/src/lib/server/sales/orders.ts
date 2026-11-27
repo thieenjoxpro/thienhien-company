@@ -65,7 +65,7 @@ export async function createOrder(input: OrderInput, products: Product[], user: 
   return { ok: true, id, warnings };
 }
 
-export interface OrderLine {
+interface OrderLine {
   line: number;
   sku: string;
   name: string;

@@ -4,12 +4,12 @@
 const MAX_DIGITS = 12; // tới 999 tỷ
 
 /** Chỉ giữ chữ số, bỏ số 0 thừa ở đầu, tối đa 12 số. */
-export function digitsOnly(text: string): string {
+function digitsOnly(text: string): string {
   return text.replace(/\D/g, "").replace(/^0+(?=\d)/, "").slice(0, MAX_DIGITS);
 }
 
 /** "1250000" -> "1.250.000" */
-export function groupDigits(digits: string): string {
+function groupDigits(digits: string): string {
   return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 

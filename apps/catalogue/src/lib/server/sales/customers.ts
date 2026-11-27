@@ -3,12 +3,12 @@
 // Nợ của khách = tổng tiền các đơn chưa huỷ - tổng tiền đã trả (trừ khoản trả ngay của đơn đã huỷ).
 // Nợ cũ của một đơn tính theo created_at < created_at của đơn; khoản trả ngay có created_at bằng của đơn.
 import type { OrderErrors } from "@/lib/sales/order";
+import type { CustomerKind } from "@/lib/sales/types";
 import { getDb } from "../db";
 import { CUSTOMER_COLUMNS, LIVE_PAYMENTS, type Query } from "./sql";
 
 export const salesEnabled = () => Boolean(process.env.DATABASE_URL);
 
-export type CustomerKind = "le" | "si";
 
 export interface Customer {
   id: number;

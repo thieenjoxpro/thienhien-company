@@ -1,4 +1,5 @@
 // Tồn kho theo SKU, mặt hàng bán chạy, ngữ cảnh của khách khi chọn ở màn bán hàng.
+import type { CustomerContext } from "@/lib/sales/types";
 import { getDb } from "../db";
 import { debtOf } from "./customers";
 
@@ -23,14 +24,6 @@ export async function topSkus(limit = 8): Promise<string[]> {
     [limit],
   );
   return rows.map((r) => r.sku);
-}
-
-export interface CustomerContext {
-  debt: number;
-  /** Giá bán lần gần nhất cho khách này theo SKU. */
-  lastPrices: Record<string, number>;
-  /** Các dòng của đơn gần nhất (chưa huỷ), cho nút "Bán giống lần trước". */
-  lastOrder: { id: number; createdAt: string; lines: { sku: string; quantity: number; unitPrice: number }[] } | null;
 }
 
 export async function customerContext(customerId: number): Promise<CustomerContext> {

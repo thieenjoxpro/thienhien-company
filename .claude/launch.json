@@ -6,6 +6,13 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["--filter", "catalogue", "dev"],
       "port": 4310
+    },
+    {
+      "name": "catalogue-ban-hang",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "catalogue", "dev"],
+      "env": { "DATABASE_URL": "pglite://.data/pg" },
+      "port": 4310
     }
   ]
 }

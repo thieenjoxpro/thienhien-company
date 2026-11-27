@@ -24,6 +24,23 @@ export interface OrderRow {
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
+type Params = Record<string, string | string[] | undefined> | URLSearchParams;
+
+/** Bộ lọc từ query (?q=&from=&to=&status=): trang danh sách đơn và file Excel dùng cùng một cách đọc. */
+export function orderFilterFrom(params: Params): Required<Pick<OrderFilter, "q" | "from" | "to" | "status">> {
+  const get = (key: string) => {
+    const value = params instanceof URLSearchParams ? params.get(key) : params[key];
+    return typeof value === "string" ? value.trim() : "";
+  };
+  const status = get("status");
+  return {
+    q: get("q").slice(0, 60),
+    from: DATE.test(get("from")) ? get("from") : "",
+    to: DATE.test(get("to")) ? get("to") : "",
+    status: status === "ok" || status === "huy" ? status : "",
+  };
+}
+
 export async function listOrders(filter: OrderFilter = {}, limit = 500): Promise<OrderRow[]> {
   const where: string[] = [];
   const params: unknown[] = [];

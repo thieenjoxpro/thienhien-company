@@ -12,7 +12,8 @@ const config: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   transpilePackages: ["@thien-hien/shared"],
-  serverExternalPackages: ["pg", "@electric-sql/pglite"],
+  // playwright-core: Chromium chụp phiếu bán hàng thành PDF, PNG (src/lib/server/sales/render.ts)
+  serverExternalPackages: ["pg", "@electric-sql/pglite", "playwright-core", "exceljs"],
   ...(server && { output: "standalone" as const, outputFileTracingRoot: join(import.meta.dirname, "../..") }),
   // /admin tải ảnh sản phẩm qua server action (tối đa 8 MB, src/lib/admin/files.ts)
   experimental: { serverActions: { bodySizeLimit: "10mb" } },

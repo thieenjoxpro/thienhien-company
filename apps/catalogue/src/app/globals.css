@@ -94,6 +94,7 @@
   --radius-full: 9999px;
   --shadow-float: 0 4px 12px rgb(28 33 39 / 25%);
   --container-page: 1248px;
+  --container-a5: 148mm; /* bề ngang phiếu bán hàng khổ A5 */
   --container-prose: 640px;
   --container-xs: 320px;
   --container-md: 448px;
@@ -361,6 +362,22 @@
 @utility stick-aside {
   position: sticky;
   top: 24px;
+}
+
+/* Phiếu bán hàng in khổ A5 dọc, lề 8mm: trang in tên "phieu" chỉ áp cho phần tử có class receipt-page */
+@page phieu {
+  size: a5 portrait;
+  margin: 8mm;
+}
+
+@utility receipt-page {
+  page: phieu;
+  print-color-adjust: exact;
+}
+
+/* Dấu ĐÃ HUỶ to, nằm chéo giữa phiếu của đơn đã huỷ */
+@utility stamp-cancelled {
+  transform: translate(-50%, -50%) rotate(-24deg);
 }
 
 /* Cột số tiền của bảng (phiếu, sổ nợ): canh phải, chữ số cùng bề rộng */

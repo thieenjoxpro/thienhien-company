@@ -14,6 +14,10 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 const LINKS = [
+  { href: "/admin/ban-hang", label: "Bán hàng" },
+  { href: "/admin/don-hang", label: "Đơn hàng" },
+  { href: "/admin/khach-hang", label: "Khách hàng" },
+  { href: "/admin/kho", label: "Kho" },
   { href: "/admin/san-pham", label: "Sản phẩm" },
   { href: "/admin/danh-muc", label: "Danh mục" },
   { href: "/admin/chinh-sach", label: "Chính sách" },
@@ -26,7 +30,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
   await requireAdmin();
   return (
     <>
-      <header className="border-b border-line">
+      <header className="border-b border-line print:hidden">
         <Container className="flex flex-wrap items-center gap-x-6 py-3">
           <Link href="/admin" className="mr-6 flex min-h-11 items-center text-lead font-semibold">
             Quản trị
@@ -55,7 +59,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         </Container>
       </header>
       <main id="noi-dung">
-        <Container className="py-12">{children}</Container>
+        <Container className="py-12 print:p-0">{children}</Container>
       </main>
     </>
   );
