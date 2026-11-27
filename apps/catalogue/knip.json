@@ -1,4 +1,8 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "ignore": ["tests/slop-fixtures/**"]
+  "ignore": ["tests/slop-fixtures/**"],
+  "playwright": {
+    "config": ["playwright.config.ts", "playwright.sales.config.ts"],
+    "entry": ["tests/e2e/**/*.spec.ts", "tests/e2e-sales/**/*.{spec,setup}.ts"]
+  }
 }

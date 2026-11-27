@@ -36,6 +36,7 @@
   --color-scrim: rgb(28 33 39 / 60%); /* nền mờ sau popup, ink 60% */
   --color-danger: #a3271b;
   --color-success: #1f6b3f;
+  --color-warning-surface: #fff4cc; /* cảnh báo không chặn ở màn bán hàng */
 
   /* Hai họ chữ: biến --typeface-* do next/font khai trên <html> (src/app/fonts.ts), mỗi subset một họ */
   --font-sans: var(--typeface-sans-latin), var(--typeface-sans-vietnamese), system-ui, sans-serif;
@@ -79,12 +80,21 @@
   --text-eyebrow--line-height: 20px;
   --text-eyebrow--letter-spacing: 0.06em;
   --text-eyebrow--font-weight: 700;
+
+  /* Khu bán hàng cho người lớn tuổi: chữ thân 18px, tổng tiền 30px */
+  --text-sale: 18px;
+  --text-sale--line-height: 28px;
+  --text-sale-lg: 22px;
+  --text-sale-lg--line-height: 30px;
+  --text-sale-total: 30px;
+  --text-sale-total--line-height: 36px;
   --radius-tag: 3px;
   --radius-btn: 4px;
   --radius-card: 6px;
   --radius-full: 9999px;
   --shadow-float: 0 4px 12px rgb(28 33 39 / 25%);
   --container-page: 1248px;
+  --container-a5: 148mm; /* bề ngang phiếu bán hàng khổ A5 */
   --container-prose: 640px;
   --container-xs: 320px;
   --container-md: 448px;
@@ -352,6 +362,28 @@
 @utility stick-aside {
   position: sticky;
   top: 24px;
+}
+
+/* Phiếu bán hàng in khổ A5 dọc, lề 8mm: trang in tên "phieu" chỉ áp cho phần tử có class receipt-page */
+@page phieu {
+  size: a5 portrait;
+  margin: 8mm;
+}
+
+@utility receipt-page {
+  page: phieu;
+  print-color-adjust: exact;
+}
+
+/* Dấu ĐÃ HUỶ to, nằm chéo giữa phiếu của đơn đã huỷ */
+@utility stamp-cancelled {
+  transform: translate(-50%, -50%) rotate(-24deg);
+}
+
+/* Cột số tiền của bảng (phiếu, sổ nợ): canh phải, chữ số cùng bề rộng */
+@utility num-end {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
 }
 
 @utility bar-bottom {

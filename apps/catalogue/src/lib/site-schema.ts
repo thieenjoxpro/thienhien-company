@@ -30,6 +30,11 @@ export const SiteDataSchema = z.object({
     .array(z.object({ name: z.string().trim().min(1), note: z.string().trim(), phone: z.string().trim().min(8), zalo: z.boolean() }))
     .max(4)
     .default([]),
+  // Tài khoản nhận tiền in thành VietQR trên phiếu bán hàng; thiếu một trong ba thì phiếu không có QR.
+  // Không hiện ở trang công khai. Database cũ chưa có các trường này nên mặc định null.
+  bankBin: z.string().regex(/^\d{6}$/).nullable().default(null), // mã BIN 6 số của ngân hàng, ví dụ 970436
+  bankAccount: z.string().regex(/^[0-9A-Za-z]{1,19}$/).nullable().default(null),
+  bankAccountName: text.default(null), // tên chủ tài khoản, in dưới QR
 });
 
 export type SiteData = z.infer<typeof SiteDataSchema>;

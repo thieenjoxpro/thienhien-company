@@ -77,7 +77,7 @@ export function policyFromForm(values: Values, policies: Policy[], originalSlug:
   return { ok: true, data: parsed.data };
 }
 
-const SITE_TEXT_FIELDS = ["district", "street", "mapUrl", "mapEmbedUrl", "openingHours", "phone", "zaloWholesale", "zaloRetail"] as const;
+const SITE_TEXT_FIELDS = ["district", "street", "mapUrl", "mapEmbedUrl", "openingHours", "phone", "zaloWholesale", "zaloRetail", "bankBin", "bankAccount", "bankAccountName"] as const;
 
 export function siteFromForm(values: Values, current: SiteData): Result<SiteData> {
   const parsed = SiteDataSchema.safeParse({
@@ -96,6 +96,6 @@ export function siteFromForm(values: Values, current: SiteData): Result<SiteData
       return phone ? [{ name: values[`contactName${i}`]?.trim() ?? "", note: values[`contactNote${i}`]?.trim() ?? "", phone, zalo: values[`contactZalo${i}`] === "on" }] : [];
     }),
   });
-  if (!parsed.success) return { ok: false, errors: zodErrors(parsed.error, { mapUrl: "Link bản đồ phải bắt đầu bằng https://.", mapEmbedUrl: "Dán link nhúng của Google Maps (bắt đầu bằng https://www.google.com/maps/embed)." }) };
+  if (!parsed.success) return { ok: false, errors: zodErrors(parsed.error, { mapUrl: "Link bản đồ phải bắt đầu bằng https://.", mapEmbedUrl: "Dán link nhúng của Google Maps (bắt đầu bằng https://www.google.com/maps/embed).", bankBin: "Mã ngân hàng gồm đúng 6 chữ số.", bankAccount: "Số tài khoản chỉ gồm chữ số, tối đa 19 số." }) };
   return { ok: true, data: parsed.data };
 }

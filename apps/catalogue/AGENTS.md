@@ -19,7 +19,8 @@ Plan đầy đủ: `../../docs/PLAN.md`. Chỗ lệch so với plan: `docs/DEVIA
 | `pnpm dev` | Chạy dev server; khu quản trị ở http://localhost:4310/admin (chỉ khi dev) |
 | `pnpm demo:photos` | Render ảnh demo từ hình vẽ trong `scripts/demo-art/` theo `src/data/products.json` |
 | `pnpm verify` | lint, lint:css, typecheck, check:slop, check:data, knip, unit test |
-| `pnpm verify:full` | verify + build + e2e + Lighthouse CI |
+| `pnpm verify:full` | verify + build + e2e + e2e bán hàng + Lighthouse CI |
+| `pnpm test:e2e:sales` | E2E khu bán hàng: build chế độ máy chủ vào `.next-sales`, PGlite trong bộ nhớ, cổng 4320 |
 | `pnpm check:slop --production` | Thêm luật chỉ bật khi lên production (trường bắt buộc, đủ 5 khối trang chủ) |
 | `pnpm check:data --production` | Đủ 12 sản phẩm có ảnh, đủ bốn nhóm hàng |
 
@@ -30,6 +31,14 @@ Plan đầy đủ: `../../docs/PLAN.md`. Chỗ lệch so với plan: `docs/DEVIA
 - Dữ kiện sửa được của xưởng (`site.phone`, `site.district`, số Zalo) không dùng ở cấp module và không dùng trong component client: đọc trong hàm của component server rồi truyền props.
 - Trang công khai nằm trong `src/app/(site)/`; `/admin` có layout riêng.
 - `src/data/DEMO.md` còn nghĩa là dữ liệu và ảnh đang là demo; xoá khi đã thay hàng thật.
+
+## Khu bán hàng (bán, đơn, khách, sổ nợ, kho, phiếu)
+
+- Chỉ chạy khi có database (`DATABASE_URL`); trên máy: `DATABASE_URL=pglite://.data/pg pnpm dev`. Không có thì các trang hiện hướng dẫn bật.
+- Người dùng chính là ba mẹ chủ xưởng, lớn tuổi: chữ từ `text-sale` (18px), tổng tiền `text-sale-total`, nút chính `size="xl"` (56px), nút phụ `size="sale"` (48px), mọi nút có chữ, lỗi nằm cạnh ô tới khi sửa, không hộp thoại "Bạn có chắc không?" ở luồng bán.
+- SQL nằm trong `src/lib/server/sales/`; tính tiền và kiểm đơn dùng chung client và máy chủ ở `src/lib/sales/order.ts`. Máy chủ tự tính tổng, không nhận tổng từ client.
+- Phiếu: một template duy nhất `components/sales/Receipt.tsx`, trang trơn `/phieu/[id]`; PDF, PNG do Chromium chụp chính trang này (`src/lib/server/sales/render.ts`).
+- Ghi chú triển khai và quyết định: `docs/DEVIATIONS.md`, mục "Bán hàng và phiếu".
 
 ## Hàng rào tự kiểm
 

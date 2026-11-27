@@ -66,6 +66,17 @@ CATALOGUE_SERVER=1 DATABASE_URL=pglite://.data/pg UPLOAD_DIR=.data/uploads ADMIN
 
 `ADMIN_COOKIE_INSECURE=1` chỉ dùng khi chạy thử qua `http://localhost`; sau Caddy (HTTPS) thì không đặt.
 
+## Bán hàng, phiếu, Excel
+
+Khu bán hàng (`/admin/ban-hang`, `/admin/don-hang`, `/admin/khach-hang`, `/admin/kho`) dùng chung database và đăng nhập với `/admin`.
+
+- **Phiếu PDF, ảnh PNG** do Chromium headless trong container chụp từ trang `/phieu/<số đơn>`. Image cài sẵn Chromium khớp `playwright-core` (lệnh `playwright-core install --with-deps chromium-headless-shell` trong `Dockerfile`), nên image nặng thêm khoảng 300 MB. Chromium chỉ mở khi có người bấm Gửi Zalo hoặc Tải PDF lần đầu, dùng chung một trình duyệt, tối đa 2 phiếu cùng lúc; RAM thêm khoảng 150 đến 250 MB khi đang chạy.
+- **Mã VietQR trên phiếu**: điền Mã ngân hàng (BIN), Số tài khoản, Tên chủ tài khoản ở `/admin/xuong`. Thiếu thì phiếu không có QR. QR sinh ngay trong máy chủ, không gọi dịch vụ ngoài, nên VPS chặn mạng vẫn in được.
+- **In phiếu** dùng hộp in của trình duyệt, khổ A5 dọc; máy in A4 thì chọn "Vừa trang" hoặc in 2 phiếu trên một tờ.
+- **Excel**: nút "Tải file Excel" ở danh sách khách, sổ nợ của từng khách, danh sách đơn.
+
+Chạy thử trên máy không cần Docker: `DATABASE_URL=pglite://.data/pg pnpm dev` (hoặc cấu hình `catalogue-ban-hang` trong `.claude/launch.json`); Chromium lấy từ bản Playwright đã cài cho e2e (`pnpm exec playwright install chromium`).
+
 ## Bảo mật đã có
 
 - Mật khẩu băm bằng scrypt có salt; database không lưu mật khẩu gốc.
@@ -73,3 +84,4 @@ CATALOGUE_SERVER=1 DATABASE_URL=pglite://.data/pg UPLOAD_DIR=.data/uploads ADMIN
 - Sai mật khẩu 5 lần thì khoá tên đăng nhập đó 10 phút.
 - Mọi server action của `/admin` kiểm phiên trước khi ghi.
 - PostgreSQL không mở cổng ra ngoài, chỉ `web` trong mạng nội bộ của compose gọi được.
+- Trang phiếu `/phieu/<số>` không công khai: chỉ người đã đăng nhập, hoặc Chromium của chính máy chủ mang token HMAC ký riêng cho đúng đơn đó, hết hạn sau 60 giây, gửi qua header. Khoá ký sinh ngẫu nhiên mỗi lần khởi động. API phiếu và Excel trả 401 khi chưa đăng nhập.

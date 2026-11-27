@@ -31,7 +31,7 @@ const SCOPED_CLASSES = [
   { cls: "m-pop", files: ["QuoteCount.tsx", "QuoteToggle.tsx"] },
   { cls: "m-drawer", files: ["FilterResults.tsx"] },
   { cls: "bar-top", files: ["Header.tsx"] },
-  { cls: "bar-bottom|dock", files: ["PhoneBar.tsx"] },
+  { cls: "bar-bottom|dock", files: ["PhoneBar.tsx", "SaleBar.tsx"] }, // SaleBar: thanh chốt đơn của màn bán hàng
   { cls: "stick-aside", files: ["ProductInfo.tsx"] },
 ];
 const REQUIRED_IN_PRODUCTION = ["district", "zaloWholesale"];

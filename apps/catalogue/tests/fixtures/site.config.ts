@@ -24,6 +24,9 @@ export const site = {
   showPrice: true,
   legalName: "Công ty TNHH Thử Nghiệm" as string | null,
   taxCode: "0000000000" as string | null,
+  bankBin: null as string | null,
+  bankAccount: null as string | null,
+  bankAccountName: null as string | null,
   contacts: [
     { name: "Người thử", note: "số chính, có Zalo", phone: "0900 000 000", zalo: true },
     { name: "Người thử hai", note: "", phone: "0900 000 001", zalo: false },

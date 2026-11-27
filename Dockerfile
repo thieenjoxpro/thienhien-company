@@ -18,7 +18,14 @@ RUN pnpm --filter catalogue build
 FROM node:24-slim AS run
 WORKDIR /app
 ENV NODE_ENV=production CATALOGUE_SERVER=1 NEXT_TELEMETRY_DISABLED=1 \
-    HOSTNAME=0.0.0.0 PORT=3000 UPLOAD_DIR=/data/uploads
+    HOSTNAME=0.0.0.0 PORT=3000 UPLOAD_DIR=/data/uploads \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+# Chromium headless chụp phiếu bán hàng thành PDF, PNG (src/lib/server/sales/render.ts). Cài đúng bản khớp
+# playwright-core trong package.json kèm thư viện hệ thống; thêm font Noto làm font dự phòng có dấu tiếng Việt
+# (chữ chính Be Vietnam Pro do chính Next phục vụ nên phiếu không phụ thuộc font của máy).
+RUN npx -y playwright-core@1.65.0 install --with-deps chromium-headless-shell \
+    && apt-get update && apt-get install -y --no-install-recommends fonts-noto-core \
+    && rm -rf /var/lib/apt/lists/* /root/.npm
 COPY --from=build --chown=node:node /app/apps/catalogue/.next/standalone ./
 COPY --from=build --chown=node:node /app/apps/catalogue/.next/static ./apps/catalogue/.next/static
 COPY --from=build --chown=node:node /app/apps/catalogue/public ./apps/catalogue/public

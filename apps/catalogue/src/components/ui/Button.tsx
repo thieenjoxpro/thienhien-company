@@ -9,7 +9,8 @@ const variants = {
   outlineLight: "border-on-ink bg-transparent text-on-ink hover:bg-ink-soft",
 } as const;
 
-const sizes = { md: "h-12 px-5 text-small", lg: "h-13 px-6 text-body" } as const;
+// sale, xl: khu bán hàng cho người lớn tuổi (nút phụ 48px chữ 18px, nút chính 56px chữ 22px)
+const sizes = { md: "h-12 px-5 text-small", lg: "h-13 px-6 text-body", sale: "h-12 px-4 text-sale", xl: "h-14 px-6 text-sale-lg" } as const;
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant: keyof typeof variants;
